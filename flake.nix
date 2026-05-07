@@ -28,6 +28,18 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+    homebrew-hashicorp = {
+      url = "github:hashicorp/homebrew-tap";
+      flake = false;
+    };
+    homebrew-idoavrah = {
+      url = "github:idoavrah/homebrew";
+      flake = false;
+    };
+    homebrew-kayac = {
+      url = "github:kayac/homebrew-tap";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, ... }:
@@ -63,6 +75,9 @@
                 "homebrew/homebrew-core" = inputs.homebrew-core;
                 "homebrew/homebrew-cask" = inputs.homebrew-cask;
                 "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+                "hashicorp/homebrew-tap" = inputs.homebrew-hashicorp;
+                "idoavrah/homebrew" = inputs.homebrew-idoavrah;
+                "kayac/homebrew-tap" = inputs.homebrew-kayac;
               };
               mutableTaps = false;
             };

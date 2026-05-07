@@ -5,6 +5,8 @@
     ./git.nix
     ./editor.nix
     ./tmux.nix
+    ./terminal.nix
+    ./karabiner.nix
     ./profiles/${profile}.nix
   ];
 

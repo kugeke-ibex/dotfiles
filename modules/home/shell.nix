@@ -22,7 +22,6 @@
       tree = "eza --tree";
       g = "git";
       gs = "git status -sb";
-      cat = "bat --paging=never";
 
       nix-switch = "darwin-rebuild switch --flake ~/Development/dotfiles";
       nfu = "nix flake update --flake ~/Development/dotfiles";
@@ -62,8 +61,6 @@
     git = true;
   };
 
-  programs.bat.enable = true;
-
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -73,13 +70,9 @@
   home.packages = with pkgs; [
     ripgrep
     fd
-    jq
     yq
     tree
     htop
-    coreutils
-    gnused
-    gnugrep
     wget
   ];
 }

@@ -5,7 +5,7 @@
 
     onActivation = {
       autoUpdate = false;
-      cleanup = "zap";
+      cleanup = "uninstall";
       upgrade = true;
     };
 
@@ -15,8 +15,17 @@
     };
 
     taps = [];
+
     brews = [];
-    casks = [];
+
+    casks = [
+      "wezterm"
+      "ghostty"
+      "raycast"
+      "bitwarden"
+      "karabiner-elements"
+    ];
+
     masApps = {};
   };
 }
