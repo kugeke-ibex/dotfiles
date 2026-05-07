@@ -24,6 +24,11 @@
       "raycast"
       "bitwarden"
       "karabiner-elements"
+
+      # AI coding tools (personal/work 共通)
+      "claude-code"
+      "codex"
+      "cursor-cli"
     ];
 
     masApps = {};

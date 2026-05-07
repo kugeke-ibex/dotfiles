@@ -59,9 +59,6 @@
     ];
 
     casks = [
-      "claude-code"
-      "codex"
-      "cursor-cli"
       "docker"
       "docker-desktop"
       # "fig"  # discontinued (廃止)
