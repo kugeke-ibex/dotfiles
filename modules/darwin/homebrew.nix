@@ -14,9 +14,55 @@
       lockfiles = false;
     };
 
-    taps = [];
+    taps = [
+      "hashicorp/tap"
+      "idoavrah/homebrew"
+      "kayac/tap"
+    ];
 
-    brews = [];
+    brews = [
+      "asdf"
+      "aws-vault"
+      "awscli"
+      "cmake"
+      "coreutils"
+      "ghq"
+      "gh"
+      "git-secrets"
+      "go-parquet-tools"
+      "gobject-introspection"
+      "golang-migrate"
+      "golangci-lint"
+      "graphviz"
+      "grpcurl"
+      "helm"
+      "istioctl"
+      "jq"
+      "k9s"
+      "kubernetes-cli"
+      "kustomize"
+      "mas"
+      "mkcert"
+      "mysql"
+      "nodebrew"
+      "peco"
+      "pnpm"
+      "protobuf"
+      "protobuf@21"
+      "pyenv"
+      "python-setuptools"
+      "python@3.12"
+      "rbenv"
+      "stern"
+      "tenv"
+      "vegeta"
+      "yarn"
+      "zsh-completions"
+      "zsh-git-prompt"
+      "hashicorp/tap/terraform"
+      "idoavrah/homebrew/tftui"
+      "kayac/tap/ecspresso"
+    ];
 
     casks = [
       "wezterm"
