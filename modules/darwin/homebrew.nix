@@ -27,7 +27,6 @@
       "cmake"
       "coreutils"
       "ghq"
-      "gh"
       "git-secrets"
       "go-parquet-tools"
       "gobject-introspection"
