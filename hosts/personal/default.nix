@@ -59,15 +59,11 @@
     ];
 
     casks = [
-      "docker"
-      "docker-desktop"
       # "fig"  # discontinued (廃止)
       "gcloud-cli"
       "gyazo"
       "loom"
-      "postman"
       "temurin@11"
-      "visual-studio-code"
     ];
 
     masApps = {};

@@ -29,6 +29,15 @@
       "claude-code"
       "codex"
       "cursor-cli"
+
+      # Editors
+      "visual-studio-code"
+      "cursor"
+
+      # Dev / Container / API
+      "docker"
+      "docker-desktop"
+      "postman"
     ];
 
     masApps = {};
