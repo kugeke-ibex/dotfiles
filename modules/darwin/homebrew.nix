@@ -83,6 +83,22 @@
       "docker"
       "docker-desktop"
       "postman"
+      "tableplus"
+
+      # Browsers
+      "google-chrome"
+      "arc"
+
+      # Communication
+      "zoom"
+
+      # AI desktop apps
+      "claude"
+      "chatgpt"
+
+      # Productivity / Notes / Translation
+      "notion"
+      "deepl"
     ];
 
     masApps = {
