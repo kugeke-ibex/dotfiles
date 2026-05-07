@@ -85,6 +85,8 @@
       "postman"
     ];
 
-    masApps = {};
+    masApps = {
+      "Slack" = 803453959;
+    };
   };
 }

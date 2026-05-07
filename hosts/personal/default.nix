@@ -20,6 +20,8 @@
       "temurin@11"
     ];
 
-    masApps = {};
+    masApps = {
+      "LINE" = 539883307;
+    };
   };
 }
