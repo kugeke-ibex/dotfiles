@@ -1,13 +1,14 @@
+# @homeDirectory@ は home-manager (modules/home/codex.nix) の substituteAll で置換される。
 sandbox_mode = "workspace-write"
 
 [marketplaces.openai-bundled]
 last_updated = "2026-05-07T04:13:50Z"
 source_type = "local"
-source = "/Users/kugeke/.codex/.tmp/bundled-marketplaces/openai-bundled"
+source = "@homeDirectory@/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
 last_updated = "2026-05-02T06:18:18Z"
-source = "/Users/kugeke/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+source = "@homeDirectory@/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 source_type = "local"
 
 [plugins."computer-use@openai-bundled"]
@@ -24,6 +25,3 @@ enabled = true
 
 [plugins."browser-use@openai-bundled"]
 enabled = true
-
-[projects."/Users/kugeke/Development/CloudPratica/cloud-pratica-terraform"]
-trust_level = "trusted"
