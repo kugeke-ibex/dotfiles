@@ -9,6 +9,8 @@
     ./karabiner.nix
     ./vscode.nix
     ./cursor.nix
+    ./claude-code.nix
+    ./codex.nix
     ./profiles/${profile}.nix
   ];
 

@@ -162,21 +162,35 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
 
 `modules/darwin/homebrew.nix` の `onActivation.cleanup = "uninstall"` (zap ではない)。Brewfile に書かれていない brew/cask は **uninstall** されるが、関連データ (アプリ設定) は保持される。`zap` は危険なので使わない。
 
-## 検証コマンド
+## 検証 / 適用コマンド
+
+### `nix run` ショートカット (alias 不要、CI でも使える)
 
 ```bash
-# flake の構文チェック
-nix flake check
-
-# 適用せずビルドだけ (PR 検証用)
-darwin-rebuild build --flake .#personal
-
-# 実機適用
-darwin-rebuild switch --flake .#personal
-# シェル alias: nix-switch
+nix run .#switch              # darwin-rebuild switch (デフォルト host=personal)
+nix run .#switch -- work      # work ホストで switch
+nix run .#build               # build のみ (適用しない、検証用)
+nix run .#check               # darwin-rebuild check
+nix run .#update              # nix flake update + switch を一気に
 ```
 
-設定変更後は `nix flake check` で構文を確認してから `build`、問題なければ `switch`。
+### フォーマッタ (treefmt-nix)
+
+```bash
+nix fmt                       # nixfmt / stylua / shfmt / taplo / yamlfmt / prettier を一括
+nix flake check               # formatting 違反 + flake 構文を検査
+```
+
+`treefmt.nix` で対象ファイルパターンを管理。Cursor の JSONC や Karabiner JSON は exclude 済み。
+
+### 旧来コマンド (zsh alias 経由でも可)
+
+```bash
+darwin-rebuild build  --flake .#personal
+darwin-rebuild switch --flake .#personal
+```
+
+設定変更後は `nix flake check` → `nix run .#build` → `nix run .#switch` の順で確認するのが安全。
 
 ## よく使うワークフロー
 
@@ -234,6 +248,7 @@ darwin-rebuild switch --flake .#personal
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions
 - **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — 同上 (raw JSON 管理)
 - **Raycast** (`config/raycast/raycast.rayconfig`) — 手動エクスポート (機密情報チェック必須)
+- **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — 現状スタブ。本格採用時は mozumasu/dotfiles のスタイル (permissions / hooks 宣言) を参考に展開
 
 これらに変更を加える際は **必ず対応する `docs/keybindings/*.md` を同期** する (ルール 3)。
 

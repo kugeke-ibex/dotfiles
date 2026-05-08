@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     homebrew-core = {
@@ -42,10 +47,37 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, ... }:
+  outputs =
+    inputs@{ self
+    , nixpkgs
+    , nix-darwin
+    , home-manager
+    , nix-homebrew
+    , treefmt-nix
+    , ...
+    }:
     let
       username = "kugeke";
       system = "aarch64-darwin";
+
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+
+      flakeDir = "${self}";
+
+      mkApp = name: script: {
+        type = "app";
+        program = "${
+          pkgs.writeShellApplication {
+            inherit name;
+            text = script;
+          }
+        }/bin/${name}";
+      };
 
       mkDarwin = { hostname, profile }: nix-darwin.lib.darwinSystem {
         inherit system;
@@ -84,7 +116,32 @@
           }
         ];
       };
-    in {
+    in
+    {
+      formatter.${system} = treefmtEval.config.build.wrapper;
+
+      checks.${system}.formatting = treefmtEval.config.build.check self;
+
+      apps.${system} = {
+        switch = mkApp "darwin-switch" ''
+          host="''${1:-personal}"
+          sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+        '';
+        build = mkApp "darwin-build" ''
+          host="''${1:-personal}"
+          darwin-rebuild build --flake "${flakeDir}#$host"
+        '';
+        check = mkApp "darwin-check" ''
+          host="''${1:-personal}"
+          darwin-rebuild check --flake "${flakeDir}#$host"
+        '';
+        update = mkApp "darwin-update" ''
+          host="''${1:-personal}"
+          nix flake update --flake "${flakeDir}"
+          sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+        '';
+      };
+
       darwinConfigurations = {
         personal = mkDarwin { hostname = "personal"; profile = "personal"; };
         work = mkDarwin { hostname = "work"; profile = "work"; };
