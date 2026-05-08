@@ -5,11 +5,12 @@
       AppleInterfaceStyle = "Dark";
       AppleShowAllExtensions = true;
       AppleShowScrollBars = "Always";
-      InitialKeyRepeat = 15;
-      KeyRepeat = 2;
+      InitialKeyRepeat = 12;
+      KeyRepeat = 1;
       "com.apple.swipescrolldirection" = true;
       "com.apple.keyboard.fnState" = false;
       ApplePressAndHoldEnabled = false;
+      NSAutomaticWindowAnimationsEnabled = false;
     };
 
     dock = {
@@ -19,6 +20,7 @@
       show-recents = false;
       mru-spaces = false;
       minimize-to-application = true;
+      launchanim = false;
     };
 
     finder = {
@@ -29,6 +31,7 @@
       FXEnableExtensionChangeWarning = false;
       FXPreferredViewStyle = "Nlsv";
       _FXShowPosixPathInTitle = true;
+      DisableAllAnimations = true;
     };
 
     trackpad = {
@@ -39,6 +42,15 @@
     loginwindow.GuestEnabled = false;
 
     screencapture.location = "~/Pictures/screenshots";
+
+    # nix-darwin の標準オプションに無い defaults はここで追記
+    CustomUserPreferences = {
+      "NSGlobalDomain" = {
+        "com.apple.trackpad.scaling" = 8;
+        "com.apple.mouse.tapBehavior" = 1;
+        "QLPanelAnimationDuration" = 0;
+      };
+    };
   };
 
   system.keyboard = {
