@@ -1,21 +1,23 @@
-{ config, ... }:
+{ config, lib, ... }:
+let
+  dotfilesPath = "${config.home.homeDirectory}/Development/dotfiles";
+  mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
+in
 {
-  # Codex CLI 設定 (~/.codex/config.toml) を home-manager で生成したい場合の雛形。
+  # ~/.codex/ の管理戦略:
+  #   - AGENTS.md: ~/.claude/CLAUDE.md と共通の global-rules.md を symlink
+  #   - config.toml: 初回のみコピー (Codex が動的に書き換える last_updated 等を含むため)
+  #   - 完全動的 (sessions / logs / sqlite / state / cache): 触らない
   #
-  # 参考: mozumasu/dotfiles の .config/nix/home-manager/codex.nix
-  #
-  # 必要になったら以下のように home.file.".codex/config.toml".text を有効化する:
-  #
-  # home.file.".codex/config.toml".text = ''
-  #   personality = "pragmatic"
-  #   model = "gpt-5"
-  #   suppress_unstable_features_warning = true
-  #
-  #   [projects."${config.home.homeDirectory}/Development/dotfiles"]
-  #   trust_level = "trusted"
-  #
-  #   [features]
-  #   codex_git_commit = true
-  #   undo = true
-  # '';
+  # 機密 (auth.json) は dotfiles 化しない。
+
+  home.file.".codex/AGENTS.md".source = mkLink "config/ai-tools/global-rules.md";
+
+  home.activation.installCodexConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    target="$HOME/.codex/config.toml"
+    if [ ! -e "$target" ]; then
+      $DRY_RUN_CMD mkdir -p "$HOME/.codex"
+      $DRY_RUN_CMD install -Dm644 ${../../config/codex/config.toml} "$target"
+    fi
+  '';
 }
