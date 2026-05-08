@@ -76,7 +76,7 @@
       "cursor-cli"
 
       # Editors
-      "visual-studio-code"
+      # "visual-studio-code"  # home-manager programs.vscode (Nix) で管理
       "cursor"
 
       # Dev / Container / API

@@ -88,7 +88,33 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 | `modules/home/tmux.nix` の `extraConfig` | `docs/keybindings/tmux.md` |
 | `karabiner/karabiner.json` | `docs/keybindings/karabiner.md` |
 
-### 4. Karabiner-Elements の特殊な扱い
+### 4. エディタ・ランチャー管理
+
+| アプリ | 本体 | 設定 | 拡張 |
+| --- | --- | --- | --- |
+| **VSCode** | `programs.vscode` (Nix `pkgs.vscode`) | `programs.vscode.profiles.default.{userSettings,keybindings}` を `builtins.fromJSON` で `config/vscode/{settings,keybindings}.json` から読み込み | `config/vscode/extensions.txt` (`code --list-extensions` の出力)、`mutableExtensionsDir = true` で手動許容 |
+| **Cursor** | brew cask `cursor` (Nix package 無し) | `home.file` で `config/cursor/{settings,keybindings}.json` を symlink (JSONC 含むため Nix 解析しない) | `config/cursor/extensions.txt` (cursor CLI で出力) |
+| **Raycast** | brew cask `raycast` | `config/raycast/raycast.rayconfig` を手動エクスポートしてコミット | (Hotkey は SQLite DB のため `.rayconfig` で一括管理) |
+
+**重要**: VSCode の cask `visual-studio-code` は Nix で本体管理するため共通 cask から外してある (`modules/darwin/homebrew.nix` を参照)。誤って戻さないこと。
+
+**設定の取り込み・反映フロー**:
+
+```bash
+# VSCode 設定が更新された時
+cp ~/Library/Application\ Support/Code/User/settings.json    config/vscode/settings.json
+cp ~/Library/Application\ Support/Code/User/keybindings.json config/vscode/keybindings.json
+code --list-extensions > config/vscode/extensions.txt
+
+# Cursor も同様
+cp ~/Library/Application\ Support/Cursor/User/settings.json    config/cursor/settings.json
+cp ~/Library/Application\ Support/Cursor/User/keybindings.json config/cursor/keybindings.json
+cursor --list-extensions > config/cursor/extensions.txt   # cursor CLI が PATH にある場合
+```
+
+**JSON 制約**: VSCode は `builtins.fromJSON` で読み込むため、**厳密 JSON のみ受理** (trailing comma / `//` コメント NG)。Cursor は `home.file` で raw 配置なので JSONC OK。
+
+### 5. Karabiner-Elements の特殊な扱い
 
 `karabiner/karabiner.json` は **symlink せず、初回 activation でコピー** ([modules/home/karabiner.nix](modules/home/karabiner.nix))。
 
@@ -97,7 +123,7 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 - **dotfiles → 実機**: `~/.config/karabiner/karabiner.json` を退避してから `darwin-rebuild switch` で初回コピー
 - **実機 → dotfiles** (UI で編集後): `cp ~/.config/karabiner/karabiner.json karabiner/karabiner.json` で取り込み、`git diff` で確認
 
-### 5. masApps の App ID 確認方法
+### 6. masApps の App ID 確認方法
 
 ```bash
 mas search "App Name"
@@ -111,11 +137,11 @@ masApps = {
 };
 ```
 
-### 6. README.md は linter による自動整形に注意
+### 7. README.md は linter による自動整形に注意
 
 過去に linter が References / Roadmap セクションを削除したことがある。**README.md を編集する場合は必ず Read してから Edit / Write すること**。`Write` で全体上書きすると linter が消した内容を意図せず復活させる可能性がある。
 
-### 7. Commit メッセージは英語で簡潔に
+### 8. Commit メッセージは英語で簡潔に
 
 Conventional Commits は使わない。1 行目で **意図** を表す:
 
@@ -128,11 +154,11 @@ Phase 2: GUI casks, fonts, Karabiner, terminals, brew migration
 Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
 ```
 
-### 8. Commit & Push の運用
+### 9. Commit & Push の運用
 
 ユーザーが「commit して」「変更お願い」等と言った時点で **push まで実行する**のが本リポジトリの慣習。push を明示的に避けたい場合のみユーザーが指定する。
 
-### 9. cleanup ポリシー
+### 10. cleanup ポリシー
 
 `modules/darwin/homebrew.nix` の `onActivation.cleanup = "uninstall"` (zap ではない)。Brewfile に書かれていない brew/cask は **uninstall** されるが、関連データ (アプリ設定) は保持される。`zap` は危険なので使わない。
 
@@ -202,9 +228,12 @@ darwin-rebuild switch --flake .#personal
 - **WezTerm** (`config/wezterm/wezterm.lua`) — フォント、テーマ、キーバインド
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
-- **Neovim** (`modules/home/editor.nix`) — Phase 4 以降でプラグイン管理を予定
+- **Neovim** (`modules/home/editor.nix`) — 後続フェーズでプラグイン管理を予定
 - **tmux** (`modules/home/tmux.nix`) — キーバインド、status line
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
+- **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions
+- **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — 同上 (raw JSON 管理)
+- **Raycast** (`config/raycast/raycast.rayconfig`) — 手動エクスポート (機密情報チェック必須)
 
 これらに変更を加える際は **必ず対応する `docs/keybindings/*.md` を同期** する (ルール 3)。
 

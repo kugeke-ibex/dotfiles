@@ -7,6 +7,8 @@
     ./tmux.nix
     ./terminal.nix
     ./karabiner.nix
+    ./vscode.nix
+    ./cursor.nix
     ./profiles/${profile}.nix
   ];
 

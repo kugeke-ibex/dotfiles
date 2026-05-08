@@ -1,0 +1,6 @@
+# Cursor extensions
+# 取得: cursor --list-extensions > config/cursor/extensions.txt
+# 復元: xargs -L1 cursor --install-extension < config/cursor/extensions.txt
+#
+# (cursor CLI が PATH に無い場合、Cursor 起動後に "Install 'cursor' command" を
+# Command Palette から実行して PATH に追加する)

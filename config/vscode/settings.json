@@ -1,0 +1,26 @@
+{
+  "dev.containers.defaultExtensions": [
+    "naumovs.color-highlight",
+    "github.copilot",
+    "github.copilot-chat",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.accessibilitySupport": "off",
+  "editor.codeActionsOnSave": {},
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "Ricty Diminished, MesloLGS NF, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 16,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "files.autoSave": "afterDelay",
+  "git.enableSmartCommit": true,
+  "json.schemas": [],
+  "makefile.configureOnOpen": false,
+  "plantuml.exportOutDir": ".",
+  "prettier.tabWidth": 4,
+  "security.workspace.trust.untrustedFiles": "open",
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "vsicons.dontShowNewVersionMessage": true,
+  "workbench.iconTheme": "material-icon-theme"
+}
