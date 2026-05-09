@@ -35,7 +35,7 @@ in
       nfmt = "nix fmt";
     };
 
-    initExtra = ''
+    initContent = ''
       bindkey -e
       setopt no_beep
       setopt auto_cd

@@ -7,7 +7,7 @@ in
 
   # 個人 PC 専用の zsh エイリアス / 関数は config/zsh/personal.zsh に raw zsh として置き、
   # ここでは source するだけにする (Nix エスケープ不要 + 単独で編集しやすい)。
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     if [ -f "${dotfilesPath}/config/zsh/personal.zsh" ]; then
       source "${dotfilesPath}/config/zsh/personal.zsh"
     fi

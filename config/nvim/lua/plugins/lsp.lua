@@ -1,29 +1,22 @@
 -- LSP / completion の細かい上書き（外部の LazyVim / lspconfig 例を参考に調整）
 -- LazyVim default で nvim-lspconfig / blink.cmp / lazydev.nvim は既に有効。
--- solargraph は ruby_lsp と二重になりやすいため入れない。
+--
+-- ensure_installed は普段使う言語のみ。フロント特化 (astro/svelte/prismals/tailwindcss/
+-- emmet_language_server/cssls/html/graphql/sqls)、二重起動しがち (denols vs ts_ls)、
+-- プロジェクトローカルで入れる (eslint/biome) は除外。必要になったら追加する。
 
 local servers = {
-  astro = {},
-  biome = {},
-  cssls = {},
-  denols = {},
-  dockerls = {},
-  emmet_language_server = {},
-  eslint = {},
-  gopls = {},
-  graphql = {},
-  html = {},
-  jsonls = {},
-  nil_ls = {},
-  prismals = {},
-  ruby_lsp = {},
-  rust_analyzer = {},
-  sqls = {},
-  svelte = {},
-  tailwindcss = {},
-  terraformls = {},
-  ts_ls = {},
-  yamlls = {},
+  bashls = {},          -- bash / sh
+  dockerls = {},        -- Dockerfile
+  gopls = {},           -- Go
+  jsonls = {},          -- JSON
+  nil_ls = {},          -- Nix
+  pyright = {},         -- Python
+  ruby_lsp = {},        -- Ruby
+  rust_analyzer = {},   -- Rust
+  terraformls = {},     -- Terraform
+  ts_ls = {},           -- TypeScript / JavaScript (Deno を使うときは denols に切替検討)
+  yamlls = {},          -- YAML
 }
 
 return {

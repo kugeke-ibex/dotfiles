@@ -46,8 +46,8 @@ alias cpprdup='cd ~/Development/CloudPratica/cloud-pratica-backend && AWS_PROFIL
 alias cpprddown='cd ~/Development/CloudPratica/cloud-pratica-backend && AWS_PROFILE=cp-terraform-prd MODE=down ENV=prd ./scripts/aws_cost_cutter/main.sh'
 alias cpprdupeks='cd ~/Development/CloudPratica/cloud-pratica-backend && AWS_PROFILE=cp-terraform-prd MODE=up ENV=prd WITH_EKS=true WITH_ECS=false ./scripts/aws_cost_cutter/main.sh'
 alias cpprddowneks='cd ~/Development/CloudPratica/cloud-pratica-backend && AWS_PROFILE=cp-terraform-prd MODE=down ENV=prd ./scripts/aws_cost_cutter/main.sh'
-alias cpstgssmdbconn='~/scrips/port_forward_to_cloud_pratica_stg.sh'
-alias cpprdssmdbconn='~/scrips/port_forward_to_cloud_pratica_prd.sh'
+alias cpstgssmdbconn='~/scripts/port_forward_to_cloud_pratica_stg.sh'
+alias cpprdssmdbconn='~/scripts/port_forward_to_cloud_pratica_prd.sh'
 alias ddup='cd ~/Development/CloudPratica/cloud-pratica-backend && AWS_PROFILE=cp-terraform-stg MODE=up ENV=stg ./scripts/dd_course_cost_cutter/main.sh'
 alias dddown='cd ~/Development/CloudPratica/cloud-pratica-backend && AWS_PROFILE=cp-terraform-stg MODE=down ENV=stg ./scripts/dd_course_cost_cutter/main.sh'
 
