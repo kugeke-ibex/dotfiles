@@ -95,4 +95,25 @@ config.keys = {
   { key = "r", mods = "CMD|SHIFT", action = act.ReloadConfiguration },
 }
 
+-- Key tables (setting_mode は modules/opacity.lua から拡張される)
+config.key_tables = {
+  setting_mode = {
+    { key = "Escape", action = "PopKeyTable" },
+  },
+}
+
+-- setting_mode 起動キー (Cmd+Shift+O で入り、Esc で抜ける)
+-- setting_mode 内で:
+--   ;  → 透過度 +0.1
+--   -  → 透過度 -0.1
+--   0  → 透過度をリセット
+table.insert(config.keys, {
+  key = "o",
+  mods = "CMD|SHIFT",
+  action = act.ActivateKeyTable({ name = "setting_mode", one_shot = false }),
+})
+
+-- Optional modules
+require("modules.opacity").apply_to_config(config)
+
 return config

@@ -1,5 +1,14 @@
-{ ... }:
+{ config, ... }:
+let
+  dotfilesPath = "${config.home.homeDirectory}/Development/dotfiles";
+  mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
+in
 {
-  home.file.".config/wezterm/wezterm.lua".source = ../../config/wezterm/wezterm.lua;
-  home.file.".config/ghostty/config".source = ../../config/ghostty/config;
+  # WezTerm / Ghostty 設定をディレクトリ全体で live symlink。
+  # mkOutOfStoreSymlink を使うので dotfiles 編集が即時反映され、
+  # config/wezterm/modules/* のような追加ファイルも自動で見える。
+  xdg.configFile = {
+    "wezterm".source = mkLink "config/wezterm";
+    "ghostty".source = mkLink "config/ghostty";
+  };
 }

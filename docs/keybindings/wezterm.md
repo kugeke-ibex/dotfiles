@@ -28,7 +28,17 @@
 | `Cmd+Enter` | フルスクリーン切替 |
 | `Cmd+K` | スクロールバッククリア |
 | `Cmd+[` | コピーモード起動 |
+| `Cmd+Shift+O` | 透過度設定モード起動 (setting_mode、下表参照) |
 | `Cmd+Shift+R` | 設定リロード |
+
+### setting_mode 中 (`Cmd+Shift+O` で起動)
+
+| キー | 動作 |
+| --- | --- |
+| `;` | 透過度 +0.1 |
+| `-` | 透過度 -0.1 |
+| `0` | 透過度をリセット (`window_background_opacity` の値に戻す) |
+| `Esc` | setting_mode を抜ける |
 
 ## デフォルト (WezTerm 標準)
 
