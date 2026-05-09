@@ -1,7 +1,9 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 let
   dotfilesPath = "${config.home.homeDirectory}/Development/dotfiles";
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
+  # 安定版 pkgs.neovim の代わりに nightly（参考 flake の neovim-nightly-overlay）
+  neovimPkg = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
 in
 {
   # Neovim 本体は home.packages で管理。
@@ -9,7 +11,7 @@ in
   # `require("config.lazy")` パターンと衝突するため、本体パッケージのみ Nix で
   # 入れて、init.lua / lua/ は dotfiles から symlink する構成にしている。
   home.packages = with pkgs; [
-    neovim
+    neovimPkg
 
     # LazyVim / Mason / treesitter / Lua LSP が必要とする補助ツール
     tree-sitter
@@ -17,6 +19,7 @@ in
     stylua
     shellcheck
     shfmt
+    nixfmt-rfc-style
   ];
 
   # LazyVim 設定 (~/.config/nvim/) を dotfiles から live symlink。

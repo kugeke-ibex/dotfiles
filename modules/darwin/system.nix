@@ -5,12 +5,21 @@
       AppleInterfaceStyle = "Dark";
       AppleShowAllExtensions = true;
       AppleShowScrollBars = "Always";
+      # 24 時間表示（参考 nix-darwin defaults）
+      AppleICUForce24HourTime = true;
+      # サイドバーアイコンサイズ (1=小, 2=中, 3=大)
+      NSTableViewDefaultSizeMode = 2;
       InitialKeyRepeat = 12;
       KeyRepeat = 1;
       "com.apple.swipescrolldirection" = true;
       "com.apple.keyboard.fnState" = false;
       ApplePressAndHoldEnabled = false;
       NSAutomaticWindowAnimationsEnabled = false;
+      # システムビープ音量
+      "com.apple.sound.beep.volume" = 0.0;
+      # スマートダッシュ・スマート引用符を無効化
+      NSAutomaticDashSubstitutionEnabled = false;
+      NSAutomaticQuoteSubstitutionEnabled = false;
     };
 
     dock = {
@@ -32,6 +41,9 @@
       FXPreferredViewStyle = "Nlsv";
       _FXShowPosixPathInTitle = true;
       DisableAllAnimations = true;
+      # Finder の終了メニュー / 新規ウィンドウの表示先（参考設定）
+      QuitMenuItem = true;
+      NewWindowTarget = "Documents";
     };
 
     trackpad = {

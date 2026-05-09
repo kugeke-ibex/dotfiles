@@ -78,5 +78,13 @@
     tree
     htop
     wget
+    bat
+    delta
+    jq
+    yazi
+    vim-startuptime
+    gh
+    lazygit
+    gitflow
   ];
 }

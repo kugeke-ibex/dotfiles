@@ -44,7 +44,6 @@
       "mkcert"
       "mysql"
       "nb"
-      "nb"
       "nodebrew"
       "peco"
       "pnpm"
@@ -60,6 +59,15 @@
       "yarn"
       "zsh-completions"
       "zsh-git-prompt"
+      "cairo"
+      "gemini-cli"
+      "libffi"
+      "libvips"
+      "libpq"
+      "luarocks"
+      "poppler"
+      "postgresql@14"
+      "ruby-build"
       "hashicorp/tap/terraform"
       "idoavrah/homebrew/tftui"
       "kayac/tap/ecspresso"
@@ -90,6 +98,11 @@
       # Browsers
       "google-chrome"
       "arc"
+
+      # Design / extra browsers（参考 homebrew）
+      "figma"
+      "firefox"
+      "microsoft-edge"
 
       # Communication
       "zoom"
