@@ -5,10 +5,11 @@ let
 in
 {
   # ~/.claude/ の管理戦略:
-  #   - 静的ファイル (CLAUDE.md / commands / skills): dotfiles を直接 symlink
+  #   - 静的ファイル (CLAUDE.md / commands / skills / agents / statusline.sh): dotfiles を直接 symlink
   #     mkOutOfStoreSymlink を使い、dotfiles 編集が即時反映される (switch 不要)
   #   - 動的ファイル (settings.json): 初回のみコピー
   #     Claude Code の /config エディタが書き戻すため、毎回上書きしない
+  #     テンプレ更新だけ反映したい場合は config/claude/settings.json を手でマージする
   #   - 完全動的 (cache / sessions / projects / file-history など): 触らない
   #
   # 機密ファイル (settings.local.json) も dotfiles 化しない。
@@ -17,9 +18,15 @@ in
     # CLAUDE.md は ~/.codex/AGENTS.md と内容を共有 (config/ai-tools/global-rules.md)
     ".claude/CLAUDE.md".source = mkLink "config/ai-tools/global-rules.md";
 
-    # commands と skills は dotfiles をディレクトリごと symlink
+    # commands / skills / agents は dotfiles をディレクトリごと symlink
     ".claude/commands".source = mkLink "config/claude/commands";
     ".claude/skills".source = mkLink "config/claude/skills";
+    ".claude/agents".source = mkLink "config/claude/agents";
+
+    ".claude/statusline.sh" = {
+      source = mkLink "config/claude/statusline.sh";
+      executable = true;
+    };
   };
 
   home.activation.installClaudeSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

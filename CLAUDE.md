@@ -248,7 +248,7 @@ darwin-rebuild switch --flake .#personal
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions
 - **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — 同上 (raw JSON 管理)
 - **Raycast** (`config/raycast/raycast.rayconfig`) — 手動エクスポート (機密情報チェック必須)
-- **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — `~/.claude` と `~/.codex` を管理。共通ルールは `config/ai-tools/global-rules.md` に統合 (CLAUDE.md と AGENTS.md 共用)。commands / skills は `mkOutOfStoreSymlink` で dotfiles を直接指す symlink。settings.json / config.toml は **初回のみコピー** (UI / runtime が書き戻すため上書きしない)
+- **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — `~/.claude` と `~/.codex` を管理。共通ルールは `config/ai-tools/global-rules.md` に統合 (CLAUDE.md と AGENTS.md 共用)。commands / skills / agents / `statusline.sh` は `mkOutOfStoreSymlink` で dotfiles を直接指す symlink。settings.json / config.toml は **初回のみコピー** (UI / runtime が書き戻すため上書きしない)。テンプレ更新は `config/claude/settings.json` を既存の `~/.claude/settings.json` に手動マージ
 
 これらに変更を加える際は **必ず対応する `docs/keybindings/*.md` を同期** する (ルール 3)。
 
