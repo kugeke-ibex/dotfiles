@@ -71,6 +71,17 @@
     nix-direnv.enable = true;
   };
 
+  # bat / eza / fzf / ripgrep / zoxide は上記 programs.* または home.packages で提供
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+  };
+
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   home.packages = with pkgs; [
     ripgrep
     fd
@@ -79,12 +90,9 @@
     htop
     wget
     bat
-    delta
     jq
-    yazi
     vim-startuptime
     gh
-    lazygit
     gitflow
   ];
 }
