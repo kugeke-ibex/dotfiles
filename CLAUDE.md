@@ -41,7 +41,7 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 │       ├── karabiner.nix            # karabiner.json の初回コピー
 │       └── profiles/
 │           ├── personal.nix         # 個人プロファイル (git email 等)
-│           └── work.nix             # 業務プロファイル (TODO: 業務メール置換)
+│           └── work.nix             # 業務プロファイル (git userEmail。業務アドレスに差し替え、placeholder をそのままコミットしない)
 ├── karabiner/karabiner.json         # Karabiner-Elements テンプレート
 ├── config/
 │   ├── wezterm/wezterm.lua
@@ -102,19 +102,22 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 
 **設定の取り込み・反映フロー**:
 
+- **VSCode**: エディタ側でいじった結果をリポジトリへ載せるときは、引き続き `config/vscode/` へ `cp` してから `darwin-rebuild switch`（`programs.vscode` が JSON を読み込む）。
+- **Cursor**: `~/Library/Application Support/Cursor/User/*.json` は **`flake.nix` の `dotfilesPath` 配下の `config/cursor/` を指す symlink**。日常の編集は **リポジトリ内の `config/cursor/settings.json` / `keybindings.json` を直接編集**すればよく（Cursor を開いたまま保存すればその場で反映）、rebuild は不要。下の `cp` は **別マシンの実ファイルから初めて取り込む**ときや、symlink 適用前に Library 側だけ弄っている場合の **一回どり**向け。
+
 ```bash
-# VSCode 設定が更新された時
+# VSCode — UI で変えた設定を dotfiles に反映
 cp ~/Library/Application\ Support/Code/User/settings.json    config/vscode/settings.json
 cp ~/Library/Application\ Support/Code/User/keybindings.json config/vscode/keybindings.json
 code --list-extensions > config/vscode/extensions.txt
 
-# Cursor も同様
+# Cursor — 上記のような「Library → リポジトリへの複製」が必要なときだけ
 cp ~/Library/Application\ Support/Cursor/User/settings.json    config/cursor/settings.json
 cp ~/Library/Application\ Support/Cursor/User/keybindings.json config/cursor/keybindings.json
 cursor --list-extensions > config/cursor/extensions.txt   # cursor CLI が PATH にある場合
 ```
 
-**JSON 制約**: VSCode は `builtins.fromJSON` で読み込むため、**厳密 JSON のみ受理** (trailing comma / `//` コメント NG)。Cursor は `home.file` で raw 配置なので JSONC OK。
+**JSON 制約**: VSCode は `builtins.fromJSON` で読み込むため、**厳密 JSON のみ受理** (trailing comma / `//` コメント NG)。Cursor は symlink 先のファイルがそのまま使われるため **JSONC**（コメント・末尾カンマ）も可。
 
 ### 5. Karabiner-Elements の特殊な扱い
 
@@ -143,17 +146,25 @@ masApps = {
 
 過去に linter が References / Roadmap セクションを削除したことがある。**README.md を編集する場合は必ず Read してから Edit / Write すること**。`Write` で全体上書きすると linter が消した内容を意図せず復活させる可能性がある。
 
-### 8. Commit メッセージは英語で簡潔に
+### 8. Commit メッセージ（英語・意図が伝わること）
 
-Conventional Commits は使わない。1 行目で **意図** を表す:
+1 行目は **何を・なぜ（必要なら）** が分かる英語にする。**[Conventional Commits](https://www.conventionalcommits.org/) 形式を推奨**する（例: `feat:`, `fix:`, `refactor:`, `docs:`, `home:` に続けて簡潔な説明）。厳密でなくてよいが、履歴を眺めたときに検索しやすいプレフィックスがあるとよい。
+
+本文は任意。変更点の列挙や背景（WHY）を書いてよい。エージェント経由のコミットでは末尾に Co-Authored-By を付けてよい。
+
+```text
+home: add bc for Claude statusline
+
+- Install bc alongside jq for statusline latency display.
+- Extend Claude Code Bash permissions for gh / pytest / cargo.
+
+Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+```
+
+フリーフォームの一行だけでもよい例:
 
 ```text
 Phase 2: GUI casks, fonts, Karabiner, terminals, brew migration
-
-- Add common casks: ...
-- ...
-
-Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
 ```
 
 ### 9. Commit & Push の運用
