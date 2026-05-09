@@ -13,6 +13,11 @@ config.hide_tab_bar_if_only_one_tab = true
 config.use_ime = true
 config.scrollback_lines = 50000
 config.audible_bell = "Disabled"
+
+-- macOS での描画（参考設定）
+config.front_end = "WebGpu"
+config.webgpu_power_preference = "HighPerformance"
+
 config.window_padding = {
   left = 8,
   right = 8,
@@ -23,8 +28,8 @@ config.window_padding = {
 -- 設定ファイルの変更を自動で読み込む
 config.automatically_reload_config = true
 
--- ステータスバー更新間隔 (デフォルト 1000ms から少し緩める)
-config.status_update_interval = 1500
+-- ステータスバー更新間隔（参考: 1 秒ごとに日時・バッテリー等を更新）
+config.status_update_interval = 1000
 
 -- 非アクティブペインを少し暗くして、どこにフォーカスがあるかを視覚化
 config.inactive_pane_hsb = {
@@ -114,6 +119,7 @@ table.insert(config.keys, {
 })
 
 -- Optional modules
+require("modules.status").apply_to_config(config)
 require("modules.opacity").apply_to_config(config)
 
 return config
