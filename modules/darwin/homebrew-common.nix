@@ -1,7 +1,7 @@
 { ... }:
 {
   # 共通: personal / work 両方で入れる CLI・開発向け cask。
-  #  leisure / 追加ブラウザ / AI デスクトップアプリは homebrew-personal.nix（profile=personal のみ）。
+  # 個人のみの追加ブラウザ・デザイン・翻訳・実験 CLI 等は homebrew-personal.nix。
   homebrew = {
     enable = true;
 
@@ -85,6 +85,11 @@
       "codex"
       "cursor-cli"
       "cursor"
+
+      "arc"
+      "claude"
+      "chatgpt"
+      "notion"
 
       "docker-desktop"
       "postman"
