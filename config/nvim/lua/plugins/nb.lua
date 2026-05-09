@@ -1,5 +1,5 @@
 -- nb (https://github.com/xwmx/nb) と Snacks.picker を連携させるプラグイン定義。
--- 参考: mozumasu/dotfiles/.config/nvim/lua/plugins/base/nb.lua
+-- 初期構成は公開されている dotfiles の nb 連携を参考に調整。
 -- 本体ロジックは config/nvim/lua/config/nb.lua を参照。
 --
 -- 前提:

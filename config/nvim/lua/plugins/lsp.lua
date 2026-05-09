@@ -1,4 +1,4 @@
--- LSP / completion の細かい上書き (mozumasu/dotfiles の lua/plugins/lsp/ 参考)
+-- LSP / completion の細かい上書き（外部の LazyVim / lspconfig 例を参考に調整）
 -- LazyVim default で nvim-lspconfig / blink.cmp / lazydev.nvim は既に有効。
 -- solargraph は ruby_lsp と二重になりやすいため入れない。
 

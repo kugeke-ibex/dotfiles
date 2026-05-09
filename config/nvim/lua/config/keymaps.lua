@@ -70,7 +70,7 @@ keymap("n", "<Space>n", ":set invnumber<CR>", opts)
 keymap("n", "HS", ":h | only<CR>", opts)
 
 --
--- Window split (s prefix, mozumasu inspired)
+-- Window split (s prefix)
 --
 keymap("n", "ss", ":split<Return>", opts)
 keymap("n", "sv", ":vsplit<Return>", opts)

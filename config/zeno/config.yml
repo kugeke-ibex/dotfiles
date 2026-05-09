@@ -1,6 +1,5 @@
 # zeno.zsh の設定 (https://github.com/yuki-yano/zeno.zsh)
-# 参考: mozumasu/dotfiles/.config/zeno/config.yml
-# 個人色の強い snippet (mozumasu の SSH 構造、Zenn、ansible、plamo-translate 等) は除外。
+# このリポジトリ向けに整理した zeno 設定（環境固有の snippet は除外）。
 
 history:
   defaultScope: global

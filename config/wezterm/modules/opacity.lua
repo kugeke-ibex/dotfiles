@@ -1,5 +1,4 @@
--- Opacity 切替モジュール
--- 参考: mozumasu/dotfiles/.config/wezterm/modules/opacity.lua
+-- Opacity 切替モジュール（setting_mode 用のキーバインドを提供）
 --
 -- setting_mode (wezterm.lua で定義) に以下のキーを差し込む:
 --   ; → 透過度 +0.1
@@ -7,8 +6,8 @@
 --   0 → 透過度を config の値にリセット
 -- (Esc で setting_mode を抜ける。Esc は wezterm.lua 側で定義済み)
 --
--- mozumasu 版にあった `window-focus-changed` でフォーカスごとに opacity を上書き
--- する挙動はここでは採用しない (手動で変えた値が勝手に戻されるのを避けるため)。
+-- `window-focus-changed` でフォーカスごとに opacity を上書きする方式は採用しない
+-- （手動で変えた値が勝手に戻されるのを避けるため）。
 
 local wezterm = require("wezterm")
 local act = wezterm.action

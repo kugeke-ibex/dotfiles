@@ -43,7 +43,7 @@ config.inactive_pane_hsb = {
 config.window_close_confirmation = "NeverPrompt"
 
 -- QuickSelect (デフォルト Ctrl+Shift+Space) のパターンをカスタマイズ。
--- mozumasu/dotfiles の wezterm.lua から流用。日常的に拾いたいトークンを網羅。
+-- 日常的に拾いたいトークンを網羅する QuickSelect パターン。
 config.disable_default_quick_select_patterns = true
 config.quick_select_patterns = {
   -- URL

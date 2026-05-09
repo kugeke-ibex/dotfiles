@@ -1,5 +1,5 @@
 -- nb (https://github.com/xwmx/nb) 操作の本体ロジック。
--- 参考: mozumasu/dotfiles/.config/nvim/lua/config/nb.lua
+-- 初期構成は公開されている nb + picker 連携例を参考に調整。
 --
 -- notebook ディレクトリの場所:
 --   1. 環境変数 $NB_DIR があればそれを使う

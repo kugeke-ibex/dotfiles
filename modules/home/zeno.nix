@@ -4,7 +4,7 @@ let
 in
 {
   # zeno.zsh (https://github.com/yuki-yano/zeno.zsh)
-  # 参考: mozumasu/dotfiles の .config/zeno/
+  # 設定ファイルは zeno の README / 公開例を参考にこのリポジトリ向けに整理。
   #
   # 構成:
   #   - Deno を home.packages で導入 (zeno は TypeScript で動く)
