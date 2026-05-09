@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-このファイルは **Git リポジトリ内のドキュメント**として、Claude Code / Cursor が本リポジトリで作業するときのガイドです。
+このファイルは **Git リポジトリ内のドキュメント**として、Claude Code / Cursor が本リポジトリで作業するときのガイドです。**要点のみ**は [`AGENTS.md`](AGENTS.md) にまとめてあり、本ファイルは詳細版です。
 
 グローバルなエージェント向けルール（全プロジェクト共通）は `config/ai-tools/global-rules.md` にあり、`~/.claude/CLAUDE.md` および `~/.codex/AGENTS.md` はそのファイルへの symlink です（リポジトリ直下のこの CLAUDE.md とは別物）。
 
@@ -283,7 +283,7 @@ darwin-rebuild switch --flake .#personal
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions。**work プロファイルでは既定で無効**（`profiles/work.nix`）。
 - **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — symlink 先は **`$HOME/<dotfilesRelative>/config/cursor/`**（`flake.nix` の `mkDarwin` で `dotfilesRelative` / `username` をホストごとに上書き可）。
 - **Raycast** (`config/raycast/raycast.rayconfig`) — 手動エクスポート (機密情報チェック必須)
-- **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — `~/.claude` と `~/.codex` を管理。共通ルールは `config/ai-tools/global-rules.md` に統合 (CLAUDE.md と AGENTS.md 共用)。commands / skills / agents / `statusline.sh` は `mkOutOfStoreSymlink` で dotfiles を直接指す symlink。settings.json / config.toml は **初回のみコピー** (UI / runtime が書き戻すため上書きしない)。テンプレ更新は `config/claude/settings.json` を既存の `~/.claude/settings.json` に手動マージ
+- **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — `~/.claude` と `~/.codex` を管理。共通ルールは `config/ai-tools/global-rules.md` に統合（ホームの `~/.claude/CLAUDE.md` / `~/.codex/AGENTS.md` が指す symlink 先。**リポジトリ直下の** `CLAUDE.md`・`AGENTS.md` は dotfiles 用ドキュメント）。commands / skills / agents / `statusline.sh` は `mkOutOfStoreSymlink` で dotfiles を直接指す symlink。settings.json / config.toml は **初回のみコピー** (UI / runtime が書き戻すため上書きしない)。テンプレ更新は `config/claude/settings.json` を既存の `~/.claude/settings.json` に手動マージ
 
 これらに変更を加える際は **必ず対応する `docs/keybindings/*.md` を同期** する (ルール 3)。
 

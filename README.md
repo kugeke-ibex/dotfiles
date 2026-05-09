@@ -163,6 +163,8 @@ nix run .#switch -- work-office
 
 ```text
 .
+├── AGENTS.md                   # Cursor 向け要約（詳細は CLAUDE.md）
+├── CLAUDE.md                   # エージェント向け詳細ガイド
 ├── bootstrap.sh                # Nix 導入 + 初回 switch
 ├── flake.nix                   # darwinConfigurations.{personal,work,work-office,...}
 ├── flake.lock                  # 自動生成
