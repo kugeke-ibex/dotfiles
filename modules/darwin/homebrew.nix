@@ -43,6 +43,8 @@
       "mas"
       "mkcert"
       "mysql"
+      "nb"
+      "nb"
       "nodebrew"
       "peco"
       "pnpm"
