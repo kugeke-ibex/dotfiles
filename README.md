@@ -36,11 +36,115 @@ cd ~/Development/dotfiles
 
 Nix を初めてインストールした場合は、新しいシェルを開いてから再実行してください。
 
+## セットアップ手順（ケース別）
+
+以下はいずれも **Apple Silicon Mac**、`flake.nix` の `mkDarwin` で既定どおり `dotfilesRelative = "Development/dotfiles"` の場合の例。clone 先やログイン名がホストごとに違うときは、先に [`flake.nix`](flake.nix) の該当 `mkDarwin { … }` で `dotfilesRelative` / `username` を直してから、**そのパスに clone** する。
+
+### ケース 1: 個人 PC（`personal`）
+
+1. リポジトリを取得する。
+
+   ```bash
+   mkdir -p ~/Development
+   git clone github:kugeke-ibex/dotfiles.git ~/Development/dotfiles
+   cd ~/Development/dotfiles
+   ```
+
+2. 初回適用する。
+
+   ```bash
+   ./bootstrap.sh personal
+   ```
+
+3. Nix をこの手順で初めて入れた場合は、**新しいターミナルを開いて** もう一度 `./bootstrap.sh personal` を実行する（インストーラの案内どおり）。
+
+4. 下記 [Manual Steps](#manual-steps-after-first-switch) を進める。
+
+### ケース 2: 社用 PC — すでに `flake.nix` に載っているホスト（例: `work`, `work-office`）
+
+リポジトリ側でホスト定義が済んでいるマシンでの初回セットアップ。
+
+1. 最新を取得してディレクトリに入る。
+
+   ```bash
+   mkdir -p ~/Development
+   git clone github:kugeke-ibex/dotfiles.git ~/Development/dotfiles
+   cd ~/Development/dotfiles
+   # 既に clone 済みなら: git pull
+   ```
+
+2. そのマシン向けのホスト名で bootstrap する（`hosts/<名前>/default.nix` と `darwinConfigurations.<名前>` が一致していること）。
+
+   ```bash
+   ./bootstrap.sh work
+   # または
+   ./bootstrap.sh work-office
+   ```
+
+3. Nix 新規導入直後はケース 1 と同様、新しいシェルで再実行する。
+
+4. [Manual Steps](#manual-steps-after-first-switch) のうち、業務用メール差し替えなど社用向け項目を実施する。
+
+### ケース 3: 新しい社用 PC を増やす（リポジトリにホストを追加してから）
+
+**手元の Mac（編集用）で:**
+
+1. 既存の社用ホストを複製する（例）。
+
+   ```bash
+   cp -R hosts/work-office hosts/my-corp-mac
+   ```
+
+2. `hosts/my-corp-mac/default.nix` を開き、`networking.hostName` / `computerName` / `localHostName` をそのマシン用に変更する。全社用共通の設定は `imports = [ ../fragments/work-common.nix ];` のままにする。
+
+3. [`flake.nix`](flake.nix) の `darwinConfigurations` に次を追加する（名前はディレクトリと揃える）。
+
+   ```nix
+   my-corp-mac = mkDarwin {
+     hostname = "my-corp-mac";
+     profile = "work";
+     # username = "...";
+     # dotfilesRelative = "...";
+   };
+   ```
+
+4. 動作確認後、`git commit` / `git push` する。
+
+**新しい社用 Mac で:**
+
+```bash
+mkdir -p ~/Development
+git clone github:kugeke-ibex/dotfiles.git ~/Development/dotfiles
+cd ~/Development/dotfiles
+git pull   # 追加コミットを取り込む
+./bootstrap.sh my-corp-mac
+```
+
+### 初回以降: 設定を反映し直す
+
+リポジトリ直下で、**自分のホスト名**を付けて switch する。
+
+```bash
+cd ~/Development/dotfiles
+darwin-rebuild switch --flake .#personal
+# 社用の例
+darwin-rebuild switch --flake .#work
+darwin-rebuild switch --flake .#work-office
+```
+
+次でも同じ意味になる。
+
+```bash
+cd ~/Development/dotfiles
+nix run .#switch -- personal
+nix run .#switch -- work-office
+```
+
 ## Daily Operations
 
 | Alias        | 内容                                                       |
 | ------------ | ---------------------------------------------------------- |
-| `nix-switch` | `darwin-rebuild switch --flake $HOME/<dotfilesRelative>`（`flake.nix` の既定パス） |
+| `nix-switch` | `darwin-rebuild switch --flake $HOME/<dotfilesRelative>`（ホスト名は付かない。**複数ホスト運用では** `darwin-rebuild switch --flake $HOME/<dotfilesRelative>#<host>` か、上記の `nix run .#switch -- <host>` を使う） |
 | `nfu`        | `nix flake update --flake $HOME/<dotfilesRelative>`                         |
 | `ngc`        | `sudo nix-collect-garbage -d && nix-collect-garbage -d`    |
 
