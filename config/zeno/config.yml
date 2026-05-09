@@ -1,0 +1,169 @@
+# zeno.zsh の設定 (https://github.com/yuki-yano/zeno.zsh)
+# 参考: mozumasu/dotfiles/.config/zeno/config.yml
+# 個人色の強い snippet (mozumasu の SSH 構造、Zenn、ansible、plamo-translate 等) は除外。
+
+history:
+  defaultScope: global
+  fzfCommand: fzf-tmux
+  fzfOptions:
+    - "-p 50%,50%"
+  redact:
+  keymap:
+    deleteSoft: ctrl-d
+    deleteHard: alt-d
+    toggleScope: ctrl-r
+
+snippets:
+  # Pipes / redirects
+  - name: "null"
+    keyword: "null"
+    snippet: ">/dev/null 2>&1"
+    context:
+      lbuffer: '.+\s'
+
+  - keyword: G
+    snippet: "| grep"
+    context:
+      lbuffer: '.+\s'
+
+  - name: copy
+    keyword: CC
+    snippet: "| pbcopy"
+    context:
+      lbuffer: '.+\s'
+
+  # cd
+  - name: cd there
+    keyword: CD
+    snippet: "&& cd $_"
+    context:
+      lbuffer: '.+\s'
+
+  - keyword: "-"
+    snippet: cd -
+
+  # ls
+  - keyword: ll
+    snippet: ls -l
+
+  - keyword: la
+    snippet: ls -a
+
+  - keyword: lla
+    snippet: ls -la
+
+  # Date
+  - name: today
+    keyword: td
+    snippet: date +%Y-%m-%d
+    evaluate: true
+
+  # Shell maintenance
+  - keyword: r
+    snippet: exec $SHELL -l
+
+  - keyword: myip
+    snippet: curl ifconfig.me
+
+  # Terraform helpers (require `tf ` prefix)
+  - keyword: tf
+    snippet: terraform
+
+  - keyword: ap
+    snippet: apply
+    context:
+      lbuffer: '^terraform\s+'
+
+  - keyword: pl
+    snippet: plan
+    context:
+      lbuffer: '^terraform\s+'
+
+  - keyword: in
+    snippet: init
+    context:
+      lbuffer: '^terraform\s+'
+
+  - keyword: st
+    snippet: state
+    context:
+      lbuffer: '^terraform\s+'
+
+  - keyword: stl
+    snippet: state list
+    context:
+      lbuffer: '^terraform\s+'
+
+  # Common tools
+  - keyword: py
+    snippet: python3
+
+  - keyword: f
+    snippet: open .
+
+  - keyword: ld
+    snippet: lazydocker
+
+  # AI tools
+  - keyword: c
+    snippet: claude
+
+  - keyword: cc
+    snippet: claude -c
+
+  # Benchmarking
+  - keyword: speed
+    snippet: hyperfine --warmup 5 --runs 10 'zsh -i -c exit'
+
+completions:
+  - name: kill signal
+    patterns:
+      - "^kill -s $"
+    sourceCommand: "kill -l | tr ' ' '\\n'"
+    options:
+      --prompt: "'Kill Signal> '"
+
+  - name: kill pid
+    patterns:
+      - "^kill( .*)? $"
+    excludePatterns:
+      - " -[lns] $"
+    sourceCommand: "LANG=C ps -ef | sed 1d"
+    options:
+      --multi: true
+      --prompt: "'Kill Process> '"
+    callback: "awk '{print $2}'"
+
+  - name: chdir
+    patterns:
+      - "^;cd $"
+    sourceCommand: "find . -path '*/.git' -prune -o -maxdepth 5 -type d -print0"
+    options:
+      --read0: true
+      --prompt: "'Chdir> '"
+      --preview: "cd {} && ls -a | sed '/^[.]*$/d'"
+    callback: "cut -z -c 3-"
+    callbackZero: true
+
+  - name: Makefile
+    patterns:
+      - "^make( .*)? $"
+    sourceCommand: 'make help | sed -E "s/\x1b\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[mGK]//g"'
+    callback: "awk '{printf $2}'"
+    options:
+      --prompt: "'make> '"
+
+  - name: just
+    patterns:
+      - "^just( .*)? $"
+    sourceCommand: "just --list --unsorted 2>/dev/null | tail -n +2"
+    callback: "awk '{print $1}'"
+    options:
+      --prompt: "'just> '"
+      --preview: "just --show {1} 2>/dev/null"
+
+  - name: suspend
+    patterns:
+      - "^fg $"
+    sourceCommand: "jobs"
+    callback: "cut -d'[' -f2 | cut -d']' -f1 | sed 's/^/%/'"

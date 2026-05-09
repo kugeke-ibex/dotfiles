@@ -11,6 +11,7 @@
     ./cursor.nix
     ./claude-code.nix
     ./codex.nix
+    ./zeno.nix
     ./profiles/${profile}.nix
   ];
 
