@@ -23,6 +23,9 @@
       g = "git";
       gs = "git status -sb";
 
+      vi = "nvim";
+      vim = "nvim";
+
       nix-switch = "darwin-rebuild switch --flake ~/Development/dotfiles";
       nfu = "nix flake update --flake ~/Development/dotfiles";
       ngc = "sudo nix-collect-garbage -d && nix-collect-garbage -d";

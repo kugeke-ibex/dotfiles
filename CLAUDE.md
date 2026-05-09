@@ -242,7 +242,7 @@ darwin-rebuild switch --flake .#personal
 - **WezTerm** (`config/wezterm/wezterm.lua`) — フォント、テーマ、キーバインド
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
-- **Neovim** (`modules/home/editor.nix`) — 後続フェーズでプラグイン管理を予定
+- **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — LazyVim ベース。`init.lua` は `require("config.lazy")` のみで、設定は `lua/config/` (autocmds/keymaps/options/lazy) と `lua/plugins/` に分離。`mkOutOfStoreSymlink` で dotfiles を直接指す symlink なので編集が即時反映される
 - **tmux** (`modules/home/tmux.nix`) — キーバインド、status line
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions
