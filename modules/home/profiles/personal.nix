@@ -20,8 +20,9 @@ in
     PYENV_ROOT = "${config.home.homeDirectory}/.pyenv";
   };
 
+  # pyenv は brew で /opt/homebrew/bin/pyenv に入るので $PYENV_ROOT/bin は PATH に
+  # 入れない (pyenv init - が冪等に PATH をセットアップする)。重複 PATH を避ける。
   home.sessionPath = [
     "${config.home.homeDirectory}/.volta/bin"
-    "${config.home.homeDirectory}/.pyenv/bin"
   ];
 }

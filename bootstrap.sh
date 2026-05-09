@@ -64,6 +64,14 @@ main() {
     sudo nix run nix-darwin -- switch --flake "${DOTFILES_DIR}#${host}"
   fi
 
+  # 初回 LazyVim プラグインの prefetch (任意)
+  # 初回の `nvim` 起動を速くするため、ここで LazyVim のプラグインを headless で
+  # 一括ダウンロードしておく。スキップしたい場合は SKIP_LAZY_PREINSTALL=1 を付与。
+  if [[ "${SKIP_LAZY_PREINSTALL:-}" != "1" ]] && command -v nvim >/dev/null 2>&1; then
+    log "Pre-installing LazyVim plugins (Ctrl-C で中断可、SKIP_LAZY_PREINSTALL=1 で次回スキップ)"
+    nvim --headless "+Lazy! sync" +qa || true
+  fi
+
   log "Done. Open a new shell to use the new environment."
 }
 

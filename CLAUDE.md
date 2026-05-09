@@ -277,7 +277,7 @@ darwin-rebuild switch --flake .#personal
 - **WezTerm** (`config/wezterm/wezterm.lua`) — フォント、テーマ、キーバインド
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
-- **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — **work** は `pkgs.neovim`（安定）、**personal** は nightly overlay。ほかは LazyVim 構成どおり。
+- **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — **work** は `pkgs.neovim`（安定）、**personal** は nightly overlay。ほかは LazyVim 構成どおり。`config/nvim/lazy-lock.json` はコミット対象（プラグインの版を固定。`:Lazy sync` 後に `git diff` で確認してから commit）。
 - **tmux** (`modules/home/tmux.nix`) — キーバインド、status line
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions。**work プロファイルでは既定で無効**（`profiles/work.nix`）。
