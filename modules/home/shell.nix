@@ -21,12 +21,13 @@ in
     # Nix 評価時にパスを展開する必要がある alias のみここで管理する。
     # それ以外の汎用 alias は config/zsh/common.zsh、
     # 個人 PC 専用は config/zsh/personal.zsh で raw zsh として管理する。
+    # tree / v / l / その他の汎用 alias は config/zsh/common.zsh、
+    # 個人 PC 専用は config/zsh/personal.zsh で raw zsh として管理する。
     shellAliases = {
       g = "git";
       gs = "git status -sb";
       vi = "nvim";
       vim = "nvim";
-      tree = "eza --tree";
 
       nix-switch = "darwin-rebuild switch --flake ${dotfilesPath}";
       nfu = "nix flake update --flake ${dotfilesPath}";
@@ -126,5 +127,15 @@ in
     vim-startuptime
     gh
     gitflow
+  ];
+
+  # PC 共通の環境変数。Go の GOPATH / GO111MODULE は使わない環境でも害が無いので共通に。
+  home.sessionVariables = {
+    GOPATH = "${config.home.homeDirectory}/go";
+    GO111MODULE = "on";
+  };
+
+  home.sessionPath = [
+    "${config.home.homeDirectory}/go/bin"
   ];
 }

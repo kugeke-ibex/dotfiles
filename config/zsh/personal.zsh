@@ -3,6 +3,28 @@
 # raw zsh で書くと ${AWS_PROFILE} など実行時展開のシェル変数をそのまま記述できる。
 
 # ----------------------------------------------------
+# Dotfiles ショートカット
+# ----------------------------------------------------
+alias dotfiles='cd ~/Development/dotfiles && nvim'
+
+# ----------------------------------------------------
+# Volta (Node.js manager): インストール済みの Node.js を削除
+# ----------------------------------------------------
+remove_node_for_volta() {
+  local package="$1"
+  local dir="$HOME/.volta/tools/image/node/$package/"
+  if [ -d "$dir" ]; then
+    if rm -rf "$dir"; then
+      echo "Successfully removed $package"
+    else
+      echo "Failed to remove $package"
+    fi
+  else
+    echo "Not found $package"
+  fi
+}
+
+# ----------------------------------------------------
 # SSH key
 # ----------------------------------------------------
 alias sakuge_ed="ssh-add -K ~/.ssh/kugeke_id_ed25519_2"
