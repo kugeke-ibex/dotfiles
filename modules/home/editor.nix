@@ -1,6 +1,5 @@
-{ pkgs, config, inputs, ... }:
+{ pkgs, config, inputs, dotfilesPath, ... }:
 let
-  dotfilesPath = "${config.home.homeDirectory}/Development/dotfiles";
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
   # 安定版 pkgs.neovim の代わりに nightly（参考 flake の neovim-nightly-overlay）
   neovimPkg = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;

@@ -16,6 +16,7 @@
 
   nix.gc = {
     automatic = true;
+    # 週 1 回（曜日番号の対応は nix-darwin の `nix.gc.interval` ドキュメント参照）
     interval = { Weekday = 7; };
     options = "--delete-older-than 30d";
   };

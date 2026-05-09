@@ -19,6 +19,7 @@
 
     stylua.includes = [
       "config/wezterm/**/*.lua"
+      "config/nvim/**/*.lua"
     ];
 
     shfmt.includes = [

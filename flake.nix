@@ -63,6 +63,9 @@
     }:
     let
       username = "kugeke";
+      # Home Manager の live symlink はこのパスを参照する。clone 先を変えるときはここだけ変える。
+      dotfilesRelative = "Development/dotfiles";
+      dotfilesPath = "/Users/${username}/${dotfilesRelative}";
       system = "aarch64-darwin";
 
       pkgs = import nixpkgs {
@@ -86,7 +89,9 @@
 
       mkDarwin = { hostname, profile }: nix-darwin.lib.darwinSystem {
         inherit system;
-        specialArgs = { inherit inputs username hostname profile; };
+        specialArgs = {
+          inherit inputs username hostname profile dotfilesPath;
+        };
         modules = [
           ./modules/darwin
           ./hosts/${hostname}
@@ -97,7 +102,9 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "before-nix-darwin";
-              extraSpecialArgs = { inherit inputs username profile; };
+              extraSpecialArgs = {
+                inherit inputs username profile dotfilesPath;
+              };
               users.${username} = import ./modules/home;
             };
           }

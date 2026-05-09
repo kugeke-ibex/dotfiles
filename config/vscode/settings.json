@@ -1,4 +1,5 @@
 {
+  "telemetry.telemetryLevel": "off",
   "dev.containers.defaultExtensions": [
     "naumovs.color-highlight",
     "github.copilot",

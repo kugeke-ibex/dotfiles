@@ -1,3 +1,7 @@
+# Codex が初回起動やプラグイン更新で書き換えるシード設定です。
+# marketplace の source / last_updated は実行環境で変わります。
+# テンプレだけ更新したい場合は ~/.codex/config.toml をバックアップしてから差分マージしてください。
+#
 # @homeDirectory@ は home-manager (modules/home/codex.nix) の substituteAll で置換される。
 sandbox_mode = "workspace-write"
 

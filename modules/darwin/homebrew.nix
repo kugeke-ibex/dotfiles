@@ -36,7 +36,6 @@
       "grpcurl"
       "helm"
       "istioctl"
-      "jq"
       "k9s"
       "kubernetes-cli"
       "kustomize"
@@ -89,8 +88,7 @@
       # "visual-studio-code"  # home-manager programs.vscode (Nix) で管理
       "cursor"
 
-      # Dev / Container / API
-      "docker"
+      # Dev / Container / API（CLI は Docker Desktop に含まれるため docker cask は入れない）
       "docker-desktop"
       "postman"
       "tableplus"

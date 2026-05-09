@@ -1,5 +1,5 @@
 { ... }:
 {
-  # TODO: 業務メールに置換する
+  # 業務用 Git email に差し替える（dummy のままコミットしないこと）
   programs.git.userEmail = "kugetyan0211+work@example.com";
 }

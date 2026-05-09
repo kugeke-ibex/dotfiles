@@ -54,7 +54,7 @@
   "makefile.configureOnOpen": false,
   "maven.settingsFile": "",
   "plantuml.exportOutDir": ".",
-  "redhat.telemetry.enabled": true,
+  "redhat.telemetry.enabled": false,
   "security.workspace.trust.untrustedFiles": "open",
   "terminal.integrated.fontFamily": "MesloLGS NF",
   "cursor.composer.usageSummaryDisplay": "always",

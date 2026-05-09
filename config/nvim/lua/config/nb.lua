@@ -105,9 +105,9 @@ function M.get_nb_dir()
   return vim.fn.expand("~/Notes")
 end
 
--- Claude Code の plansDirectory (claude-code.nix の publicSettings.plansDirectory に対応)
+-- Claude Code のプラン出力先（既定は ~/.claude/plans。config/claude/settings.json の plansDirectory と揃える）
 function M.get_plans_dir()
-  return vim.fn.expand("~/Development/dotfiles/plans")
+  return vim.fn.expand("~/.claude/plans")
 end
 
 -- plans/*.md を mtime 降順で取得

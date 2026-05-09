@@ -1,6 +1,8 @@
 # CLAUDE.md
 
-このファイルは Claude Code が本リポジトリで作業する際のガイドです。
+このファイルは **Git リポジトリ内のドキュメント**として、Claude Code / Cursor が本リポジトリで作業するときのガイドです。
+
+グローバルなエージェント向けルール（全プロジェクト共通）は `config/ai-tools/global-rules.md` にあり、`~/.claude/CLAUDE.md` および `~/.codex/AGENTS.md` はそのファイルへの symlink です（リポジトリ直下のこの CLAUDE.md とは別物）。
 
 ## リポジトリの目的
 
@@ -246,7 +248,7 @@ darwin-rebuild switch --flake .#personal
 - **tmux** (`modules/home/tmux.nix`) — キーバインド、status line
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions
-- **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — 同上 (raw JSON 管理)
+- **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — settings/keybindings は WezTerm と同様 **`flake.nix` の `dotfilesPath` 経由の live symlink**。拡張リストは `config/cursor/extensions.txt`（`cursor --list-extensions` で更新）
 - **Raycast** (`config/raycast/raycast.rayconfig`) — 手動エクスポート (機密情報チェック必須)
 - **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — `~/.claude` と `~/.codex` を管理。共通ルールは `config/ai-tools/global-rules.md` に統合 (CLAUDE.md と AGENTS.md 共用)。commands / skills / agents / `statusline.sh` は `mkOutOfStoreSymlink` で dotfiles を直接指す symlink。settings.json / config.toml は **初回のみコピー** (UI / runtime が書き戻すため上書きしない)。テンプレ更新は `config/claude/settings.json` を既存の `~/.claude/settings.json` に手動マージ
 

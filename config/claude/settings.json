@@ -4,12 +4,14 @@
     "type": "command",
     "command": "~/.claude/statusline.sh"
   },
+  "plansDirectory": "~/.claude/plans",
   "permissions": {
     "allow": [
       "Read(**)",
       "Write(src/**)",
       "Write(docs/**)",
       "Write(.tmp/**)",
+      "Write(~/.claude/plans/**)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:zenn.dev)",

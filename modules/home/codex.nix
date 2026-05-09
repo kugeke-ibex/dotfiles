@@ -1,6 +1,5 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, dotfilesPath, ... }:
 let
-  dotfilesPath = "${config.home.homeDirectory}/Development/dotfiles";
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
   # Portable seed: @homeDirectory@ in the template is replaced at eval time (see substituteAll).
   codexConfig = pkgs.substituteAll {

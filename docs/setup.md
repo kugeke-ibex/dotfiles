@@ -29,7 +29,7 @@ cd ~/Development/dotfiles
 ```bash
 nix --version
 darwin-rebuild --version
-nix-switch     # alias: darwin-rebuild switch --flake ~/Development/dotfiles
+nix-switch     # flake.nix の dotfilesPath を指定した darwin-rebuild switch
 ```
 
 ## Manual steps
