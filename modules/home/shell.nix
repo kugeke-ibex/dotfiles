@@ -91,6 +91,7 @@
     wget
     bat
     jq
+    bc # Claude Code statusline (~/.claude/statusline.sh) でレイテンシ表示に使用
     vim-startuptime
     gh
     gitflow
