@@ -24,6 +24,8 @@ in
   xdg.configFile = {
     "nvim/init.lua".source = mkLink "config/nvim/init.lua";
     "nvim/lua".source = mkLink "config/nvim/lua";
+    "nvim/ftdetect".source = mkLink "config/nvim/ftdetect";
+    "nvim/spell".source = mkLink "config/nvim/spell";
     "nvim/.neoconf.json".source = mkLink "config/nvim/.neoconf.json";
     "nvim/stylua.toml".source = mkLink "config/nvim/stylua.toml";
   };
