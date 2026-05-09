@@ -148,6 +148,17 @@ nix run .#switch -- work-office
 | `nfu`        | `nix flake update --flake $HOME/<dotfilesRelative>`                         |
 | `ngc`        | `sudo nix-collect-garbage -d && nix-collect-garbage -d`    |
 
+## 変更の反映（編集したもの別）
+
+| 変更したもの | 手順 |
+| --- | --- |
+| **`*.nix`・`flake.nix`・`hosts/`・パッケージ一覧** | `darwin-rebuild switch --flake ~/Development/dotfiles#<host>` または `cd ~/Development/dotfiles && nix run .#switch -- <host>`。**適用だけ試す**なら `nix run .#build -- <host>`。 |
+| **WezTerm / Ghostty / Neovim（`config/wezterm/`・`config/nvim/` など）** | `modules/home` が **live symlink** で繋いでいるため、**ファイル保存で反映**（ターミナル／エディタのリロードや再起動はアプリ側）。**switch は不要**。 |
+| **Cursor の `config/cursor/*.json`** | 同上（symlink）。保存後に Cursor を再読込／再起動。 |
+| **VS Code の `config/vscode/*.json`・`config/starship.toml`** | Nix がビルド時に読み込むため、変更後は **switch が必要**。 |
+
+**補足:** `config/claude/settings.json` や Codex のテンプレは **初回のみホームへコピー**される運用のため、既に `~/.claude/` 等にファイルがあると **リポジトリを直しただけでは自動では上書きされない**（手でマージするか、方針どおり取り直し）。詳細は該当モジュールのコメントを参照。
+
 ## Layout
 
 ```text
