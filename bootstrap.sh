@@ -9,22 +9,36 @@ err() { printf '\033[1;31m!!\033[0m %s\n' "$*" >&2; }
 
 usage() {
   cat <<EOF
-Usage: $0 <personal|work>
+Usage: $0 <host>
 
 Bootstrap script for kugeke's dotfiles (macOS Apple Silicon).
   1. Install Nix via Determinate Systems installer (skipped if present)
   2. Backup existing /etc/{zshrc,bashrc,zshenv} to *.before-nix-darwin
   3. Apply nix-darwin configuration: darwin-rebuild switch --flake .#<host>
+
+<host> は hosts/<host>/default.nix が存在する名前（fragments は除外）。
+現在のディレクトリ:
 EOF
+  local d name
+  for d in "${DOTFILES_DIR}/hosts"/*/; do
+    [[ -d "$d" ]] || continue
+    name="$(basename "$d")"
+    [[ "$name" == "fragments" ]] && continue
+    [[ -f "${d}default.nix" ]] && printf '  - %s\n' "$name"
+  done | sort
 }
 
 main() {
   local host="${1:-}"
   case "$host" in
-    personal|work) ;;
     -h|--help|"") usage; exit 1 ;;
-    *) err "invalid host: $host"; usage; exit 1 ;;
   esac
+
+  if [[ "$host" == "fragments" ]] || [[ ! -f "${DOTFILES_DIR}/hosts/${host}/default.nix" ]]; then
+    err "unknown host: ${host:-empty} (hosts/${host:-?}/default.nix が無い、または fragments はホストにできません)"
+    usage
+    exit 1
+  fi
 
   if ! command -v nix >/dev/null 2>&1; then
     log "Installing Nix via Determinate Systems installer"

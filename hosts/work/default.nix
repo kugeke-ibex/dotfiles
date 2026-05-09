@@ -1,5 +1,7 @@
 { ... }:
 {
+  imports = [ ../fragments/work-common.nix ];
+
   networking.hostName = "work";
   networking.computerName = "work";
   networking.localHostName = "work";

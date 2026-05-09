@@ -6,11 +6,11 @@
 
 ## リポジトリの目的
 
-macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix flake + nix-darwin + home-manager + nix-homebrew** で宣言的に管理する dotfiles。`personal` / `work` の 2 ホスト構成。
+macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix flake + nix-darwin + home-manager + nix-homebrew** で宣言的に管理する dotfiles。`darwinConfigurations` は `personal` と 1 つ以上の `work*` ホスト（例: `work`, `work-office`）。
 
 ## 技術スタック
 
-- **Nix flake** (`flake.nix`) — `darwinConfigurations.{personal,work}` を定義
+- **Nix flake** (`flake.nix`) — `darwinConfigurations.{personal,work,…}`（社用は台数分エントリを追加）
 - **nix-darwin** — システム設定 (Dock/Finder/Keyboard 等の defaults、Homebrew 統合)
 - **home-manager** — ユーザー環境 (zsh, git, neovim, tmux, terminals 等)
 - **nix-homebrew** — Homebrew を flake input で固定 (`mutableTaps = false`)
@@ -23,8 +23,11 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 ├── flake.nix                        # darwinConfigurations entry
 ├── bootstrap.sh                     # Nix 導入 + 初回 switch
 ├── hosts/
+│   ├── fragments/
+│   │   └── work-common.nix          # 全社用ホストで import（mozumasu の common に相当）
 │   ├── personal/default.nix         # 個人 PC 固有 (brews/casks/masApps)
-│   └── work/default.nix             # 社用 PC 固有
+│   ├── work/default.nix             # 社用 PC（汎用ホスト名）
+│   └── work-office/default.nix      # 例: 2 台目の社用 PC（複製して増やす）
 ├── modules/
 │   ├── darwin/                      # システム設定 (nix-darwin)
 │   │   ├── default.nix
@@ -64,10 +67,13 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 
 | 用途 | 配置先 |
 | --- | --- |
-| personal / work どちらでも使う | `modules/darwin/homebrew-common.nix`（**共通・work 既定**） |
+| personal / work どちらでも使う brew 基底 | `modules/darwin/homebrew-common.nix` |
+| すべての社用ホストで共通（ホスト名以外の nix-darwin） | `hosts/fragments/work-common.nix` を各社用 `hosts/<名前>/default.nix` から `imports` |
 | 個人 PC にだけ入れたい cask / brew | `modules/darwin/homebrew-personal.nix`（`profile == "personal"` のときだけ読込） |
 | 個人 PC のみで使う | `hosts/personal/default.nix`（追加 brew / `cleanup = uninstall`） |
-| 社用 PC のみで使う | `hosts/work/default.nix`（ホスト名のみ。追加パッケージはここではなく共通 + profile で分岐） |
+| 社用 PC（マシンごと） | `hosts/<名前>/default.nix`（例: `work`, `work-office`）。**flake.nix に `darwinConfigurations.<名前>` を追加**すること（`mkDarwin` の `hostname` はディレクトリ名と一致させる） |
+
+参考: [mozumasu/dotfiles の hosts 構成](https://github.com/mozumasu/dotfiles/tree/main/.config/nix/hosts)（`common` + ホスト別ディレクトリ）。
 
 判断に迷ったら **共通寄り** にする。後から個別に分けるのは容易だが、最初から個別に置くと共通化が漏れる。
 
@@ -213,6 +219,15 @@ darwin-rebuild switch --flake .#personal
 設定変更後は `nix flake check` → `nix run .#build` → `nix run .#switch` の順で確認するのが安全。
 
 ## よく使うワークフロー
+
+### 社用 Mac を増やす（個人 1 : 社用 N）
+
+1. `hosts/work-office/default.nix` を複製して `hosts/<新ホスト名>/default.nix` を作成する（`imports = [ ../fragments/work-common.nix ];` と `networking.hostName` / `computerName` / `localHostName` をそのマシンに合わせる）。
+2. `flake.nix` の `darwinConfigurations` に  
+   `<新ホスト名> = mkDarwin { hostname = "<新ホスト名>"; profile = "work"; };`  
+   を追加する（ユーザー名・`dotfilesRelative` が違えば `mkDarwin` 引数で上書き）。
+3. 対象 Mac で `./bootstrap.sh <新ホスト名>` または `darwin-rebuild switch --flake .#<新ホスト名>`。
+4. テンプレの `work-office` を使わない場合は `hosts/work-office/` と flake の対応エントリを削除してよい。
 
 ### 新しい cask を追加する
 

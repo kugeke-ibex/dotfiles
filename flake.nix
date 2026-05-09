@@ -1,5 +1,5 @@
 {
-  description = "kugeke's dotfiles - macOS Apple Silicon (personal/work)";
+  description = "kugeke's dotfiles - macOS Apple Silicon (personal + one-or-more work hosts)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -169,6 +169,12 @@
           # 例: 社用 PC でユーザー名や clone 先だけ違うとき
           # username = "corpuser";
           # dotfilesRelative = "Projects/dotfiles";
+        };
+        # 2 台目以降の社用 Mac。hosts/work-office を複製して増やし、ここに flake エントリを追加する。
+        # 参考: https://github.com/mozumasu/dotfiles/tree/main/.config/nix/hosts
+        work-office = mkDarwin {
+          hostname = "work-office";
+          profile = "work";
         };
       };
     };

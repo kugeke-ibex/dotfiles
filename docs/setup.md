@@ -18,9 +18,12 @@ cd ~/Development/dotfiles
 ### 2. bootstrap
 
 ```bash
-./bootstrap.sh personal   # 個人 PC
-./bootstrap.sh work       # 社用 PC
+./bootstrap.sh personal      # 個人 PC
+./bootstrap.sh work          # 社用 PC（例）
+./bootstrap.sh work-office   # 別の社用 Mac（例・flake にエントリがあるものだけ）
 ```
+
+利用可能な `<host>` は `hosts/<host>/default.nix` がある名前（`fragments` は除外）。迷ったら `./bootstrap.sh` で一覧を表示する。
 
 初回は Nix 導入のみで終了するので、新しいシェルを開いて再実行する。
 
