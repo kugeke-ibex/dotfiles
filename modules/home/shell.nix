@@ -16,15 +16,23 @@
     };
 
     shellAliases = {
-      ll = "eza -lah";
-      la = "eza -lah";
-      ls = "eza";
+      # ls 系: BSD ls + color。zsh は alias を再帰展開するので
+      # `la` -> `ls -a` -> `ls -FG -a` のように合成される。
+      ls = "ls -FG";
+      la = "ls -a";
+      ll = "ls -l";
+      lla = "ls -la";
+      # tree 表示だけは eza
       tree = "eza --tree";
+
       g = "git";
       gs = "git status -sb";
 
       vi = "nvim";
       vim = "nvim";
+
+      # macOS の `python` を python3 に
+      python = "python3";
 
       nix-switch = "darwin-rebuild switch --flake ${config.home.homeDirectory}/${dotfilesRelative}";
       nfu = "nix flake update --flake ${config.home.homeDirectory}/${dotfilesRelative}";
