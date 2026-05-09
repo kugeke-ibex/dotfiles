@@ -28,5 +28,8 @@
       "LINE" = 539883307;
       "Kindle" = 405399194;
     };
+
+    # 宣言に無い brew/cask を自動削除する（共通は cleanup=false のためここで上書き）
+    onActivation.cleanup = "uninstall";
   };
 }

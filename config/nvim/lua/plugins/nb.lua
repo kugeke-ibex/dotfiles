@@ -3,7 +3,7 @@
 -- 本体ロジックは config/nvim/lua/config/nb.lua を参照。
 --
 -- 前提:
---   - nb CLI が PATH にあること (modules/darwin/homebrew.nix の brews で導入)
+--   - nb CLI が PATH にあること (modules/darwin/homebrew-common.nix の brews で導入)
 --   - notebook ディレクトリが存在すること (デフォルト ~/Notes)
 --     初期化例: mkdir -p ~/Notes && nb notebooks add work
 --

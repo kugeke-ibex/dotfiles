@@ -1,11 +1,12 @@
-{ pkgs, username, ... }:
+{ pkgs, username, profile, lib, ... }:
 {
   imports = [
     ./nix.nix
-    ./homebrew.nix
+    ./homebrew-common.nix
     ./system.nix
     ./fonts.nix
-  ];
+  ]
+  ++ lib.optionals (profile == "personal") [ ./homebrew-personal.nix ];
 
   nixpkgs.config.allowUnfree = true;
 

@@ -28,7 +28,8 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 ├── modules/
 │   ├── darwin/                      # システム設定 (nix-darwin)
 │   │   ├── default.nix
-│   │   ├── homebrew.nix             # 共通 brews/casks/masApps
+│   │   ├── homebrew-common.nix      # 共通 brews/casks（work / personal 基底）
+│   │   ├── homebrew-personal.nix    # personal のみ（追加 cask / gemini-cli）
 │   │   ├── system.nix               # macOS defaults
 │   │   └── fonts.nix                # ricty-diminished, nerd-fonts.meslo-lg
 │   └── home/                        # ユーザー環境 (home-manager)
@@ -63,9 +64,10 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 
 | 用途 | 配置先 |
 | --- | --- |
-| personal / work どちらでも使う | `modules/darwin/homebrew.nix` (**共通**) |
-| 個人 PC のみで使う | `hosts/personal/default.nix` |
-| 社用 PC のみで使う | `hosts/work/default.nix` |
+| personal / work どちらでも使う | `modules/darwin/homebrew-common.nix`（**共通・work 既定**） |
+| 個人 PC にだけ入れたい cask / brew | `modules/darwin/homebrew-personal.nix`（`profile == "personal"` のときだけ読込） |
+| 個人 PC のみで使う | `hosts/personal/default.nix`（追加 brew / `cleanup = uninstall`） |
+| 社用 PC のみで使う | `hosts/work/default.nix`（ホスト名のみ。追加パッケージはここではなく共通 + profile で分岐） |
 
 判断に迷ったら **共通寄り** にする。後から個別に分けるのは容易だが、最初から個別に置くと共通化が漏れる。
 
@@ -98,12 +100,14 @@ macOS (Apple Silicon) 向けの個人 / 業務 PC セットアップを **Nix fl
 | **Cursor** | brew cask `cursor` (Nix package 無し) | `home.file` で `config/cursor/{settings,keybindings}.json` を symlink (JSONC 含むため Nix 解析しない) | `config/cursor/extensions.txt` (cursor CLI で出力) |
 | **Raycast** | brew cask `raycast` | `config/raycast/raycast.rayconfig` を手動エクスポートしてコミット | (Hotkey は SQLite DB のため `.rayconfig` で一括管理) |
 
-**重要**: VSCode の cask `visual-studio-code` は Nix で本体管理するため共通 cask から外してある (`modules/darwin/homebrew.nix` を参照)。誤って戻さないこと。
+**重要**: VSCode の cask `visual-studio-code` は Nix で本体管理するため共通 cask から外してある (`modules/darwin/homebrew-common.nix` を参照)。誤って戻さないこと。
+
+**work プロファイル**: `profiles/work.nix` で `programs.vscode.enable = false`（Cursor 中心で二重メンテを避ける）。VS Code が必要なら `true` に戻す。
 
 **設定の取り込み・反映フロー**:
 
 - **VSCode**: エディタ側でいじった結果をリポジトリへ載せるときは、引き続き `config/vscode/` へ `cp` してから `darwin-rebuild switch`（`programs.vscode` が JSON を読み込む）。
-- **Cursor**: `~/Library/Application Support/Cursor/User/*.json` は **`flake.nix` の `dotfilesPath` 配下の `config/cursor/` を指す symlink**。日常の編集は **リポジトリ内の `config/cursor/settings.json` / `keybindings.json` を直接編集**すればよく（Cursor を開いたまま保存すればその場で反映）、rebuild は不要。下の `cp` は **別マシンの実ファイルから初めて取り込む**ときや、symlink 適用前に Library 側だけ弄っている場合の **一回どり**向け。
+- **Cursor**: `~/Library/.../User/*.json` は **`$HOME/<dotfilesRelative>/config/cursor/`**（`flake.nix` の `dotfilesRelative` と `home.homeDirectory`）への symlink。日常の編集は **リポジトリ内の `config/cursor/settings.json` / `keybindings.json` を直接編集**すればよく（Cursor を開いたまま保存すればその場で反映）、rebuild は不要。下の `cp` は **別マシンの実ファイルから初めて取り込む**ときや、symlink 適用前に Library 側だけ弄っている場合の **一回どり**向け。
 
 ```bash
 # VSCode — UI で変えた設定を dotfiles に反映
@@ -173,9 +177,12 @@ Phase 2: GUI casks, fonts, Karabiner, terminals, brew migration
 
 ### 10. cleanup ポリシー
 
-`modules/darwin/homebrew.nix` の `onActivation.cleanup = "uninstall"` (zap ではない)。Brewfile に書かれていない brew/cask は **uninstall** されるが、関連データ (アプリ設定) は保持される。`zap` は危険なので使わない。
+- **共通（work 含む）**: `modules/darwin/homebrew-common.nix` の既定は `onActivation.cleanup = false`。宣言に無い brew/cask は **自動では削除されない**（実験インストール向け）。
+- **個人 PC**: `hosts/personal/default.nix` で `onActivation.cleanup = "uninstall"` を指定し、Brewfile に無い formula/cask を **uninstall**（`zap` は使わない。アプリ設定データは概ね保持）。
 
-## 検証 / 適用コマンド
+### 11. テンプレ同期のヒント（Claude / Codex / Karabiner）
+
+`switch` 時、`modules/home/config-drift-warnings.nix` の activation がテンプレと実機の差を **stderr に通知**する（自動マージはしない）。Karabiner は **テンプレの方が新しいときだけ**通知し、UI で編集しただけではノイズにならないようにしている。
 
 ### `nix run` ショートカット (alias 不要、CI でも使える)
 
@@ -209,7 +216,7 @@ darwin-rebuild switch --flake .#personal
 
 ### 新しい cask を追加する
 
-1. 共通 ([modules/darwin/homebrew.nix](modules/darwin/homebrew.nix)) か個人 ([hosts/personal/default.nix](hosts/personal/default.nix)) かを判断
+1. 共通 ([modules/darwin/homebrew-common.nix](modules/darwin/homebrew-common.nix)) か個人拡張 ([modules/darwin/homebrew-personal.nix](modules/darwin/homebrew-personal.nix)) か個別ホスト ([hosts/personal/default.nix](hosts/personal/default.nix)) かを判断
 2. `casks = [ ... ]` に追記 (カテゴリコメントを保つ)
 3. cask 名を `brew search --casks <name>` で確認 (実体験から: `eset-cyber-security` のように `-pro` を付けない場合あり)
 4. commit + push
@@ -230,7 +237,7 @@ darwin-rebuild switch --flake .#personal
 ### 新しい masApp を追加
 
 1. `mas search "<name>"` で App ID を確認
-2. 共通 ([modules/darwin/homebrew.nix](modules/darwin/homebrew.nix)) か個人 ([hosts/personal/default.nix](hosts/personal/default.nix)) かを判断
+2. 共通 ([modules/darwin/homebrew-common.nix](modules/darwin/homebrew-common.nix)) か個人拡張 ([modules/darwin/homebrew-personal.nix](modules/darwin/homebrew-personal.nix)) か個別ホスト ([hosts/personal/default.nix](hosts/personal/default.nix)) かを判断
 3. `masApps = { "Name" = <App ID>; };` に追加
 4. commit + push
 
@@ -255,11 +262,11 @@ darwin-rebuild switch --flake .#personal
 - **WezTerm** (`config/wezterm/wezterm.lua`) — フォント、テーマ、キーバインド
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
-- **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — LazyVim ベース。`init.lua` は `require("config.lazy")` のみで、設定は `lua/config/` (autocmds/keymaps/options/lazy) と `lua/plugins/` に分離。`mkOutOfStoreSymlink` で dotfiles を直接指す symlink なので編集が即時反映される
+- **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — **work** は `pkgs.neovim`（安定）、**personal** は nightly overlay。ほかは LazyVim 構成どおり。
 - **tmux** (`modules/home/tmux.nix`) — キーバインド、status line
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
-- **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions
-- **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — settings/keybindings は WezTerm と同様 **`flake.nix` の `dotfilesPath` 経由の live symlink**。拡張リストは `config/cursor/extensions.txt`（`cursor --list-extensions` で更新）
+- **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions。**work プロファイルでは既定で無効**（`profiles/work.nix`）。
+- **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — symlink 先は **`$HOME/<dotfilesRelative>/config/cursor/`**（`flake.nix` の `mkDarwin` で `dotfilesRelative` / `username` をホストごとに上書き可）。
 - **Raycast** (`config/raycast/raycast.rayconfig`) — 手動エクスポート (機密情報チェック必須)
 - **Claude Code / Codex** (`modules/home/{claude-code,codex}.nix`) — `~/.claude` と `~/.codex` を管理。共通ルールは `config/ai-tools/global-rules.md` に統合 (CLAUDE.md と AGENTS.md 共用)。commands / skills / agents / `statusline.sh` は `mkOutOfStoreSymlink` で dotfiles を直接指す symlink。settings.json / config.toml は **初回のみコピー** (UI / runtime が書き戻すため上書きしない)。テンプレ更新は `config/claude/settings.json` を既存の `~/.claude/settings.json` に手動マージ
 
@@ -271,6 +278,7 @@ darwin-rebuild switch --flake .#personal
 - Nix は Apple Silicon ネイティブの `/nix/store` (Determinate Systems インストーラ)
 - Homebrew は ARM64 ネイティブの `/opt/homebrew` (Intel `/usr/local` ではない — 移行手順は `README.md` 参照)
 - Git remote は `github:kugeke-ibex/dotfiles.git` (SSH config alias 経由)
+- **複数 Mac**: `flake.nix` の `mkDarwin` でホストごとに `username` と `dotfilesRelative`（`$HOME` からの相対パス）を指定できる。`home.homeDirectory` と実際のログイン名が一致すること。
 
 ## 参考リポジトリ
 

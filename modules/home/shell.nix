@@ -1,4 +1,4 @@
-{ pkgs, dotfilesPath, ... }:
+{ pkgs, config, dotfilesRelative, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -26,8 +26,8 @@
       vi = "nvim";
       vim = "nvim";
 
-      nix-switch = "darwin-rebuild switch --flake ${dotfilesPath}";
-      nfu = "nix flake update --flake ${dotfilesPath}";
+      nix-switch = "darwin-rebuild switch --flake ${config.home.homeDirectory}/${dotfilesRelative}";
+      nfu = "nix flake update --flake ${config.home.homeDirectory}/${dotfilesRelative}";
       ngc = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
       nfmt = "nix fmt";
     };

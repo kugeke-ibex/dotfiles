@@ -62,10 +62,6 @@
     , ...
     }:
     let
-      username = "kugeke";
-      # Home Manager の live symlink はこのパスを参照する。clone 先を変えるときはここだけ変える。
-      dotfilesRelative = "Development/dotfiles";
-      dotfilesPath = "/Users/${username}/${dotfilesRelative}";
       system = "aarch64-darwin";
 
       pkgs = import nixpkgs {
@@ -87,47 +83,55 @@
         }/bin/${name}";
       };
 
-      mkDarwin = { hostname, profile }: nix-darwin.lib.darwinSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs username hostname profile dotfilesPath;
+      # username / dotfilesRelative はホストごとに上書き可（例: 社用 PC のログイン名や clone 先が異なる場合）。
+      mkDarwin =
+        {
+          hostname,
+          profile,
+          username ? "kugeke",
+          dotfilesRelative ? "Development/dotfiles",
+        }:
+        nix-darwin.lib.darwinSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs username hostname profile dotfilesRelative;
+          };
+          modules = [
+            ./modules/darwin
+            ./hosts/${hostname}
+
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "before-nix-darwin";
+                extraSpecialArgs = {
+                  inherit inputs username profile dotfilesRelative;
+                };
+                users.${username} = import ./modules/home;
+              };
+            }
+
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                enable = true;
+                enableRosetta = false;
+                user = username;
+                taps = {
+                  "homebrew/homebrew-core" = inputs.homebrew-core;
+                  "homebrew/homebrew-cask" = inputs.homebrew-cask;
+                  "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+                  "hashicorp/homebrew-tap" = inputs.homebrew-hashicorp;
+                  "idoavrah/homebrew" = inputs.homebrew-idoavrah;
+                  "kayac/homebrew-tap" = inputs.homebrew-kayac;
+                };
+                mutableTaps = false;
+              };
+            }
+          ];
         };
-        modules = [
-          ./modules/darwin
-          ./hosts/${hostname}
-
-          home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "before-nix-darwin";
-              extraSpecialArgs = {
-                inherit inputs username profile dotfilesPath;
-              };
-              users.${username} = import ./modules/home;
-            };
-          }
-
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = false;
-              user = username;
-              taps = {
-                "homebrew/homebrew-core" = inputs.homebrew-core;
-                "homebrew/homebrew-cask" = inputs.homebrew-cask;
-                "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-                "hashicorp/homebrew-tap" = inputs.homebrew-hashicorp;
-                "idoavrah/homebrew" = inputs.homebrew-idoavrah;
-                "kayac/homebrew-tap" = inputs.homebrew-kayac;
-              };
-              mutableTaps = false;
-            };
-          }
-        ];
-      };
     in
     {
       formatter.${system} = treefmtEval.config.build.wrapper;
@@ -155,8 +159,17 @@
       };
 
       darwinConfigurations = {
-        personal = mkDarwin { hostname = "personal"; profile = "personal"; };
-        work = mkDarwin { hostname = "work"; profile = "work"; };
+        personal = mkDarwin {
+          hostname = "personal";
+          profile = "personal";
+        };
+        work = mkDarwin {
+          hostname = "work";
+          profile = "work";
+          # 例: 社用 PC でユーザー名や clone 先だけ違うとき
+          # username = "corpuser";
+          # dotfilesRelative = "Projects/dotfiles";
+        };
       };
     };
 }

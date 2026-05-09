@@ -12,6 +12,7 @@
     ./claude-code.nix
     ./codex.nix
     ./zeno.nix
+    ./config-drift-warnings.nix
     ./profiles/${profile}.nix
   ];
 

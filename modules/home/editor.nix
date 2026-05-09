@@ -1,14 +1,15 @@
-{ pkgs, config, inputs, dotfilesPath, ... }:
+{ pkgs, config, inputs, dotfilesRelative, profile, ... }:
 let
+  dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelative}";
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
-  # 安定版 pkgs.neovim の代わりに nightly（参考 flake の neovim-nightly-overlay）
-  neovimPkg = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  neovimPkg =
+    if profile == "work" then
+      pkgs.neovim
+    else
+      inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
 in
 {
-  # Neovim 本体は home.packages で管理。
-  # programs.neovim を使うと init.lua が自動生成され、LazyVim の
-  # `require("config.lazy")` パターンと衝突するため、本体パッケージのみ Nix で
-  # 入れて、init.lua / lua/ は dotfiles から symlink する構成にしている。
+  # Neovim 本体: work は nixpkgs 安定版（flake update の影響を狭める）、personal は nightly。
   home.packages = with pkgs; [
     neovimPkg
 

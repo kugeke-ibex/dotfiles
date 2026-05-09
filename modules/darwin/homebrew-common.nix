@@ -1,11 +1,14 @@
 { ... }:
 {
+  # 共通: personal / work 両方で入れる CLI・開発向け cask。
+  #  leisure / 追加ブラウザ / AI デスクトップアプリは homebrew-personal.nix（profile=personal のみ）。
   homebrew = {
     enable = true;
 
     onActivation = {
       autoUpdate = false;
-      cleanup = "uninstall";
+      # work や実験用 brew を消したくないホストの既定。personal は hosts/personal で uninstall に上書き。
+      cleanup = false;
       upgrade = true;
     };
 
@@ -59,7 +62,6 @@
       "zsh-completions"
       "zsh-git-prompt"
       "cairo"
-      "gemini-cli"
       "libffi"
       "libvips"
       "libpq"
@@ -79,39 +81,17 @@
       "bitwarden"
       "karabiner-elements"
 
-      # AI coding tools (personal/work 共通)
       "claude-code"
       "codex"
       "cursor-cli"
-
-      # Editors
-      # "visual-studio-code"  # home-manager programs.vscode (Nix) で管理
       "cursor"
 
-      # Dev / Container / API（CLI は Docker Desktop に含まれるため docker cask は入れない）
       "docker-desktop"
       "postman"
       "tableplus"
 
-      # Browsers
       "google-chrome"
-      "arc"
-
-      # Design / extra browsers（参考 homebrew）
-      "figma"
-      "firefox"
-      "microsoft-edge"
-
-      # Communication
       "zoom"
-
-      # AI desktop apps
-      "claude"
-      "chatgpt"
-
-      # Productivity / Notes / Translation
-      "notion"
-      "deepl"
     ];
 
     masApps = {
