@@ -18,10 +18,12 @@ in
     # CLAUDE.md は ~/.codex/AGENTS.md と内容を共有 (config/ai-tools/global-rules.md)
     ".claude/CLAUDE.md".source = mkLink "config/ai-tools/global-rules.md";
 
-    # commands / skills / agents は dotfiles をディレクトリごと symlink
+    # commands / skills / agents / rules / hooks は dotfiles をディレクトリごと symlink
     ".claude/commands".source = mkLink "config/claude/commands";
     ".claude/skills".source = mkLink "config/claude/skills";
     ".claude/agents".source = mkLink "config/claude/agents";
+    ".claude/rules".source = mkLink "config/claude/rules";
+    ".claude/hooks".source = mkLink "config/claude/hooks";
 
     ".claude/statusline.sh" = {
       source = mkLink "config/claude/statusline.sh";
