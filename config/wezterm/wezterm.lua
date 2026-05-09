@@ -20,6 +20,47 @@ config.window_padding = {
   bottom = 8,
 }
 
+-- 設定ファイルの変更を自動で読み込む
+config.automatically_reload_config = true
+
+-- ステータスバー更新間隔 (デフォルト 1000ms から少し緩める)
+config.status_update_interval = 1500
+
+-- 非アクティブペインを少し暗くして、どこにフォーカスがあるかを視覚化
+config.inactive_pane_hsb = {
+  hue = 1.0,
+  saturation = 0.9,
+  brightness = 0.85,
+}
+
+-- ウィンドウ全体を閉じる時の確認ダイアログ無効
+-- (Cmd+W のペイン閉じには別途 confirm = true が効く)
+config.window_close_confirmation = "NeverPrompt"
+
+-- QuickSelect (デフォルト Ctrl+Shift+Space) のパターンをカスタマイズ。
+-- mozumasu/dotfiles の wezterm.lua から流用。日常的に拾いたいトークンを網羅。
+config.disable_default_quick_select_patterns = true
+config.quick_select_patterns = {
+  -- URL
+  "\\bhttps?://[\\w\\-._~:/?#@!$&'()*+,;=%]+",
+  -- AWS ARN
+  "\\barn:[\\w\\-]+:[\\w\\-]+:[\\w\\-]*:[0-9]*:[\\w\\-/:]+",
+  -- ファイルパス: スペース・記号の後にあるもの (行頭プロンプトを除外)
+  "(?<=[\\s:=(\"'`])(?:~|/)[/\\w\\-.@~]+",
+  -- ファイルパス: 行頭かつ行末まで (pwd 出力など)
+  "(?m)^(?:~|/)[/\\w\\-.@~]+(?=\\s*$)",
+  -- Git commit hash (7-40 chars)
+  "\\b[0-9a-f]{7,40}\\b",
+  -- IP address (IPv4)
+  "\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b",
+  -- UUID
+  "\\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\b",
+  -- kebab-case / snake_case 識別子 (2 セグメント以上)
+  "\\b[a-zA-Z][a-zA-Z0-9]*(?:[_-][a-zA-Z0-9]+){1,}\\b",
+  -- メールアドレス
+  "\\b[\\w.+-]+@[\\w.-]+\\.[a-zA-Z]{2,}\\b",
+}
+
 -- Keybindings (iTerm2 / tmux 風)
 local act = wezterm.action
 config.keys = {

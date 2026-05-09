@@ -56,7 +56,8 @@
 | `Cmd+V` | ペースト |
 | `Cmd+F` | 検索 |
 | `Cmd+P` | コマンドパレット |
-| `Cmd+Shift+Space` | 文字選択 (Unicode) |
+| `Ctrl+Shift+Space` | QuickSelect (URL/ARN/Path/Hash/IP/UUID/メール等を 1 キーで抽出) |
+| `Ctrl+Shift+U` | 文字選択 (Unicode) |
 
 ### フォント
 
