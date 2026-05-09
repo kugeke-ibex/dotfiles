@@ -171,7 +171,6 @@
           # dotfilesRelative = "Projects/dotfiles";
         };
         # 2 台目以降の社用 Mac。hosts/work-office を複製して増やし、ここに flake エントリを追加する。
-        # 参考: https://github.com/mozumasu/dotfiles/tree/main/.config/nix/hosts
         work-office = mkDarwin {
           hostname = "work-office";
           profile = "work";

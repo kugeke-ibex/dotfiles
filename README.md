@@ -4,7 +4,7 @@ macOS (**Apple Silicon / `aarch64-darwin` のみ** — Intel Mac はこの flake
 
 ## Hosts
 
-個人 PC は 1 ホスト、社用 PC はマシンごとにディレクトリと flake エントリを増やす（`hosts/<名前>/default.nix` + `darwinConfigurations.<名前>`）。社用間の共通設定は [`hosts/fragments/work-common.nix`](hosts/fragments/work-common.nix) にまとめ、各社用ホストから `imports` する。参考: [mozumasu/dotfiles の hosts](https://github.com/mozumasu/dotfiles/tree/main/.config/nix/hosts)。
+個人 PC は 1 ホスト、社用 PC はマシンごとにディレクトリと flake エントリを増やす（`hosts/<名前>/default.nix` + `darwinConfigurations.<名前>`）。社用間の共通設定は [`hosts/fragments/work-common.nix`](hosts/fragments/work-common.nix) にまとめ、各社用ホストから `imports` する。
 
 | Host          | Purpose                                      |
 | ------------- | -------------------------------------------- |

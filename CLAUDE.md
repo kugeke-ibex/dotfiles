@@ -24,7 +24,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 ├── bootstrap.sh                     # Nix 導入 + 初回 switch
 ├── hosts/
 │   ├── fragments/
-│   │   └── work-common.nix          # 全社用ホストで import（mozumasu の common に相当）
+│   │   └── work-common.nix          # 全社用ホストで import（共通フラグメント）
 │   ├── personal/default.nix         # 個人 PC 固有 (brews/casks/masApps)
 │   ├── work/default.nix             # 社用 PC（汎用ホスト名）
 │   └── work-office/default.nix      # 例: 2 台目の社用 PC（複製して増やす）
@@ -73,7 +73,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 | 個人 PC のみで使う | `hosts/personal/default.nix`（追加 brew / `cleanup = uninstall`） |
 | 社用 PC（マシンごと） | `hosts/<名前>/default.nix`（例: `work`, `work-office`）。**flake.nix に `darwinConfigurations.<名前>` を追加**すること（`mkDarwin` の `hostname` はディレクトリ名と一致させる） |
 
-参考: [mozumasu/dotfiles の hosts 構成](https://github.com/mozumasu/dotfiles/tree/main/.config/nix/hosts)（`common` + ホスト別ディレクトリ）。
+共通フラグメント（`hosts/fragments/`）とホスト別ディレクトリを組み合わせると、社用マシンを増やしやすい。
 
 判断に迷ったら **共通寄り** にする。後から個別に分けるのは容易だが、最初から個別に置くと共通化が漏れる。
 
