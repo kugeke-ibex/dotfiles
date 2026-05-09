@@ -1,6 +1,5 @@
 # yazi 本体設定。
-# 参考: mozumasu/dotfiles/.config/yazi/yazi.toml
-# keymap.toml と theme.toml は mozumasu 個人色が強いため取り込まず yazi 標準を使用。
+# keymap.toml / theme.toml は yazi 標準を使用。
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 

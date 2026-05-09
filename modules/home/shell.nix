@@ -43,7 +43,6 @@ in
       setopt extended_glob
 
       # History を強化 (programs.zsh.history を補強)
-      # 参考: mozumasu/dotfiles の zsh/rc/option.zsh
       setopt EXTENDED_HISTORY      # 実行時間 / exit status を記録
       setopt hist_verify           # 履歴展開で即実行せず確認
       setopt hist_ignore_all_dups  # 全履歴で重複排除
@@ -109,8 +108,8 @@ in
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
-    # mozumasu/dotfiles から流用した汎用設定 (manager / preview / opener / open rules / tasks /
-    # input / confirm / pick / which)。keymap.toml / theme.toml は個人色が強いため取り込まず yazi 標準を使う。
+    # 汎用設定 (manager / preview / opener / open rules / tasks / input / confirm / pick / which)。
+    # keymap.toml / theme.toml は yazi 標準を使う。
     settings = builtins.fromTOML (builtins.readFile ../../config/yazi/yazi.toml);
   };
 
