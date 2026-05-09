@@ -1,22 +1,53 @@
 -- LSP / completion の細かい上書き (mozumasu/dotfiles の lua/plugins/lsp/ 参考)
 -- LazyVim default で nvim-lspconfig / blink.cmp / lazydev.nvim は既に有効。
--- ここでは diagnostic / 補完メニューの見た目とキーマップだけ調整する。
+-- solargraph は ruby_lsp と二重になりやすいため入れない。
+
+local servers = {
+  astro = {},
+  biome = {},
+  cssls = {},
+  denols = {},
+  dockerls = {},
+  emmet_language_server = {},
+  eslint = {},
+  gopls = {},
+  graphql = {},
+  html = {},
+  jsonls = {},
+  nil_ls = {},
+  prismals = {},
+  ruby_lsp = {},
+  rust_analyzer = {},
+  sqls = {},
+  svelte = {},
+  tailwindcss = {},
+  terraformls = {},
+  ts_ls = {},
+  yamlls = {},
+}
 
 return {
-  -- nvim-lspconfig: diagnostic の表示調整
+  -- nvim-lspconfig: diagnostic + Mason 経由で入れたい language server
   {
     "neovim/nvim-lspconfig",
-    opts = {
-      diagnostics = {
-        virtual_text = {
-          format = function(diagnostic)
-            -- どの LSP からの診断かを末尾に括弧で添える
-            return string.format("%s (%s)", diagnostic.message, diagnostic.source or "Unknown")
-          end,
-        },
-        float = { border = "rounded" },
-      },
-    },
+    opts = function(_, opts)
+      local diag = opts.diagnostics or {}
+      diag.virtual_text = vim.tbl_deep_extend("force", diag.virtual_text or {}, {
+        format = function(diagnostic)
+          return string.format("%s (%s)", diagnostic.message, diagnostic.source or "Unknown")
+        end,
+      })
+      diag.float = vim.tbl_deep_extend("force", diag.float or {}, { border = "rounded" })
+      opts.diagnostics = diag
+
+      opts.servers = opts.servers or {}
+      for name, cfg in pairs(servers) do
+        if opts.servers[name] == nil then
+          opts.servers[name] = cfg
+        end
+      end
+      return opts
+    end,
   },
 
   -- blink.cmp: 補完メニューの見た目とキーマップ

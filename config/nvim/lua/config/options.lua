@@ -14,9 +14,9 @@ vim.opt.whichwrap = "b,s,h,l,<,>,[,],~"
 
 --
 -- Floating window 透過
+-- pumblend は config/base.lua の vim.cmd で 20 に設定
 --
 vim.opt.winblend = 20
-vim.opt.pumblend = 10
 
 --
 -- Spell
@@ -34,8 +34,7 @@ vim.opt.spellfile = {
 
 --
 -- Help
---
-vim.opt.helplang = "ja"
+-- helplang は config/base.lua で設定
 -- :H で右側に縦分割でヘルプを開く
 vim.cmd("cabbrev H belowright vertical help")
 
