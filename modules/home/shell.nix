@@ -19,7 +19,7 @@ in
     };
 
     # Nix 評価時にパスを展開する必要がある alias のみここで管理する。
-    # それ以外の汎用 alias（tree / v / l / t / code 等）は config/zsh/common.zsh、
+    # それ以外の汎用 alias（tree / v / l / t 等）は config/zsh/common.zsh、
     # 個人 PC 専用は config/zsh/personal.zsh で raw zsh として管理する。
     shellAliases = {
       g = "git";

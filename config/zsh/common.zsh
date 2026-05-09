@@ -35,7 +35,6 @@ alias da="direnv allow"
 alias v='nvim'
 alias l='lazygit'
 alias t='tmux'
-alias code='cursor --wait'
 alias raycast='open raycast://'
 alias imgcat='wezterm imgcat'
 

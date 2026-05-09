@@ -108,7 +108,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 **重要**: VSCode の cask `visual-studio-code` は Nix で本体管理するため共通 cask から外してある (`modules/darwin/homebrew-common.nix` を参照)。誤って戻さないこと。
 
-**work プロファイル**: `profiles/work.nix` で `programs.vscode.enable = false`（Cursor 中心で二重メンテを避ける）。VS Code が必要なら `true` に戻す。
+**work プロファイル**: `profiles/work.nix` で `programs.vscode.enable = false`（Cursor 中心で二重メンテを避ける）。VS Code が必要なら `true` に戻す。`modules/home/vscode.nix` は `mkIf config.programs.vscode.enable` で JSON を読み込むため、**無効時は `config/vscode/*.json` が壊れていてもビルドは通る**。
 
 **設定の取り込み・反映フロー**:
 
