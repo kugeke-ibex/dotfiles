@@ -1,4 +1,7 @@
 { pkgs, config, dotfilesRelative, ... }:
+let
+  dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelative}";
+in
 {
   programs.zsh = {
     enable = true;
@@ -15,27 +18,18 @@
       share = true;
     };
 
+    # Nix 評価時にパスを展開する必要がある alias のみここで管理する。
+    # それ以外の汎用 alias は config/zsh/common.zsh、
+    # 個人 PC 専用は config/zsh/personal.zsh で raw zsh として管理する。
     shellAliases = {
-      # ls 系: BSD ls + color。zsh は alias を再帰展開するので
-      # `la` -> `ls -a` -> `ls -FG -a` のように合成される。
-      ls = "ls -FG";
-      la = "ls -a";
-      ll = "ls -l";
-      lla = "ls -la";
-      # tree 表示だけは eza
-      tree = "eza --tree";
-
       g = "git";
       gs = "git status -sb";
-
       vi = "nvim";
       vim = "nvim";
+      tree = "eza --tree";
 
-      # macOS の `python` を python3 に
-      python = "python3";
-
-      nix-switch = "darwin-rebuild switch --flake ${config.home.homeDirectory}/${dotfilesRelative}";
-      nfu = "nix flake update --flake ${config.home.homeDirectory}/${dotfilesRelative}";
+      nix-switch = "darwin-rebuild switch --flake ${dotfilesPath}";
+      nfu = "nix flake update --flake ${dotfilesPath}";
       ngc = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
       nfmt = "nix fmt";
     };
@@ -69,6 +63,11 @@
 
       # Disable Ctrl-S / Ctrl-Q on tty (vim / tmux でこれらを使えるように)
       [[ -t 0 ]] && stty -ixon
+
+      # PC 共通の zsh エイリアス / 関数 (raw zsh で管理する分)
+      if [ -f "${dotfilesPath}/config/zsh/common.zsh" ]; then
+        source "${dotfilesPath}/config/zsh/common.zsh"
+      fi
     '';
   };
 

@@ -1,0 +1,17 @@
+# PC 共通の zsh エイリアス / 関数。
+# modules/home/shell.nix の initExtra から source される。
+# Nix で書くより raw zsh の方がシェル変数 (${...}) のエスケープを気にせず済む。
+
+# ----------------------------------------------------
+# ls 系 (BSD ls + color)
+# zsh は alias を再帰展開するため、`la` → `ls -a` → `ls -FG -a` になる。
+# ----------------------------------------------------
+alias ls="ls -FG"
+alias la="ls -a"
+alias ll="ls -l"
+alias lla="ls -la"
+
+# ----------------------------------------------------
+# Python: macOS の `python` を python3 に
+# ----------------------------------------------------
+alias python="python3"
