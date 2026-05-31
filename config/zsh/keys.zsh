@@ -6,16 +6,47 @@ _dotfiles_root() {
   print -r -- "${DOTFILES_ROOT:-$HOME/Development/dotfiles}"
 }
 
-# ページャは less のみ（bat は日本語で化けやすいため使わない）
-# LANG=C 等が入っていても表示時だけ UTF-8 を強制する
-_keys_less() {
+# bat 優先（Markdown / JSON のハイライト）。無いときだけ less にフォールバック。
+# LANG=C 等が入っていても表示時だけ UTF-8 を強制する（日本語ドキュメント用）。
+_keys_utf8_env() {
   env \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
     LC_CTYPE=en_US.UTF-8 \
+    "$@"
+}
+
+# 対話 TTY: bat → less でページ送り（:q で終了）。programs.bat.config.pager 参照。
+# 非 TTY / パイプ: 装飾付きで一括出力。TERM=dumb は --color=always。
+_keys_bat() {
+  local -a bat_args=()
+  if [[ -t 1 ]]; then
+    bat_args=(--paging=always)
+    [[ "${TERM:-}" == dumb ]] && bat_args+=(--color=always)
+  else
+    bat_args=(--paging=never --color=always --style=full)
+  fi
+  if [[ -t 1 ]]; then
+    # bat 既定の less -FRX に加え、旧 keys の less -+FXi 相当（:q / q で終了）
+    _keys_utf8_env LESS='-FXi' BAT_PAGER='less -+FXi -R' command bat "${bat_args[@]}" "$@"
+  else
+    _keys_utf8_env command bat "${bat_args[@]}" "$@"
+  fi
+}
+
+_keys_less() {
+  _keys_utf8_env \
     LESSSECURE=1 \
     LESS='-FXi' \
     command less -+FXi "$@"
+}
+
+_keys_pager() {
+  if command -v bat >/dev/null 2>&1; then
+    _keys_bat "$@"
+  else
+    _keys_less "$@"
+  fi
 }
 
 _keys_pager_file() {
@@ -25,20 +56,36 @@ _keys_pager_file() {
     return 1
   fi
   if [[ "$f" == *.json ]] && command -v jq >/dev/null 2>&1; then
-    jq . "$f" | _keys_less
+    if command -v bat >/dev/null 2>&1; then
+      local -a bat_args=(--language=json -)
+      if [[ -t 1 ]]; then
+        bat_args=(--paging=always "${bat_args[@]}")
+        [[ "${TERM:-}" == dumb ]] && bat_args+=(--color=always)
+      else
+        bat_args=(--paging=never --color=always --style=full "${bat_args[@]}")
+      fi
+      if [[ -t 1 ]]; then
+        jq . "$f" | _keys_utf8_env LESS='-FXi' BAT_PAGER='less -+FXi -R' command bat "${bat_args[@]}"
+      else
+        jq . "$f" | _keys_utf8_env command bat "${bat_args[@]}"
+      fi
+    else
+      jq . "$f" | _keys_less
+    fi
   else
-    _keys_less "$f"
+    _keys_pager "$f"
   fi
 }
 
 _keys_pager_stdin() {
+  local suffix="${1:-md}"
   local tmp
-  tmp="$(mktemp "${TMPDIR:-/tmp}/keys.XXXXXX")" || {
+  tmp="$(mktemp "${TMPDIR:-/tmp}/keys.XXXXXX.${suffix}")" || {
     print -u2 "keys: mktemp failed" >&2
     return 1
   }
   command cat >"$tmp"
-  _keys_less "$tmp"
+  _keys_pager "$tmp"
   local ret=$?
   command rm -f "$tmp"
   return ret
@@ -69,7 +116,7 @@ keys-wezterm() {
     else
       print "(wezterm not found)"
     fi
-  } | _keys_pager_stdin
+  } | _keys_pager_stdin md
 }
 
 keys-ghostty() {
@@ -88,7 +135,7 @@ keys-ghostty() {
       print ""
       command grep '^keybind' "$cfg" 2>/dev/null
     fi
-  } | _keys_pager_stdin
+  } | _keys_pager_stdin md
 }
 
 keys-karabiner() {
@@ -108,7 +155,7 @@ keys-karabiner() {
       command jq -r '.. | objects | select(has("description")) | .description' "$json" 2>/dev/null \
         | command sort -u
     fi
-  } | _keys_pager_stdin
+  } | _keys_pager_stdin md
 }
 
 keys-cmux() {
@@ -133,7 +180,7 @@ keys-iterm() {
         | command rg -i 'hotkey|Normal Font|Default Bookmark|GlobalKeyMap' \
         || command plutil -p "$plist" 2>/dev/null | command head -40
     fi
-  } | _keys_pager_stdin
+  } | _keys_pager_stdin md
 }
 
 keys-nvim() {

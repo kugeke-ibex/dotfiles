@@ -120,6 +120,16 @@ alias tiga='tig --all'
 alias tree='eza -T -L 3 -a -I "node_modules|.git|.cache|.next"'
 
 # ----------------------------------------------------
+# cat → bat（シンタックスハイライト。スクリプト・$(...) 内は command cat）
+# modules/home/shell.nix の programs.bat で bat を提供。
+# ----------------------------------------------------
+if command -v bat >/dev/null 2>&1; then
+  cat() {
+    command bat --paging=never "$@"
+  }
+fi
+
+# ----------------------------------------------------
 # ripgrep (隠しファイル検索、 .git は除外)
 # ----------------------------------------------------
 alias rg='rg --hidden --glob "!.git"'
@@ -162,4 +172,14 @@ if command -v rbenv >/dev/null 2>&1; then
     eval "$(command rbenv init - --no-rehash zsh)"
     rbenv "$@"
   }
+fi
+
+# ----------------------------------------------------
+# keys* コマンド (docs/keybindings)
+# shell.nix の initContent が未反映の .zshrc でも common 経由で必ず読み込む
+# ----------------------------------------------------
+: "${DOTFILES_ROOT:=$HOME/Development/dotfiles}"
+export DOTFILES_ROOT
+if [[ -f "${DOTFILES_ROOT}/config/zsh/keys.zsh" ]]; then
+  source "${DOTFILES_ROOT}/config/zsh/keys.zsh"
 fi

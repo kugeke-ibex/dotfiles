@@ -170,7 +170,15 @@ in
     nix-direnv.enable = true;
   };
 
-  # bat / eza / fzf / ripgrep / zoxide は上記 programs.* または home.packages で提供
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "Catppuccin Mocha";
+      # cat 関数から --paging=never を渡す。ここは less 連携用の既定。
+      pager = "less -FRX";
+    };
+  };
+
   programs.delta = {
     enable = true;
     enableGitIntegration = true;
@@ -191,7 +199,6 @@ in
     tree
     htop
     wget
-    bat
     jq
     bc # Claude Code statusline (~/.claude/statusline.sh) でレイテンシ表示に使用
     vim-startuptime
