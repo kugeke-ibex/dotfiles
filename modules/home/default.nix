@@ -4,7 +4,6 @@
     ./shell.nix
     ./git.nix
     ./editor.nix
-    ./tmux.nix
     ./terminal.nix
     ./karabiner.nix
     ./vscode.nix

@@ -66,7 +66,7 @@ config.quick_select_patterns = {
   "\\b[\\w.+-]+@[\\w.-]+\\.[a-zA-Z]{2,}\\b",
 }
 
--- Keybindings (iTerm2 / tmux 風)
+-- Keybindings (iTerm2 / cmux 風)
 local act = wezterm.action
 config.keys = {
   -- ペイン分割

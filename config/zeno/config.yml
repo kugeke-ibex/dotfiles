@@ -3,7 +3,7 @@
 
 history:
   defaultScope: global
-  fzfCommand: fzf-tmux
+  fzfCommand: fzf
   fzfOptions:
     - "-p 50%,50%"
   redact:

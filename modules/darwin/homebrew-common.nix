@@ -77,6 +77,7 @@
     casks = [
       "wezterm"
       "ghostty"
+      "cmux"
       "raycast"
       "bitwarden"
       "karabiner-elements"

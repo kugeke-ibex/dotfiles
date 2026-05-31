@@ -12,7 +12,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 - **Nix flake** (`flake.nix`) — `darwinConfigurations.{personal,work,…}`（社用は台数分エントリを追加）
 - **nix-darwin** — システム設定 (Dock/Finder/Keyboard 等の defaults、Homebrew 統合)
-- **home-manager** — ユーザー環境 (zsh, git, neovim, tmux, terminals 等)
+- **home-manager** — ユーザー環境 (zsh, git, neovim, terminals 等。 multiplexer は cmux 内蔵を使うため tmux モジュールは持たない)
 - **nix-homebrew** — Homebrew を flake input で固定 (`mutableTaps = false`)
 - **Determinate Systems nix-installer** — Nix の導入
 
@@ -40,8 +40,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 │       ├── shell.nix                # zsh + starship + fzf + ...
 │       ├── git.nix                  # git + gh + lazygit
 │       ├── editor.nix               # neovim
-│       ├── tmux.nix
-│       ├── terminal.nix             # WezTerm + Ghostty 設定の配置
+│       ├── terminal.nix             # WezTerm + Ghostty 設定の配置 (cmux も ghostty.config を流用)
 │       ├── karabiner.nix            # karabiner.json の初回コピー
 │       └── profiles/
 │           ├── personal.nix         # 個人プロファイル (git email 等)
@@ -57,7 +56,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
         ├── README.md
         ├── wezterm.md
         ├── ghostty.md
-        ├── tmux.md
+        ├── cmux.md
         └── karabiner.md
 ```
 
@@ -82,7 +81,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 | 配置先 | 例 | 判断基準 |
 | --- | --- | --- |
 | `modules/home/shell.nix` の `home.packages` | `ripgrep`, `fd`, `yq`, `tree`, `htop`, `wget` | Nix pkgs にあり、特別な設定が不要なもの |
-| `modules/home/<x>.nix` の `programs.<tool>` | `git`, `gh`, `lazygit`, `neovim`, `tmux`, `starship`, `fzf`, `zoxide`, `eza`, `direnv` | home-manager に専用モジュールがあり、設定込みで便利なもの |
+| `modules/home/<x>.nix` の `programs.<tool>` | `git`, `gh`, `lazygit`, `neovim`, `starship`, `fzf`, `zoxide`, `eza`, `direnv` | home-manager に専用モジュールがあり、設定込みで便利なもの |
 | `homebrew.brews` (共通 or ホスト) | `aws-vault`, `k9s`, `kubernetes-cli`, `asdf`, `mas`, `mysql` | macOS 専用 / 上記で扱いにくいもの |
 
 **重複インストールを避ける**: 同じツールを home-manager と brew の両方で管理しないこと。例: `gh` は home-manager 側 (`programs.gh.enable`) のみで管理。
@@ -95,7 +94,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 | --- | --- |
 | `config/wezterm/wezterm.lua` | `docs/keybindings/wezterm.md` |
 | `config/ghostty/config` | `docs/keybindings/ghostty.md` |
-| `modules/home/tmux.nix` の `extraConfig` | `docs/keybindings/tmux.md` |
+| `config/ghostty/config` (cmux も共有) | `docs/keybindings/cmux.md` |
 | `karabiner/karabiner.json` | `docs/keybindings/karabiner.md` |
 
 ### 4. エディタ・ランチャー管理
@@ -278,7 +277,7 @@ darwin-rebuild switch --flake .#personal
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
 - **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — **work** は `pkgs.neovim`（安定）、**personal** は nightly overlay。ほかは LazyVim 構成どおり。`config/nvim/lazy-lock.json` はコミット対象（プラグインの版を固定。`:Lazy sync` 後に `git diff` で確認してから commit）。
-- **tmux** (`modules/home/tmux.nix`) — キーバインド、status line
+- **cmux** (Homebrew cask、設定は `~/.config/ghostty/config` と Settings GUI) — multiplexer 機能を内蔵、SSH 先での multiplexer が必要なときだけ tmux を手動導入する
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions。**work プロファイルでは既定で無効**（`profiles/work.nix`）。
 - **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — symlink 先は **`$HOME/<dotfilesRelative>/config/cursor/`**（`flake.nix` の `mkDarwin` で `dotfilesRelative` / `username` をホストごとに上書き可）。

@@ -34,7 +34,6 @@ alias da="direnv allow"
 # ----------------------------------------------------
 alias v='nvim'
 alias l='lazygit'
-alias t='tmux'
 alias raycast='open raycast://'
 alias imgcat='wezterm imgcat'
 
@@ -98,11 +97,9 @@ gtag_commit() {
 }
 
 # ----------------------------------------------------
-# tig / tmux
+# tig
 # ----------------------------------------------------
 alias tiga='tig --all'
-alias tmuxRestart='tmux attach'
-alias tmuxKillAll='tmux kill-server'
 
 # ----------------------------------------------------
 # tree (eza ベース)

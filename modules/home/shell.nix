@@ -59,7 +59,7 @@ in
       # Background job priority (bash と同じ ionice 挙動)
       unsetopt bg_nice
 
-      # Disable Ctrl-S / Ctrl-Q on tty (vim / tmux でこれらを使えるように)
+      # Disable Ctrl-S / Ctrl-Q on tty (vim でこれらを使えるように)
       [[ -t 0 ]] && stty -ixon
 
       # PC 共通の zsh エイリアス / 関数 (raw zsh で管理する分)
