@@ -182,7 +182,7 @@ Phase 2: GUI casks, fonts, Karabiner, terminals, brew migration
 
 ### 10. cleanup ポリシー
 
-- **共通（work 含む）**: `modules/darwin/homebrew-common.nix` の既定は `onActivation.cleanup = false`。宣言に無い brew/cask は **自動では削除されない**（実験インストール向け）。
+- **共通（work 含む）**: `modules/darwin/homebrew-common.nix` の既定は `onActivation.cleanup = "none"`。宣言に無い brew/cask は **自動では削除されない**（実験インストール向け）。※ nix-darwin 26 以降は bool 不可、enum (`"none" | "check" | "uninstall" | "zap"`) のみ。
 - **個人 PC**: `hosts/personal/default.nix` で `onActivation.cleanup = "uninstall"` を指定し、Brewfile に無い formula/cask を **uninstall**（`zap` は使わない。アプリ設定データは概ね保持）。
 
 ### 11. テンプレ同期のヒント（Claude / Codex / Karabiner）

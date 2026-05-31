@@ -7,8 +7,9 @@
 
     onActivation = {
       autoUpdate = false;
-      # work や実験用 brew を消したくないホストの既定。personal は hosts/personal で uninstall に上書き。
-      cleanup = false;
+      # work や実験用 brew を消したくないホストの既定。personal は hosts/personal で "uninstall" に上書き。
+      # ※ nix-darwin 26 以降 bool は不可、`"none" | "check" | "uninstall" | "zap"` の enum。
+      cleanup = "none";
       upgrade = true;
     };
 
