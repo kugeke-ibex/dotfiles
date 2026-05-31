@@ -26,7 +26,17 @@ fi
 # ----------------------------------------------------
 # Navigation / safety
 # ----------------------------------------------------
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 alias home="cd ~/Documents"
+
+# 定義済みエイリアス一覧（alias -L を名前順）
+als() {
+  emulate -L zsh
+  alias -L | LC_ALL=C sort
+}
+
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
