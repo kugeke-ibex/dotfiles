@@ -40,7 +40,8 @@
       FXEnableExtensionChangeWarning = false;
       FXPreferredViewStyle = "Nlsv";
       _FXShowPosixPathInTitle = true;
-      DisableAllAnimations = true;
+      # DisableAllAnimations は nix-darwin に標準オプションが無いので
+      # CustomUserPreferences."com.apple.finder" 側で defaults write 相当を直接指定する。
       # Finder の終了メニュー / 新規ウィンドウの表示先（参考設定）
       QuitMenuItem = true;
       NewWindowTarget = "Documents";
@@ -61,6 +62,9 @@
         "com.apple.trackpad.scaling" = 8;
         "com.apple.mouse.tapBehavior" = 1;
         "QLPanelAnimationDuration" = 0;
+      };
+      "com.apple.finder" = {
+        DisableAllAnimations = true;
       };
     };
   };
