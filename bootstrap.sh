@@ -28,6 +28,26 @@ EOF
   done | sort
 }
 
+# Apple Silicon Homebrew (`/opt/homebrew`) は現ユーザー所有が前提。
+# 旧 Intel Homebrew からの移行や root 経由のインストール跡で subdir が
+# root 所有になっていると `brew install pyenv` 等が permission error で落ちる
+# (例: "/opt/homebrew/share is not writable")。
+# 起動毎に find で 1 件でも他所有を検出したら sudo chown で一括修復する。
+# `/opt/homebrew` が無い (Nix 初回 install 前) ホストでは何もしない。
+# `SKIP_HOMEBREW_OWNERSHIP_CHECK=1` で skip 可。
+ensure_homebrew_ownership() {
+  [[ ${SKIP_HOMEBREW_OWNERSHIP_CHECK:-} == "1" ]] && return 0
+  [[ -d /opt/homebrew ]] || return 0
+  local me offender
+  me="$(id -un)"
+  offender="$(find /opt/homebrew -not -user "$me" -print -quit 2>/dev/null || true)"
+  if [[ -n $offender ]]; then
+    err "/opt/homebrew に $me 以外が所有するパスを検出: $offender"
+    log "sudo chown -R $me:admin /opt/homebrew で所有権を修復します"
+    sudo chown -R "$me":admin /opt/homebrew
+  fi
+}
+
 main() {
   local host="${1:-}"
   case "$host" in
@@ -59,6 +79,8 @@ main() {
       sudo mv "$f" "$f.before-nix-darwin.$ts"
     fi
   done
+
+  ensure_homebrew_ownership
 
   log "Applying nix-darwin configuration for host: $host"
   if command -v darwin-rebuild >/dev/null 2>&1; then

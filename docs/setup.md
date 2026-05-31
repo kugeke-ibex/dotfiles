@@ -83,6 +83,12 @@ nix-switch     # darwin-rebuild switch（flake の dotfiles ルート）
 
 - `darwin-rebuild` が `command not found` になった場合は新しいシェルを開く。
 
+- `brew install ...` 中に `Error: The following directories are not writable by your user: /opt/homebrew/share` のような permission error が出る場合は、`/opt/homebrew` の所有者が現ユーザーではない subdir が残っている (Intel Homebrew からの移行や root 経由のインストール跡)。 `bootstrap.sh` 経由なら自動修復するが、 手動で直す場合は:
+
+  ```bash
+  sudo chown -R "$(id -un)":admin /opt/homebrew
+  ```
+
 ## Updating
 
 ```bash
