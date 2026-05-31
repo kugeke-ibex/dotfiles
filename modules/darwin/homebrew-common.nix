@@ -1,5 +1,23 @@
-{ lib, ... }:
 {
+  lib,
+  username,
+  ...
+}:
+{
+  # nix-darwin 側で `darwin-rebuild switch` を直接走らせた場合でも、
+  # /opt/homebrew が現ユーザー所有でないと nix-homebrew の tap clone / brew install が
+  # "Permission denied" / "directories are not writable" で落ちる。
+  # bootstrap.sh と同じガードを activation 前段 (preActivation) に置いて自己修復する。
+  # 既に正常 (現ユーザー所有) なら find -quit 即 return で実質ノーオーバーヘッド。
+  system.activationScripts.preActivation.text = lib.mkAfter ''
+    if [ -d /opt/homebrew ]; then
+      if /usr/bin/find /opt/homebrew -not -user ${username} -print -quit 2>/dev/null | /usr/bin/grep -q .; then
+        echo "[homebrew] /opt/homebrew に ${username} 以外が所有するパスを検出。${username}:admin に修復します"
+        /usr/sbin/chown -R ${username}:admin /opt/homebrew
+      fi
+    fi
+  '';
+
   # 共通: personal / work 両方で入れる CLI・開発向け cask。
   # 個人のみの追加ブラウザ・デザイン・翻訳・実験 CLI 等は homebrew-personal.nix。
   homebrew = {
