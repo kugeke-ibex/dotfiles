@@ -17,6 +17,9 @@ copy-on-select = clipboard
 # ペイン/split 閉じるときの確認ダイアログを出さない（WezTerm の CloseCurrentPane confirm=false 相当）
 confirm-close-surface = false
 
+# リサイズ時のサイズ表示オーバーレイ（既定 750ms はキーリピート時に重く感じる）
+resize-overlay-duration = 150ms
+
 # Hotkey 表示/非表示は Karabiner Ctrl+Opt+G → toggle-ghostty-hotkey（Quick Terminal は使わない）
 
 # --- Keybindings (iTerm2 / cmux 風) ---
@@ -29,11 +32,11 @@ keybind = cmd+shift+d=new_split:down
 keybind = cmd+left_bracket=goto_split:previous
 keybind = cmd+right_bracket=goto_split:next
 
-# Resize split (Ctrl+Shift+Arrow)
-keybind = ctrl+shift+left=resize_split:left,10
-keybind = ctrl+shift+down=resize_split:down,10
-keybind = ctrl+shift+up=resize_split:up,10
-keybind = ctrl+shift+right=resize_split:right,10
+# Resize split (Ctrl+Shift+Arrow)。10px だと遅いので 50px（WezTerm はセル 5 相当）
+keybind = ctrl+shift+left=resize_split:left,50
+keybind = ctrl+shift+down=resize_split:down,50
+keybind = ctrl+shift+up=resize_split:up,50
+keybind = ctrl+shift+right=resize_split:right,50
 
 # Misc
 keybind = cmd+w=close_surface

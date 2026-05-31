@@ -10,6 +10,7 @@
 | cmux               | [cmux.md](cmux.md)           | [config/ghostty/config](../../config/ghostty/config) (libghostty 内蔵のため共有) | `keys-cmux` / `kc` |
 | iTerm2             | [iterm2.md](iterm2.md)       | [config/iterm2/com.googlecode.iterm2.plist](../../config/iterm2/com.googlecode.iterm2.plist) | `keys-iterm` / `ki` |
 | Karabiner-Elements | [karabiner.md](karabiner.md) | [karabiner/karabiner.json](../../karabiner/karabiner.json)                       | `keys-karabiner` / `kk` |
+| Vim 日常操作       | [vim-essential.md](vim-essential.md) | —（[Zenn 参考](https://zenn.dev/yuuzan_kaibara/articles/e8d3630b677e68)） | `keys-vim` / `kvi` |
 | Neovim (LazyVim)   | [nvim.md](nvim.md)           | [config/nvim/lua/config/keymaps.lua](../../config/nvim/lua/config/keymaps.lua)   | `keys-nvim` / `kn`（`--live` で `:map`） |
 | Cursor             | —                            | [config/cursor/keybindings.json](../../config/cursor/keybindings.json)           | `keys-cursor` / `kcur` |
 | VS Code            | —                            | [config/vscode/keybindings.json](../../config/vscode/keybindings.json)           | `keys-vscode` / `kvs` |

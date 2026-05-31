@@ -183,6 +183,10 @@ keys-iterm() {
   } | _keys_pager_stdin md
 }
 
+keys-vim() {
+  _keys_md "$(_dotfiles_root)/docs/keybindings/vim-essential.md"
+}
+
 keys-nvim() {
   local root="$(_dotfiles_root)"
   case "${1:-}" in
@@ -209,6 +213,7 @@ keys-vscode() {
 alias kw='keys-wezterm'
 alias kg='keys-ghostty'
 alias kk='keys-karabiner'
+alias kvi='keys-vim'
 alias kn='keys-nvim'
 alias kc='keys-cmux'
 alias ki='keys-iterm'

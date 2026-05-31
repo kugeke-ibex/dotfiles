@@ -1,5 +1,7 @@
 # Neovim (LazyVim) キーバインド
 
+**日常の vi 操作**（削除・コピー・検索・インデントなど）: [vim-essential.md](vim-essential.md) — `keys-vim` / `kvi`
+
 ベースは [LazyVim 既定の keymaps](https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua)。  
 このリポジトリでの **追加・上書き** は `config/nvim/lua/config/keymaps.lua`。
 
@@ -9,6 +11,7 @@
 | プラグイン一覧 | nvim 内で `:Lazy` |
 | カスタム map のソース | `config/nvim/lua/config/keymaps.lua` |
 | 実行時の全 map | `keys-nvim --live` または nvim 内で `:map` |
+| Undo / Redo | ノーマルで `u` / `Ctrl+r`（Markdown の render 切替は `<leader>um`） |
 
 ## カスタム map（抜粋）
 

@@ -24,15 +24,5 @@ vim.api.nvim_create_autocmd("QuitPre", {
   end,
 })
 
--- Markdown: render-markdown.nvim のトグル (lazyvim.plugins.extras.lang.markdown で有効化される)
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "markdown.mdx" },
-  callback = function(args)
-    vim.keymap.set("n", "<C-r>", function()
-      local ok, rm = pcall(require, "render-markdown")
-      if ok and rm and rm.toggle then
-        rm.toggle()
-      end
-    end, { buffer = args.buf, desc = "Toggle render-markdown" })
-  end,
-})
+-- render-markdown のトグルは LazyVim 既定の <leader>um を使う。
+-- ここで <C-r> を奪うと Redo (<C-r>) が Markdown バッファで効かなくなる。

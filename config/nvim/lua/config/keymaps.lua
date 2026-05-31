@@ -29,6 +29,12 @@ keymap("i", "<C-s>", "<Bslash>", opts)
 keymap("c", "<C-s>", "<Bslash>", { noremap = true })
 
 --
+-- Undo / Redo（ノーマルモード。インサートの <C-r> はレジスタ挿入のまま）
+--
+keymap("n", "u", "u", vim.tbl_extend("force", opts, { desc = "Undo" }))
+keymap("n", "<C-r>", "<C-r>", vim.tbl_extend("force", opts, { desc = "Redo" }))
+
+--
 -- Increment / Decrement
 --
 keymap("n", "+", "<C-a>", opts)
