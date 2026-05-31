@@ -5,6 +5,34 @@
 - macOS (Apple Silicon)
 - Command Line Tools for Xcode (`xcode-select --install`)
 
+## 事前準備 (Apple Silicon × Intel Homebrew の移行)
+
+このリポジトリは Apple Silicon ネイティブ (`/opt/homebrew`) を前提にしている。
+すでに **Intel 版 Homebrew (`/usr/local/bin/brew`)** が入っている環境では、
+初回適用の前に以下を行うのが安全:
+
+```bash
+# 1. 既存 Intel Homebrew の状態を念のためバックアップ
+brew bundle dump --file ~/brewfile.intel.bak --force
+
+# 2. (強く推奨) Intel Homebrew をアンインストール
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+```
+
+ステップ 2 を省略して `./bootstrap.sh` を走らせると、Intel の `/usr/local/bin/brew`
+と nix-homebrew が ARM64 で導入する `/opt/homebrew/bin/brew` が **共存する**。
+動作はするものの、重複インストール / PATH 順位の混乱 / どの brew を実行しているか
+不透明という負債になるため、移行のタイミングで揃えておくのを推奨する。
+
+> ※ Intel Mac から Apple Silicon Mac に移行ツールで引き継いだ環境では、
+> 旧 Intel Homebrew がそのまま残っているケースが多い。`brew --prefix` の出力が
+> `/usr/local` のときが該当する (Apple Silicon ネイティブなら `/opt/homebrew`)。
+
+退避済みの Brewfile (`~/brewfile.intel.bak`) から個別の brew / cask 名を確認したい
+ときに参照する。同名のものが現リポジトリの brew リストに無ければ
+[`modules/darwin/homebrew-common.nix`](../modules/darwin/homebrew-common.nix) や
+[`hosts/personal/default.nix`](../hosts/personal/default.nix) に追記する。
+
 ## 手順
 
 ### 1. リポジトリ取得
