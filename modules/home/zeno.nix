@@ -10,8 +10,8 @@ let
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
 in
 {
-  # zeno.zsh (https://github.com/yuki-yano/zeno.zsh)
-  # 設定ファイルは zeno の README / 公開例を参考にこのリポジトリ向けに整理。
+  # zeno.zsh (https://github.com/yuki-yano/zeno.zsh) — スペース snippet 専用。
+  # Tab 補完は fzf-tab (modules/home/fzf-tab.nix)。zeno-completion は bind しない。
   #
   # 構成:
   #   - Deno を home.packages で導入 (zeno は TypeScript で動く)
@@ -26,7 +26,6 @@ in
   programs.zsh.initContent = lib.mkMerge [
     # syntax-highlighting (shell.nix mkOrder 2700) より前に本体を読み込む
     (lib.mkOrder 1950 ''
-      export ZENO_COMPLETION_FALLBACK=expand-or-complete
       ZENO_HOME="$HOME/.local/share/zeno.zsh"
       if [ ! -d "$ZENO_HOME" ] && command -v git >/dev/null 2>&1; then
         git clone --depth 1 https://github.com/yuki-yano/zeno.zsh.git "$ZENO_HOME" 2>/dev/null
@@ -43,12 +42,11 @@ in
         fi
       fi
     '')
-    # fzf (shell.nix mkOrder 2500) の後に Tab 等を割り当て (fzf-completion との相互 zle ループ回避)
+    # fzf-tab (2650) より前: snippet 用 bindkey のみ (^I は fzf-tab が最後に取る)
     (lib.mkOrder 2600 ''
       if [ -f "$ZENO_HOME/zeno.zsh" ] && command -v deno >/dev/null 2>&1; then
         bindkey ' '   zeno-auto-snippet
         bindkey '^M'  zeno-auto-snippet-and-accept-line
-        bindkey '^I'  zeno-completion
         bindkey '^X^S' zeno-insert-snippet
       fi
     '')

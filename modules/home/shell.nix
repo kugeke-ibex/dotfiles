@@ -48,11 +48,12 @@ in
       (lib.mkOrder 650 ''
         typeset -ga ZSH_AUTOSUGGEST_IGNORE_WIDGETS
         ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(
-          zeno-completion
           zeno-auto-snippet
           zeno-auto-snippet-and-accept-line
           zeno-insert-snippet
           fzf-completion
+          fzf-tab-complete
+          toggle-fzf-tab
           history-substring-search-up
           history-substring-search-down
         )
@@ -97,13 +98,11 @@ in
           source "${dotfilesPath}/config/zsh/common.zsh"
         fi
       ''
-      # fzf → starship → direnv → history-substring-search (syntax-highlighting は mkOrder 2700)
+      # fzf → starship → direnv → history-substring-search → fzf-tab (2650) → syntax-highlighting (2700)
       (lib.mkOrder 2500 ''
         if [[ -o zle ]]; then
           source <(${pkgs.fzf}/bin/fzf --zsh)
-          # fzf は非 ** 時に bindkey ^I のウィジェットへフォールバックする。
-          # zeno が ^I を取ったあとだと zeno-completion ↔ fzf-completion の相互 zle で FUNCNEST 超過する。
-          fzf_default_completion=expand-or-complete
+          # ^I は fzf-tab (2650) が最後に bind。fzf は ** トリガー等で fzf-completion を使う。
         fi
         if [[ $TERM != "dumb" ]]; then
           eval "$(${pkgs.starship}/bin/starship init zsh)"
@@ -112,7 +111,7 @@ in
 
         source "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
       '')
-      # zsh-syntax-highlighting は README どおり .zshrc の最後 (zeno bindkey 2600 の後も)
+      # zsh-syntax-highlighting は README どおり .zshrc の最後 (fzf-tab 2650 の後)
       (lib.mkOrder 2700 ''
         if (( ! ''${+functions[_zsh_highlight]} )); then
           # zsh 5.9 の zle-line-pre-redraw + memo=0 は autosuggest/zeno と相性が悪い。
