@@ -31,7 +31,7 @@
 
 ## 変更を反映するには
 
-- **`*.nix`・`flake.nix`・`hosts/` を編集した** → `darwin-rebuild switch --flake ~/Development/dotfiles#<host>` または `nix run .#switch -- <host>`（[`README.md`](README.md) の「変更の反映」表も参照）。**ファイル保存だけでは環境は変わらない**。
+- **`*.nix`・`flake.nix`・`hosts/` を編集した** → `darwin-rebuild switch --flake ~/Development/dotfiles#<host>` または `nix run '~/Development/dotfiles#switch' -- <host>`（zsh では `#` をクォート。別名 `nix-switch` 可）（[`README.md`](README.md) の「変更の反映」表も参照）。**ファイル保存だけでは環境は変わらない**。
 - **WezTerm / Ghostty / Neovim / Cursor / iTerm2 のリポジトリ内設定** → `mkOutOfStoreSymlink` 経由のため、**中身の編集だけなら switch は不要**（アプリのリロード・再起動は別）。iTerm2 plist の **初回 symlink 化**だけ `activate` が必要。
 - **`config/vscode/*.json`・`config/starship.toml`** → Nix が評価時に読み込むため **switch が必要**。
 

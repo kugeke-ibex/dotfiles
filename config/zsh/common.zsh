@@ -190,6 +190,15 @@ fi
 # ----------------------------------------------------
 : "${DOTFILES_ROOT:=$HOME/Development/dotfiles}"
 export DOTFILES_ROOT
+
+# ターミナル識別 / Starship 切替（shell.nix 未反映のシェルでも common 経由で有効）
+if [[ -f "${DOTFILES_ROOT}/config/zsh/terminal-app.zsh" ]]; then
+  source "${DOTFILES_ROOT}/config/zsh/terminal-app.zsh"
+fi
+if [[ -f "${DOTFILES_ROOT}/config/zsh/terminal-appearance.zsh" ]]; then
+  source "${DOTFILES_ROOT}/config/zsh/terminal-appearance.zsh"
+fi
+
 if [[ -f "${DOTFILES_ROOT}/config/zsh/keys.zsh" ]]; then
   source "${DOTFILES_ROOT}/config/zsh/keys.zsh"
 fi

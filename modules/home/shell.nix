@@ -105,6 +105,12 @@ in
           source "${dotfilesPath}/config/zsh/keys.zsh"
         fi
       ''
+      # terminal-appearance (2450) → fzf → starship → direnv → ...
+      (lib.mkOrder 2450 ''
+        if [[ -f "${dotfilesPath}/config/zsh/terminal-appearance.zsh" ]]; then
+          source "${dotfilesPath}/config/zsh/terminal-appearance.zsh"
+        fi
+      '')
       # fzf → starship → direnv → history-substring-search → fzf-tab (2650) → syntax-highlighting (2700)
       (lib.mkOrder 2500 ''
         if [[ -o zle ]]; then
@@ -112,7 +118,16 @@ in
           # ^I は fzf-tab (2650) が最後に bind。fzf は ** トリガー等で fzf-completion を使う。
         fi
         if [[ $TERM != "dumb" ]]; then
+          # STARSHIP_CONFIG は dotfiles 側のターミナル別 TOML を優先（HM の ~/.config/starship.toml より前）
+          if typeset -f _dotfiles_setup_starship_config > /dev/null; then
+            _dotfiles_setup_starship_config
+          else
+            export STARSHIP_CONFIG="${dotfilesPath}/config/starship.toml"
+          fi
           eval "$(${pkgs.starship}/bin/starship init zsh)"
+          if typeset -f _dotfiles_setup_starship_config > /dev/null; then
+            _dotfiles_setup_starship_config
+          fi
         fi
         eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
 

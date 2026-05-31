@@ -2,11 +2,14 @@
 
 iTerm2 は **WezTerm / Ghostty の補助**として personal / work 共通で cask インストールし、設定は `config/iterm2/com.googlecode.iterm2.plist` を Nix で `~/Library/Preferences/` に symlink する。
 
+**見た目**: Warm / Hotkey 用 — **Gruvbox Rainbow** 配色・Meslo 19pt・透明度は plist のまま。プロンプトは Starship `gruvbox-rainbow`（[starship-iterm.toml](../../config/starship-iterm.toml)）。3 ターミナル全体の表は [terminals-appearance.md](../terminals-appearance.md)。
+
 ## 管理ファイル
 
 | 項目 | パス |
 |------|------|
 | 設定本体 | [config/iterm2/com.googlecode.iterm2.plist](../../config/iterm2/com.googlecode.iterm2.plist) |
+| Gruvbox Rainbow 色 | plist 内蔵（Starship gruvbox-rainbow パレット準拠） |
 | Home Manager | [modules/home/iterm2.nix](../../modules/home/iterm2.nix) |
 | cask | `modules/darwin/homebrew-common.nix` の `iterm2` |
 

@@ -197,11 +197,11 @@ Phase 2: GUI casks, fonts, Karabiner, terminals, brew migration
 ### `nix run` ショートカット (alias 不要、CI でも使える)
 
 ```bash
-nix run .#switch              # darwin-rebuild switch (デフォルト host=personal)
-nix run .#switch -- work      # work ホストで switch
-nix run .#build               # build のみ (適用しない、検証用)
-nix run .#check               # darwin-rebuild check
-nix run .#update              # nix flake update + switch を一気に
+nix run '.#switch'              # darwin-rebuild switch (デフォルト host=personal)
+nix run '.#switch' -- work      # work ホストで switch
+nix run '.#build'               # build のみ (適用しない、検証用)
+nix run '.#check'               # darwin-rebuild check
+nix run '.#update'              # nix flake update + switch を一気に
 ```
 
 ### フォーマッタ (treefmt-nix)
@@ -220,7 +220,7 @@ darwin-rebuild build  --flake .#personal
 darwin-rebuild switch --flake .#personal
 ```
 
-設定変更後は `nix flake check` → `nix run .#build` → `nix run .#switch` の順で確認するのが安全。
+設定変更後は `nix flake check` → `nix run '.#build'` → `nix run '.#switch'` の順で確認するのが安全。
 
 ## よく使うワークフロー
 

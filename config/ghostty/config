@@ -1,7 +1,7 @@
-font-family = MesloLGS NF
-font-family = Ricty Diminished
+font-family = "Ricty Diminished"
+font-family = "MesloLGS NF"
 font-size = 14
-theme = tokyonight
+theme = "Jetpack"
 
 # zsh-syntax-highlighting / zeno / autosuggestions と zle-line-init の競合を避ける。
 # (自動注入は _zsh_highlight: bad set of key/value pairs を誘発しうる)
