@@ -39,7 +39,6 @@ config.inactive_pane_hsb = {
 }
 
 -- ウィンドウ全体を閉じる時の確認ダイアログ無効
--- (Cmd+W のペイン閉じには別途 confirm = true が効く)
 config.window_close_confirmation = "NeverPrompt"
 
 -- QuickSelect (デフォルト Ctrl+Shift+Space) のパターンをカスタマイズ。
@@ -73,11 +72,9 @@ config.keys = {
 	{ key = "d", mods = "CMD", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "d", mods = "CMD|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 
-	-- ペイン間移動 (Cmd+Opt+hjkl)
-	{ key = "h", mods = "CMD|OPT", action = act.ActivatePaneDirection("Left") },
-	{ key = "j", mods = "CMD|OPT", action = act.ActivatePaneDirection("Down") },
-	{ key = "k", mods = "CMD|OPT", action = act.ActivatePaneDirection("Up") },
-	{ key = "l", mods = "CMD|OPT", action = act.ActivatePaneDirection("Right") },
+	-- ペイン間移動 (iTerm2 / Ghostty 風: Cmd+[ / Cmd+])
+	{ key = "[", mods = "CMD", action = act.ActivatePaneDirection("Prev") },
+	{ key = "]", mods = "CMD", action = act.ActivatePaneDirection("Next") },
 
 	-- ペインリサイズ (Ctrl+Shift+Arrow)
 	{ key = "LeftArrow", mods = "CTRL|SHIFT", action = act.AdjustPaneSize({ "Left", 5 }) },
@@ -86,15 +83,15 @@ config.keys = {
 	{ key = "RightArrow", mods = "CTRL|SHIFT", action = act.AdjustPaneSize({ "Right", 5 }) },
 
 	-- ペイン操作
-	{ key = "w", mods = "CMD", action = act.CloseCurrentPane({ confirm = true }) },
+	{ key = "w", mods = "CMD", action = act.CloseCurrentPane({ confirm = false }) },
 	{ key = "z", mods = "CMD", action = act.TogglePaneZoomState },
 	{ key = "Enter", mods = "CMD", action = act.ToggleFullScreen },
 
 	-- スクロールバッククリア (Cmd+K)
 	{ key = "k", mods = "CMD", action = act.ClearScrollback("ScrollbackAndViewport") },
 
-	-- コピーモード (Cmd+[)
-	{ key = "[", mods = "CMD", action = act.ActivateCopyMode },
+	-- コピーモード (Cmd+[ はペイン移動のため Cmd+Opt+[)
+	{ key = "[", mods = "CMD|OPT", action = act.ActivateCopyMode },
 
 	-- 設定リロード
 	{ key = "r", mods = "CMD|SHIFT", action = act.ReloadConfiguration },

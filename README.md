@@ -144,8 +144,9 @@ nix run '.#switch' -- work-office
 
 ## Daily Operations
 
-| Alias        | 内容                                                                                                                                                                                                                  |
+| Alias / 関数 | 内容                                                                                                                                                                                                                  |
 | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `keys`       | キーバインド一覧（`docs/keybindings/README.md`）。個別は `kw` / `kg` / `kk` / `kn` 等（`config/zsh/keys.zsh`） |
 | `nix-switch` | `cd $HOME/<dotfilesRelative> && nix run '$HOME/<dotfilesRelative>#switch' -- personal`（zsh は `#` をクォート） |
 | `nfu`        | `nix flake update --flake $HOME/<dotfilesRelative>`                                                                                                                                                                   |
 | `ngc`        | `sudo nix-collect-garbage -d && nix-collect-garbage -d`                                                                                                                                                               |

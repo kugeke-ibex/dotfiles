@@ -94,9 +94,15 @@ in
         # Disable Ctrl-S / Ctrl-Q on tty (vim でこれらを使えるように)
         [[ -t 0 ]] && stty -ixon
 
+        # dotfiles ルート（keys* コマンド等）。ホストごとの clone 先は flake の dotfilesRelative。
+        export DOTFILES_ROOT="${dotfilesPath}"
+
         # PC 共通の zsh エイリアス / 関数 (raw zsh で管理する分)
         if [ -f "${dotfilesPath}/config/zsh/common.zsh" ]; then
           source "${dotfilesPath}/config/zsh/common.zsh"
+        fi
+        if [ -f "${dotfilesPath}/config/zsh/keys.zsh" ]; then
+          source "${dotfilesPath}/config/zsh/keys.zsh"
         fi
       ''
       # fzf → starship → direnv → history-substring-search → fzf-tab (2650) → syntax-highlighting (2700)

@@ -2,12 +2,16 @@
 
 アプリケーションごとのキーバインド一覧。
 
-| アプリ             | リンク                       | 設定ファイル                                                                     |
-| ------------------ | ---------------------------- | -------------------------------------------------------------------------------- |
-| WezTerm            | [wezterm.md](wezterm.md)     | [config/wezterm/wezterm.lua](../../config/wezterm/wezterm.lua)                   |
-| Ghostty            | [ghostty.md](ghostty.md)     | [config/ghostty/config](../../config/ghostty/config)                             |
-| cmux               | [cmux.md](cmux.md)           | [config/ghostty/config](../../config/ghostty/config) (libghostty 内蔵のため共有) |
-| Karabiner-Elements | [karabiner.md](karabiner.md) | [karabiner/karabiner.json](../../karabiner/karabiner.json)                       |
+| アプリ             | リンク                       | 設定ファイル                                                                     | シェルで開く      |
+| ------------------ | ---------------------------- | -------------------------------------------------------------------------------- | ----------------- |
+| （一覧）           | 本 README                    | —                                                                                | `keys`            |
+| WezTerm            | [wezterm.md](wezterm.md)     | [config/wezterm/wezterm.lua](../../config/wezterm/wezterm.lua)                   | `keys-wezterm` / `kw` |
+| Ghostty            | [ghostty.md](ghostty.md)     | [config/ghostty/config](../../config/ghostty/config)                             | `keys-ghostty` / `kg` |
+| cmux               | [cmux.md](cmux.md)           | [config/ghostty/config](../../config/ghostty/config) (libghostty 内蔵のため共有) | `keys-cmux` / `kc` |
+| Karabiner-Elements | [karabiner.md](karabiner.md) | [karabiner/karabiner.json](../../karabiner/karabiner.json)                       | `keys-karabiner` / `kk` |
+| Neovim (LazyVim)   | [nvim.md](nvim.md)           | [config/nvim/lua/config/keymaps.lua](../../config/nvim/lua/config/keymaps.lua)   | `keys-nvim` / `kn`（`--live` で `:map`） |
+| Cursor             | —                            | [config/cursor/keybindings.json](../../config/cursor/keybindings.json)           | `keys-cursor` / `kcur` |
+| VS Code            | —                            | [config/vscode/keybindings.json](../../config/vscode/keybindings.json)           | `keys-vscode` / `kvs` |
 
 ## 共通設計
 
@@ -20,13 +24,13 @@ cmux は libghostty を内蔵していて Ghostty の keybind がそのまま流
 | --------------- | ----------------- | ----------------- |
 | ペイン分割 (右) | `Cmd+D`           | `Cmd+D`           |
 | ペイン分割 (下) | `Cmd+Shift+D`     | `Cmd+Shift+D`     |
-| ペイン移動      | `Cmd+Opt+h/j/k/l` | `Cmd+Opt+h/j/k/l` |
+| ペイン移動      | `Cmd+[` / `Cmd+]` | `Cmd+[` / `Cmd+]` |
 | ペインリサイズ  | `Ctrl+Shift+←↓↑→` | `Ctrl+Shift+←↓↑→` |
 | ペインズーム    | `Cmd+Z`           | `Cmd+Z`           |
 | ペイン閉じ      | `Cmd+W`           | `Cmd+W`           |
 | 設定リロード    | `Cmd+Shift+R`     | `Cmd+Shift+R`     |
 | クリア          | `Cmd+K`           | `Cmd+K`           |
-| コピーモード    | `Cmd+[`           | (右クリック等)    |
+| コピーモード    | `Cmd+Opt+[`       | (右クリック等)    |
 
 ## Hotkey Window（iTerm2 相当）
 

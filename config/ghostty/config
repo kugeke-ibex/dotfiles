@@ -14,6 +14,9 @@ window-padding-y = 8
 mouse-hide-while-typing = true
 copy-on-select = clipboard
 
+# ペイン/split 閉じるときの確認ダイアログを出さない（WezTerm の CloseCurrentPane confirm=false 相当）
+confirm-close-surface = false
+
 # Hotkey 表示/非表示は Karabiner Ctrl+Opt+G → toggle-ghostty-hotkey（Quick Terminal は使わない）
 
 # --- Keybindings (iTerm2 / cmux 風) ---
@@ -22,11 +25,9 @@ copy-on-select = clipboard
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down
 
-# Focus split (Cmd+Opt+hjkl)
-keybind = cmd+opt+h=goto_split:left
-keybind = cmd+opt+j=goto_split:bottom
-keybind = cmd+opt+k=goto_split:top
-keybind = cmd+opt+l=goto_split:right
+# Focus split (iTerm2 風: Cmd+[ / Cmd+])
+keybind = cmd+left_bracket=goto_split:previous
+keybind = cmd+right_bracket=goto_split:next
 
 # Resize split (Ctrl+Shift+Arrow)
 keybind = ctrl+shift+left=resize_split:left,10
@@ -35,6 +36,7 @@ keybind = ctrl+shift+up=resize_split:up,10
 keybind = ctrl+shift+right=resize_split:right,10
 
 # Misc
+keybind = cmd+w=close_surface
 keybind = cmd+z=toggle_split_zoom
 keybind = cmd+enter=toggle_fullscreen
 keybind = cmd+k=clear_screen

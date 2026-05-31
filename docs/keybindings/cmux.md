@@ -21,7 +21,7 @@ ghostty.config の keybind がそのまま動く。主な操作:
 | ----------------------------- | ------------------------------ |
 | `Cmd+D`                       | 右に split (`new_split:right`) |
 | `Cmd+Shift+D`                 | 下に split (`new_split:down`)  |
-| `Cmd+Opt+h/j/k/l`             | split 間フォーカス移動         |
+| `Cmd+[` / `Cmd+]`             | split 間フォーカス移動（前 / 次） |
 | `Ctrl+Shift+←/↓/↑/→`          | split リサイズ                 |
 | `Cmd+Z`                       | split zoom 切替                |
 | `Cmd+Enter`                   | フルスクリーン                 |
