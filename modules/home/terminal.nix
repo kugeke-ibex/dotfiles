@@ -15,4 +15,9 @@ in
     "wezterm".source = mkLink "config/wezterm";
     "ghostty".source = mkLink "config/ghostty";
   };
+
+  # WezTerm hotkey ウィンドウのグローバルトグル (Karabiner Ctrl+Opt+W)
+  home.file.".local/bin/toggle-wezterm-hotkey".source =
+    ../../config/bin/toggle-wezterm-hotkey.zsh;
+  home.file.".local/bin/toggle-wezterm-hotkey".executable = true;
 }

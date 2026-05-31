@@ -2,6 +2,29 @@
 
 設定: [config/wezterm/wezterm.lua](../../config/wezterm/wezterm.lua)
 
+## ウィンドウ
+
+| 項目 | 値 |
+| ---- | -- |
+| 通常ウィンドウ起動 | 画面いっぱい（`gui-startup` で最大化、`modules/hotkey.lua`） |
+| 背景透過 | `window_background_opacity = 0.55`（`Cmd+Shift+O` で一時調整可） |
+
+## Hotkey Window
+
+iTerm2 の Hotkey Window 相当。workspace `hotkey` のドロップダウンウィンドウ（通常ウィンドウとは別）。
+
+| キー | 動作 |
+| ---- | ---- |
+| `Ctrl+Opt+W` | Karabiner → `toggle-wezterm-hotkey` で表示/非表示トグル |
+
+| 項目 | 値 |
+| ---- | -- |
+| 実装 | `modules/hotkey.lua` + `config/bin/toggle-wezterm-hotkey.zsh` |
+| レイアウト | 画面上部 40%・Floating ウィンドウレベル |
+| 識別 | ウィンドウ名 `WezTerm Hotkey` |
+
+`darwin-rebuild switch` で `~/.local/bin/toggle-wezterm-hotkey` がインストールされる。通常の WezTerm は Dock / `Cmd+N` から従来どおり。
+
 ## カスタム (このリポジトリで追加)
 
 ### ペイン

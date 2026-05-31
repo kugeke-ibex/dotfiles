@@ -2,6 +2,29 @@
 
 設定: [config/ghostty/config](../../config/ghostty/config)
 
+## ウィンドウ
+
+| 項目 | 値 |
+| ---- | -- |
+| 通常ウィンドウ起動 | `maximize = true`（画面いっぱい。ネイティブ FS は `Cmd+Enter`） |
+| 背景透過 | `background-opacity = 0.55` |
+
+## Hotkey Window (Quick Terminal)
+
+iTerm2 の Hotkey Window 相当。通常ウィンドウとは別のオーバーレイ端末。
+
+| キー | 動作 |
+| ---- | ---- |
+| `Ctrl+Opt+G` (`global:ctrl+alt+g`) | Quick Terminal を表示/非表示（他アプリ前面でも有効） |
+
+| 設定 | 値 |
+| ---- | -- |
+| 位置 | `quick-terminal-position = top` |
+| 高さ | `quick-terminal-size = 40%` |
+| フォーカス外 | `quick-terminal-autohide = true`（自動で隠れる） |
+
+**初回:** システム設定 → プライバシーとセキュリティ → **アクセシビリティ** で Ghostty を許可。Ghostty アプリ本体が起動している必要がある。設定変更後は `Cmd+Shift+R` または再起動。
+
 ## カスタム (このリポジトリで追加)
 
 ### ペイン (split)

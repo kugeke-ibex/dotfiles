@@ -7,7 +7,7 @@ config.font = wezterm.font_with_fallback({
 })
 config.font_size = 14.0
 config.color_scheme = "Tokyo Night"
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.55
 config.macos_window_background_blur = 20
 config.hide_tab_bar_if_only_one_tab = true
 config.use_ime = true
@@ -121,5 +121,6 @@ table.insert(config.keys, {
 -- Optional modules
 require("modules.status").apply_to_config(config)
 require("modules.opacity").apply_to_config(config)
+require("modules.hotkey").apply_to_config(config)
 
 return config

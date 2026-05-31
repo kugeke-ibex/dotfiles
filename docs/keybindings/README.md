@@ -11,6 +11,8 @@
 
 ## 共通設計
 
+Karabiner で **Caps Lock ↔ 左 Control** を入れ替えている（[karabiner.md](karabiner.md) ルール 0）。vim 流の `Ctrl+h/j/k/l` は Caps Lock 位置から使える。
+
 WezTerm / Ghostty / cmux で **同じ操作系** をなるべく揃えてあります (筋肉記憶を共有するため)。
 cmux は libghostty を内蔵していて Ghostty の keybind がそのまま流用される。
 
@@ -25,6 +27,17 @@ cmux は libghostty を内蔵していて Ghostty の keybind がそのまま流
 | 設定リロード    | `Cmd+Shift+R`     | `Cmd+Shift+R`     |
 | クリア          | `Cmd+K`           | `Cmd+K`           |
 | コピーモード    | `Cmd+[`           | (右クリック等)    |
+
+## Hotkey Window（iTerm2 相当）
+
+通常ターミナルとは別のオーバーレイ端末を、グローバルショートカットで表示/非表示。
+
+| キー         | アプリ   | 仕組み |
+| ------------ | -------- | ------ |
+| `Ctrl+Opt+W` | WezTerm  | Karabiner → `toggle-wezterm-hotkey` |
+| `Ctrl+Opt+G` | Ghostty  | `toggle_quick_terminal`（Ghostty 設定内 `global:`） |
+
+詳細は [karabiner.md](karabiner.md)、[wezterm.md](wezterm.md)、[ghostty.md](ghostty.md)。
 
 ## 階層関係
 

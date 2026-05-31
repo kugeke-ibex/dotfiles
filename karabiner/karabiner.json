@@ -176,6 +176,25 @@
                 "to": [{ "key_code": "right_arrow" }]
               }
             ]
+          },
+          {
+            "description": "Ctrl+Opt+W -> toggle WezTerm hotkey window (iTerm2 Hotkey Window style)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": {
+                    "mandatory": ["control", "option"]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "/bin/zsh -lc '~/.local/bin/toggle-wezterm-hotkey'"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -183,7 +202,16 @@
       "fn_function_keys": [],
       "name": "Default profile",
       "selected": true,
-      "simple_modifications": [],
+      "simple_modifications": [
+        {
+          "from": { "key_code": "caps_lock" },
+          "to": [{ "key_code": "left_control" }]
+        },
+        {
+          "from": { "key_code": "left_control" },
+          "to": [{ "key_code": "caps_lock" }]
+        }
+      ],
       "virtual_hid_keyboard": {
         "country_code": 0,
         "keyboard_type_v2": "ansi"
