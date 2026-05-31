@@ -185,7 +185,6 @@ nix run .#switch -- work-office
 │       ├── shell.nix           # zsh + starship + fzf + eza + ...
 │       ├── git.nix             # git + gh + lazygit
 │       ├── editor.nix          # neovim
-│       ├── tmux.nix
 │       └── profiles/
 │           ├── personal.nix    # 個人プロファイル
 │           └── work.nix        # 社用プロファイル
