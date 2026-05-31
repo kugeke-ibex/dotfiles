@@ -38,7 +38,10 @@
       flake = false;
     };
     homebrew-idoavrah = {
-      url = "github:idoavrah/homebrew";
+      # 元リポジトリ idoavrah/homebrew は 2026 年に削除済み。
+      # 公式の命名規則 (<user>/homebrew-<tap>) に揃えた idoavrah/homebrew-homebrew が後継。
+      # brew 側の tap 名 ("idoavrah/homebrew") は変わらないので、URL だけ差し替えれば良い。
+      url = "github:idoavrah/homebrew-homebrew";
       flake = false;
     };
     homebrew-kayac = {
