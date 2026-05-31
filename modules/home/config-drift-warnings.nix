@@ -7,8 +7,7 @@
   ...
 }:
 let
-  codexTemplate = pkgs.substituteAll {
-    src = ../../config/codex/config.toml;
+  codexTemplate = pkgs.replaceVars ../../config/codex/config.toml {
     homeDirectory = config.home.homeDirectory;
   };
 in
