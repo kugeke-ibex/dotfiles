@@ -43,8 +43,26 @@ in
       nfmt = "nix fmt";
     };
 
-    # Plugin load order: history-substring-search → (zeno @ mkOrder 1950) → syntax-highlighting (last)
     initContent = lib.mkMerge [
+      # autosuggestions (HM mkOrder 700) より前: zeno/fzf ウィジェットをラップしない
+      (lib.mkOrder 650 ''
+        typeset -ga ZSH_AUTOSUGGEST_IGNORE_WIDGETS
+        ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(
+          zeno-completion
+          zeno-auto-snippet
+          zeno-auto-snippet-and-accept-line
+          zeno-insert-snippet
+          fzf-completion
+          history-substring-search-up
+          history-substring-search-down
+        )
+      '')
+      (lib.mkOrder 100 ''
+        # login 以外の対話シェル (IDE ターミナル等) でも maxfiles を引き上げる
+        if [[ "$(uname -s)" == Darwin ]]; then
+          ulimit -n 65536 2>/dev/null || ulimit -n 10240 2>/dev/null || true
+        fi
+      '')
       ''
         bindkey -e
         setopt no_beep
@@ -79,26 +97,53 @@ in
           source "${dotfilesPath}/config/zsh/common.zsh"
         fi
       ''
-      (lib.mkOrder 2000 ''
+      # fzf → starship → direnv → history-substring-search (syntax-highlighting は mkOrder 2700)
+      (lib.mkOrder 2500 ''
+        if [[ -o zle ]]; then
+          source <(${pkgs.fzf}/bin/fzf --zsh)
+          # fzf は非 ** 時に bindkey ^I のウィジェットへフォールバックする。
+          # zeno が ^I を取ったあとだと zeno-completion ↔ fzf-completion の相互 zle で FUNCNEST 超過する。
+          fzf_default_completion=expand-or-complete
+        fi
+        if [[ $TERM != "dumb" ]]; then
+          eval "$(${pkgs.starship}/bin/starship init zsh)"
+        fi
+        eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
+
         source "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+      '')
+      # zsh-syntax-highlighting は README どおり .zshrc の最後 (zeno bindkey 2600 の後も)
+      (lib.mkOrder 2700 ''
+        if (( ! ''${+functions[_zsh_highlight]} )); then
+          # zsh 5.9 の zle-line-pre-redraw + memo=0 は autosuggest/zeno と相性が悪い。
+          # add-zle-hook-widget を一時的に隠し、従来の widget ラップ経路を使う (issues #579/#735)。
+          if (( $+functions[add-zle-hook-widget] )); then
+            functions[_dotfiles_add_zle_hook_widget]=$functions[add-zle-hook-widget]
+            unfunction add-zle-hook-widget
+          fi
+          (( ''${+zsh_highlight__memo_feature} )) || integer -g zsh_highlight__memo_feature=0
+          source "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+          ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+          if (( $+functions[_dotfiles_add_zle_hook_widget] )); then
+            functions[add-zle-hook-widget]=$_dotfiles_add_zle_hook_widget
+          fi
+        fi
         bindkey "^[[A" history-substring-search-up
         bindkey "^[[B" history-substring-search-down
-
-        source "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-        ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
       '')
     ];
   };
 
+  # Zsh 統合は mkOrder 2500 で syntax-highlighting (2700) より前に手動読み込み (順序固定)
   programs.starship = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     settings = builtins.fromTOML (builtins.readFile ../../config/starship.toml);
   };
 
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
   };
 
   programs.zoxide = {
@@ -115,7 +160,7 @@ in
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     nix-direnv.enable = true;
   };
 

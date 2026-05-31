@@ -2,6 +2,11 @@ font-family = MesloLGS NF
 font-family = Ricty Diminished
 font-size = 14
 theme = tokyonight
+
+# zsh-syntax-highlighting / zeno / autosuggestions と zle-line-init の競合を避ける。
+# (自動注入は _zsh_highlight: bad set of key/value pairs を誘発しうる)
+# cwd 通知は config/zsh/common.zsh の OSC 7 precmd で代替。
+shell-integration = none
 background-opacity = 0.95
 window-padding-x = 8
 window-padding-y = 8

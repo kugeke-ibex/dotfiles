@@ -9,6 +9,7 @@
   imports = [
     ./nix.nix
     ./homebrew-common.nix
+    ./maxfiles.nix
     ./system.nix
     ./fonts.nix
   ]

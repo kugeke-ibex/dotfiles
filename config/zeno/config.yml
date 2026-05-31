@@ -109,7 +109,7 @@ completions:
   - name: chdir
     patterns:
       - "^;cd $"
-    sourceCommand: "find . -path '*/.git' -prune -o -maxdepth 5 -type d -print0"
+    sourceCommand: "find . \\( -path '*/.git' -o -path '*/.terraform' -o -path '*/node_modules' \\) -prune -o -maxdepth 5 -type d -print0"
     options:
       --read0: true
       --prompt: "'Chdir> '"

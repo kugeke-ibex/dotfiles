@@ -12,6 +12,18 @@ alias ll="ls -l"
 alias lla="ls -la"
 
 # ----------------------------------------------------
+# Terminal OSC 7 (cwd): Ghostty shell-integration=none / WezTerm 未統合時の代替
+# ----------------------------------------------------
+if [[ -o interactive ]] && [[ "$TERM" != dumb ]]; then
+  _dotfiles_osc7_precmd() {
+    printf '\033]7;file://%s%s\033\\' "$HOST" "${PWD//\//%2F}"
+  }
+  if (( ! ${precmd_functions[(Ie)_dotfiles_osc7_precmd]} )); then
+    precmd_functions=(_dotfiles_osc7_precmd "${precmd_functions[@]}")
+  fi
+fi
+
+# ----------------------------------------------------
 # Navigation / safety
 # ----------------------------------------------------
 alias home="cd ~/Documents"

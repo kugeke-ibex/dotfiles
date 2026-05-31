@@ -23,20 +23,34 @@ in
 
   xdg.configFile."zeno".source = mkLink "config/zeno";
 
-  # syntax-highlighting (shell.nix mkOrder 2000) より前に読み込む
-  programs.zsh.initContent = lib.mkOrder 1950 ''
-    # zeno.zsh
-    ZENO_HOME="$HOME/.local/share/zeno.zsh"
-    if [ ! -d "$ZENO_HOME" ] && command -v git >/dev/null 2>&1; then
-      git clone --depth 1 https://github.com/yuki-yano/zeno.zsh.git "$ZENO_HOME" 2>/dev/null
-    fi
-    if [ -f "$ZENO_HOME/zeno.zsh" ] && command -v deno >/dev/null 2>&1; then
-      export ZENO_NO_DEFAULT_KEYBINDINGS=true
-      source "$ZENO_HOME/zeno.zsh"
-      bindkey ' '   zeno-auto-snippet
-      bindkey '^M'  zeno-auto-snippet-and-accept-line
-      bindkey '^I'  zeno-completion
-      bindkey '^X^S' zeno-insert-snippet
-    fi
-  '';
+  programs.zsh.initContent = lib.mkMerge [
+    # syntax-highlighting (shell.nix mkOrder 2700) より前に本体を読み込む
+    (lib.mkOrder 1950 ''
+      export ZENO_COMPLETION_FALLBACK=expand-or-complete
+      ZENO_HOME="$HOME/.local/share/zeno.zsh"
+      if [ ! -d "$ZENO_HOME" ] && command -v git >/dev/null 2>&1; then
+        git clone --depth 1 https://github.com/yuki-yano/zeno.zsh.git "$ZENO_HOME" 2>/dev/null
+      fi
+      if [ -f "$ZENO_HOME/zeno.zsh" ] && command -v deno >/dev/null 2>&1; then
+        export ZENO_NO_DEFAULT_KEYBINDINGS=true
+        source "$ZENO_HOME/zeno.zsh"
+        # chpwd で zeno-server に cwd を通知するが、.terraform / node_modules 直下では
+        # FD 枯渇や重い find を避ける (macOS soft maxfiles 256 環境での EMFILE 対策)
+        # chpwd 通知は precmd 中の _zsh_highlight と競合しうるため無効化
+        if (( $+functions[zeno-onchpwd] )); then
+          autoload -Uz add-zsh-hook
+          add-zsh-hook -d chpwd zeno-onchpwd 2>/dev/null
+        fi
+      fi
+    '')
+    # fzf (shell.nix mkOrder 2500) の後に Tab 等を割り当て (fzf-completion との相互 zle ループ回避)
+    (lib.mkOrder 2600 ''
+      if [ -f "$ZENO_HOME/zeno.zsh" ] && command -v deno >/dev/null 2>&1; then
+        bindkey ' '   zeno-auto-snippet
+        bindkey '^M'  zeno-auto-snippet-and-accept-line
+        bindkey '^I'  zeno-completion
+        bindkey '^X^S' zeno-insert-snippet
+      fi
+    '')
+  ];
 }

@@ -2,6 +2,12 @@
 # pyenv はここでは初期化しない (brew の pyenv + config/zsh/common.zsh の lazy init)。
 # PYENV_ROOT は home-manager の sessionVariables (profiles/personal.nix) で設定。
 
+# macOS: launchd の soft maxfiles は 256 になりがち。zeno / Nix 等で枯渇するため先に引き上げる。
+if [[ "$(uname -s)" == Darwin ]]; then
+  ulimit -n 65536 2>/dev/null || ulimit -n 10240 2>/dev/null || true
+  /bin/launchctl limit maxfiles 65536 200000 2>/dev/null || true
+fi
+
 # Kiro CLI pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] \
   && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"

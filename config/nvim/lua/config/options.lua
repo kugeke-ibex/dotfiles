@@ -41,10 +41,6 @@ vim.cmd("cabbrev H belowright vertical help")
 --
 -- LSP UI
 --
--- hover / signature help を rounded border で囲む
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "rounded",
-})
+-- hover / signature help 等の浮動ウィンドウ枠線 (Neovim 0.11+)
+-- vim.lsp.with / vim.lsp.handlers.hover は削除されたため winborder を使う
+vim.o.winborder = "rounded"
