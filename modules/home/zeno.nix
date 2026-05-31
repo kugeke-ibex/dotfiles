@@ -23,7 +23,8 @@ in
 
   xdg.configFile."zeno".source = mkLink "config/zeno";
 
-  programs.zsh.initContent = lib.mkAfter ''
+  # syntax-highlighting (shell.nix mkOrder 2000) より前に読み込む
+  programs.zsh.initContent = lib.mkOrder 1950 ''
     # zeno.zsh
     ZENO_HOME="$HOME/.local/share/zeno.zsh"
     if [ ! -d "$ZENO_HOME" ] && command -v git >/dev/null 2>&1; then

@@ -84,7 +84,7 @@ main() {
 
   log "Applying nix-darwin configuration for host: $host"
   if command -v darwin-rebuild >/dev/null 2>&1; then
-    darwin-rebuild switch --flake "${DOTFILES_DIR}#${host}"
+    sudo darwin-rebuild switch --flake "${DOTFILES_DIR}#${host}"
   else
     sudo nix run nix-darwin -- switch --flake "${DOTFILES_DIR}#${host}"
   fi

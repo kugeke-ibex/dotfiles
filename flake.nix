@@ -139,7 +139,13 @@
                   "homebrew/homebrew-cask" = inputs.homebrew-cask;
                   "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
                   "hashicorp/homebrew-tap" = inputs.homebrew-hashicorp;
-                  "idoavrah/homebrew" = inputs.homebrew-idoavrah;
+                  # nix-homebrew の taps キーは必ず GitHub のリポジトリ名 (<user>/homebrew-<name>) と
+                  # 一致させる。これに従って symlink が /opt/homebrew/Library/Taps/<user>/homebrew-<name>
+                  # に作られ、brew 側の tap 名解決 ("idoavrah/homebrew" -> homebrew-homebrew/) と整合する。
+                  # ここを "idoavrah/homebrew" にすると symlink 名が brew の期待する homebrew-homebrew と
+                  # ずれ、mutableTaps = false の read-only Taps 配下に git clone しようとして Permission
+                  # denied で落ちる (2026-05 に遭遇)。
+                  "idoavrah/homebrew-homebrew" = inputs.homebrew-idoavrah;
                   "kayac/homebrew-tap" = inputs.homebrew-kayac;
                 };
                 mutableTaps = false;

@@ -17,6 +17,16 @@ in
     fi
   '';
 
+  # macOS の login shell が読む ~/.zprofile。手元に残っていた `eval "$(pyenv init -)"` は
+  # pyenv 未導入 / PATH 未設定時に失敗するため、dotfiles 管理の zprofile.zsh に置き換える。
+  # pyenv 本体の初期化は config/zsh/common.zsh の lazy loader (command -v pyenv) に任せる。
+  home.file.".zprofile".text = ''
+    # Managed by home-manager (dotfiles)
+    if [ -f "${dotfilesPath}/config/zsh/zprofile.zsh" ]; then
+      source "${dotfilesPath}/config/zsh/zprofile.zsh"
+    fi
+  '';
+
   # 個人 PC 専用の環境変数 (volta / pyenv 関連)。
   home.sessionVariables = {
     VOLTA_HOME = "${config.home.homeDirectory}/.volta";

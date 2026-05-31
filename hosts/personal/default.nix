@@ -26,7 +26,7 @@
 
     masApps = {
       "LINE" = 539883307;
-      "Kindle" = 405399194;
+      # Kindle は App Store から削除済み (Amazon が Web 版に移行)
     };
 
     # 宣言に無い brew/cask を自動削除する（共通は cleanup=false のためここで上書き）

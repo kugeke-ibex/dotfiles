@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   config,
   dotfilesRelative,
   ...
@@ -12,8 +13,12 @@ in
     enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
-    syntaxHighlighting.enable = true;
-    historySubstringSearch.enable = true;
+    # home-manager 既定の mkOrder だと syntax-highlighting (1550) の後に
+    # history-substring-search (1600) が来てしまい、ZLE フック競合で
+    # `_zsh_highlight: bad set of key/value pairs for associative array` が出る。
+    # zsh-syntax-highlighting は README どおり「最後に source」する必要があるため手動で並べる。
+    syntaxHighlighting.enable = false;
+    historySubstringSearch.enable = false;
 
     history = {
       size = 50000;
@@ -38,40 +43,51 @@ in
       nfmt = "nix fmt";
     };
 
-    initContent = ''
-      bindkey -e
-      setopt no_beep
-      setopt auto_cd
-      setopt auto_pushd
-      setopt pushd_ignore_dups
-      setopt extended_glob
+    # Plugin load order: history-substring-search → (zeno @ mkOrder 1950) → syntax-highlighting (last)
+    initContent = lib.mkMerge [
+      ''
+        bindkey -e
+        setopt no_beep
+        setopt auto_cd
+        setopt auto_pushd
+        setopt pushd_ignore_dups
+        setopt extended_glob
 
-      # History を強化 (programs.zsh.history を補強)
-      setopt EXTENDED_HISTORY      # 実行時間 / exit status を記録
-      setopt hist_verify           # 履歴展開で即実行せず確認
-      setopt hist_ignore_all_dups  # 全履歴で重複排除
-      setopt hist_no_store         # `history` コマンド自体は履歴に残さない
-      setopt hist_reduce_blanks    # 余分な空白を整理
-      setopt hist_save_no_dups     # 保存時にも重複排除
-      setopt hist_expand           # 履歴を即座に展開
-      setopt inc_append_history    # コマンド完了直後に書き込み
+        # History を強化 (programs.zsh.history を補強)
+        setopt EXTENDED_HISTORY      # 実行時間 / exit status を記録
+        setopt hist_verify           # 履歴展開で即実行せず確認
+        setopt hist_ignore_all_dups  # 全履歴で重複排除
+        setopt hist_no_store         # `history` コマンド自体は履歴に残さない
+        setopt hist_reduce_blanks    # 余分な空白を整理
+        setopt hist_save_no_dups     # 保存時にも重複排除
+        setopt hist_expand           # 履歴を即座に展開
+        setopt inc_append_history    # コマンド完了直後に書き込み
 
-      # Completion / Spell
-      setopt correct               # スペル訂正
-      setopt list_packed           # 補完候補を密に表示
-      unsetopt list_types          # 補完候補末尾の type 表記を消す
+        # Completion / Spell
+        setopt correct               # スペル訂正
+        setopt list_packed           # 補完候補を密に表示
+        unsetopt list_types          # 補完候補末尾の type 表記を消す
 
-      # Background job priority (bash と同じ ionice 挙動)
-      unsetopt bg_nice
+        # Background job priority (bash と同じ ionice 挙動)
+        unsetopt bg_nice
 
-      # Disable Ctrl-S / Ctrl-Q on tty (vim でこれらを使えるように)
-      [[ -t 0 ]] && stty -ixon
+        # Disable Ctrl-S / Ctrl-Q on tty (vim でこれらを使えるように)
+        [[ -t 0 ]] && stty -ixon
 
-      # PC 共通の zsh エイリアス / 関数 (raw zsh で管理する分)
-      if [ -f "${dotfilesPath}/config/zsh/common.zsh" ]; then
-        source "${dotfilesPath}/config/zsh/common.zsh"
-      fi
-    '';
+        # PC 共通の zsh エイリアス / 関数 (raw zsh で管理する分)
+        if [ -f "${dotfilesPath}/config/zsh/common.zsh" ]; then
+          source "${dotfilesPath}/config/zsh/common.zsh"
+        fi
+      ''
+      (lib.mkOrder 2000 ''
+        source "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+        bindkey "^[[A" history-substring-search-up
+        bindkey "^[[B" history-substring-search-down
+
+        source "${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+        ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+      '')
+    ];
   };
 
   programs.starship = {
@@ -139,6 +155,7 @@ in
   };
 
   home.sessionPath = [
+    "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/go/bin"
   ];
 }
