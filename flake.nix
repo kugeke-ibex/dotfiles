@@ -56,13 +56,14 @@
   };
 
   outputs =
-    inputs@{ self
-    , nixpkgs
-    , nix-darwin
-    , home-manager
-    , nix-homebrew
-    , treefmt-nix
-    , ...
+    inputs@{
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      nix-homebrew,
+      treefmt-nix,
+      ...
     }:
     let
       system = "aarch64-darwin";
@@ -97,7 +98,13 @@
         nix-darwin.lib.darwinSystem {
           inherit system;
           specialArgs = {
-            inherit inputs username hostname profile dotfilesRelative;
+            inherit
+              inputs
+              username
+              hostname
+              profile
+              dotfilesRelative
+              ;
           };
           modules = [
             ./modules/darwin
@@ -110,7 +117,12 @@
                 useUserPackages = true;
                 backupFileExtension = "before-nix-darwin";
                 extraSpecialArgs = {
-                  inherit inputs username profile dotfilesRelative;
+                  inherit
+                    inputs
+                    username
+                    profile
+                    dotfilesRelative
+                    ;
                 };
                 users.${username} = import ./modules/home;
               };

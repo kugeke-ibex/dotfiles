@@ -61,10 +61,10 @@ opt.laststatus = 3
 opt.signcolumn = "number"
 
 -- ログの保存先をtmpに変更
-vim.env.XDG_STATE_HOME = '/tmp'
+vim.env.XDG_STATE_HOME = "/tmp"
 
 -- マウス操作を無効化
-vim.api.nvim_set_option('mouse', '')
+vim.api.nvim_set_option("mouse", "")
 
 -- storybookで使用される可能性あり
 -- 拡張子がmdxの時は、*.mdとして扱うことで、markdownとして認識させる

@@ -6,17 +6,17 @@
 -- プロジェクトローカルで入れる (eslint/biome) は除外。必要になったら追加する。
 
 local servers = {
-  bashls = {},          -- bash / sh
-  dockerls = {},        -- Dockerfile
-  gopls = {},           -- Go
-  jsonls = {},          -- JSON
-  nil_ls = {},          -- Nix
-  pyright = {},         -- Python
-  ruby_lsp = {},        -- Ruby
-  rust_analyzer = {},   -- Rust
-  terraformls = {},     -- Terraform
-  ts_ls = {},           -- TypeScript / JavaScript (Deno を使うときは denols に切替検討)
-  yamlls = {},          -- YAML
+  bashls = {}, -- bash / sh
+  dockerls = {}, -- Dockerfile
+  gopls = {}, -- Go
+  jsonls = {}, -- JSON
+  nil_ls = {}, -- Nix
+  pyright = {}, -- Python
+  ruby_lsp = {}, -- Ruby
+  rust_analyzer = {}, -- Rust
+  terraformls = {}, -- Terraform
+  ts_ls = {}, -- TypeScript / JavaScript (Deno を使うときは denols に切替検討)
+  yamlls = {}, -- YAML
 }
 
 return {

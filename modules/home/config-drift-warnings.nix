@@ -1,6 +1,11 @@
 # テンプレ（dotfiles）と実機だけコピーされる設定の差を switch 時に通知する。
 # 自動マージはしない（Karabiner は UI 編集で必ず差が出るため、参考情報のみ）。
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   codexTemplate = pkgs.substituteAll {
     src = ../../config/codex/config.toml;

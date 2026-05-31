@@ -2,29 +2,29 @@
 
 アプリケーションごとのキーバインド一覧。
 
-| アプリ | リンク | 設定ファイル |
-| --- | --- | --- |
-| WezTerm | [wezterm.md](wezterm.md) | [config/wezterm/wezterm.lua](../../config/wezterm/wezterm.lua) |
-| Ghostty | [ghostty.md](ghostty.md) | [config/ghostty/config](../../config/ghostty/config) |
-| cmux | [cmux.md](cmux.md) | [config/ghostty/config](../../config/ghostty/config) (libghostty 内蔵のため共有) |
-| Karabiner-Elements | [karabiner.md](karabiner.md) | [karabiner/karabiner.json](../../karabiner/karabiner.json) |
+| アプリ             | リンク                       | 設定ファイル                                                                     |
+| ------------------ | ---------------------------- | -------------------------------------------------------------------------------- |
+| WezTerm            | [wezterm.md](wezterm.md)     | [config/wezterm/wezterm.lua](../../config/wezterm/wezterm.lua)                   |
+| Ghostty            | [ghostty.md](ghostty.md)     | [config/ghostty/config](../../config/ghostty/config)                             |
+| cmux               | [cmux.md](cmux.md)           | [config/ghostty/config](../../config/ghostty/config) (libghostty 内蔵のため共有) |
+| Karabiner-Elements | [karabiner.md](karabiner.md) | [karabiner/karabiner.json](../../karabiner/karabiner.json)                       |
 
 ## 共通設計
 
 WezTerm / Ghostty / cmux で **同じ操作系** をなるべく揃えてあります (筋肉記憶を共有するため)。
 cmux は libghostty を内蔵していて Ghostty の keybind がそのまま流用される。
 
-| 操作 | WezTerm | Ghostty / cmux |
-| --- | --- | --- |
-| ペイン分割 (右) | `Cmd+D` | `Cmd+D` |
-| ペイン分割 (下) | `Cmd+Shift+D` | `Cmd+Shift+D` |
-| ペイン移動 | `Cmd+Opt+h/j/k/l` | `Cmd+Opt+h/j/k/l` |
-| ペインリサイズ | `Ctrl+Shift+←↓↑→` | `Ctrl+Shift+←↓↑→` |
-| ペインズーム | `Cmd+Z` | `Cmd+Z` |
-| ペイン閉じ | `Cmd+W` | `Cmd+W` |
-| 設定リロード | `Cmd+Shift+R` | `Cmd+Shift+R` |
-| クリア | `Cmd+K` | `Cmd+K` |
-| コピーモード | `Cmd+[` | (右クリック等) |
+| 操作            | WezTerm           | Ghostty / cmux    |
+| --------------- | ----------------- | ----------------- |
+| ペイン分割 (右) | `Cmd+D`           | `Cmd+D`           |
+| ペイン分割 (下) | `Cmd+Shift+D`     | `Cmd+Shift+D`     |
+| ペイン移動      | `Cmd+Opt+h/j/k/l` | `Cmd+Opt+h/j/k/l` |
+| ペインリサイズ  | `Ctrl+Shift+←↓↑→` | `Ctrl+Shift+←↓↑→` |
+| ペインズーム    | `Cmd+Z`           | `Cmd+Z`           |
+| ペイン閉じ      | `Cmd+W`           | `Cmd+W`           |
+| 設定リロード    | `Cmd+Shift+R`     | `Cmd+Shift+R`     |
+| クリア          | `Cmd+K`           | `Cmd+K`           |
+| コピーモード    | `Cmd+[`           | (右クリック等)    |
 
 ## 階層関係
 

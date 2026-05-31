@@ -64,13 +64,13 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 ### 1. ホスト分岐 (どこに置くか)
 
-| 用途 | 配置先 |
-| --- | --- |
-| personal / work どちらでも使う brew 基底 | `modules/darwin/homebrew-common.nix` |
-| すべての社用ホストで共通（ホスト名以外の nix-darwin） | `hosts/fragments/work-common.nix` を各社用 `hosts/<名前>/default.nix` から `imports` |
-| 個人 PC にだけ入れたい cask / brew | `modules/darwin/homebrew-personal.nix`（`profile == "personal"` のときだけ読込） |
-| 個人 PC のみで使う | `hosts/personal/default.nix`（追加 brew / `cleanup = uninstall`） |
-| 社用 PC（マシンごと） | `hosts/<名前>/default.nix`（例: `work`, `work-office`）。**flake.nix に `darwinConfigurations.<名前>` を追加**すること（`mkDarwin` の `hostname` はディレクトリ名と一致させる） |
+| 用途                                                  | 配置先                                                                                                                                                                          |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| personal / work どちらでも使う brew 基底              | `modules/darwin/homebrew-common.nix`                                                                                                                                            |
+| すべての社用ホストで共通（ホスト名以外の nix-darwin） | `hosts/fragments/work-common.nix` を各社用 `hosts/<名前>/default.nix` から `imports`                                                                                            |
+| 個人 PC にだけ入れたい cask / brew                    | `modules/darwin/homebrew-personal.nix`（`profile == "personal"` のときだけ読込）                                                                                                |
+| 個人 PC のみで使う                                    | `hosts/personal/default.nix`（追加 brew / `cleanup = uninstall`）                                                                                                               |
+| 社用 PC（マシンごと）                                 | `hosts/<名前>/default.nix`（例: `work`, `work-office`）。**flake.nix に `darwinConfigurations.<名前>` を追加**すること（`mkDarwin` の `hostname` はディレクトリ名と一致させる） |
 
 共通フラグメント（`hosts/fragments/`）とホスト別ディレクトリを組み合わせると、社用マシンを増やしやすい。
 
@@ -78,11 +78,11 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 ### 2. CLI ツール: Nix 経由 vs Homebrew 経由
 
-| 配置先 | 例 | 判断基準 |
-| --- | --- | --- |
-| `modules/home/shell.nix` の `home.packages` | `ripgrep`, `fd`, `yq`, `tree`, `htop`, `wget` | Nix pkgs にあり、特別な設定が不要なもの |
+| 配置先                                      | 例                                                                             | 判断基準                                                  |
+| ------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| `modules/home/shell.nix` の `home.packages` | `ripgrep`, `fd`, `yq`, `tree`, `htop`, `wget`                                  | Nix pkgs にあり、特別な設定が不要なもの                   |
 | `modules/home/<x>.nix` の `programs.<tool>` | `git`, `gh`, `lazygit`, `neovim`, `starship`, `fzf`, `zoxide`, `eza`, `direnv` | home-manager に専用モジュールがあり、設定込みで便利なもの |
-| `homebrew.brews` (共通 or ホスト) | `aws-vault`, `k9s`, `kubernetes-cli`, `asdf`, `mas`, `mysql` | macOS 専用 / 上記で扱いにくいもの |
+| `homebrew.brews` (共通 or ホスト)           | `aws-vault`, `k9s`, `kubernetes-cli`, `asdf`, `mas`, `mysql`                   | macOS 専用 / 上記で扱いにくいもの                         |
 
 **重複インストールを避ける**: 同じツールを home-manager と brew の両方で管理しないこと。例: `gh` は home-manager 側 (`programs.gh.enable`) のみで管理。
 
@@ -90,20 +90,20 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 **設定ファイルとドキュメントは同じコミットで更新する**。
 
-| 設定ファイル | 対応するドキュメント |
-| --- | --- |
-| `config/wezterm/wezterm.lua` | `docs/keybindings/wezterm.md` |
-| `config/ghostty/config` | `docs/keybindings/ghostty.md` |
-| `config/ghostty/config` (cmux も共有) | `docs/keybindings/cmux.md` |
-| `karabiner/karabiner.json` | `docs/keybindings/karabiner.md` |
+| 設定ファイル                          | 対応するドキュメント            |
+| ------------------------------------- | ------------------------------- |
+| `config/wezterm/wezterm.lua`          | `docs/keybindings/wezterm.md`   |
+| `config/ghostty/config`               | `docs/keybindings/ghostty.md`   |
+| `config/ghostty/config` (cmux も共有) | `docs/keybindings/cmux.md`      |
+| `karabiner/karabiner.json`            | `docs/keybindings/karabiner.md` |
 
 ### 4. エディタ・ランチャー管理
 
-| アプリ | 本体 | 設定 | 拡張 |
-| --- | --- | --- | --- |
-| **VSCode** | `programs.vscode` (Nix `pkgs.vscode`) | `programs.vscode.profiles.default.{userSettings,keybindings}` を `builtins.fromJSON` で `config/vscode/{settings,keybindings}.json` から読み込み | `config/vscode/extensions.txt` (`code --list-extensions` の出力)、`mutableExtensionsDir = true` で手動許容 |
-| **Cursor** | brew cask `cursor` (Nix package 無し) | `home.file` で `config/cursor/{settings,keybindings}.json` を symlink (JSONC 含むため Nix 解析しない) | `config/cursor/extensions.txt` (cursor CLI で出力) |
-| **Raycast** | brew cask `raycast` | `config/raycast/raycast.rayconfig` を手動エクスポートしてコミット | (Hotkey は SQLite DB のため `.rayconfig` で一括管理) |
+| アプリ      | 本体                                  | 設定                                                                                                                                             | 拡張                                                                                                       |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| **VSCode**  | `programs.vscode` (Nix `pkgs.vscode`) | `programs.vscode.profiles.default.{userSettings,keybindings}` を `builtins.fromJSON` で `config/vscode/{settings,keybindings}.json` から読み込み | `config/vscode/extensions.txt` (`code --list-extensions` の出力)、`mutableExtensionsDir = true` で手動許容 |
+| **Cursor**  | brew cask `cursor` (Nix package 無し) | `home.file` で `config/cursor/{settings,keybindings}.json` を symlink (JSONC 含むため Nix 解析しない)                                            | `config/cursor/extensions.txt` (cursor CLI で出力)                                                         |
+| **Raycast** | brew cask `raycast`                   | `config/raycast/raycast.rayconfig` を手動エクスポートしてコミット                                                                                | (Hotkey は SQLite DB のため `.rayconfig` で一括管理)                                                       |
 
 **重要**: VSCode の cask `visual-studio-code` は Nix で本体管理するため共通 cask から外してある (`modules/darwin/homebrew-common.nix` を参照)。誤って戻さないこと。
 

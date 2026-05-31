@@ -1,4 +1,8 @@
-{ profile, username, ... }:
+{
+  profile,
+  username,
+  ...
+}:
 {
   imports = [
     ./shell.nix

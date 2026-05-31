@@ -65,13 +65,13 @@ nix-switch     # darwin-rebuild switch（flake の dotfiles ルート）
 
 ## Manual steps
 
-| 項目                | 備考                                                                         |
-| ------------------- | ---------------------------------------------------------------------------- |
-| Apple ID サインイン | App Store / iCloud / Mail                                                    |
-| GitHub SSH 鍵       | `ssh-keygen -t ed25519 -C "kugetyan0211@gmail.com"` で生成し GitHub に登録   |
-| 1Password           | アカウントログイン後、CLI 連携を有効化                                       |
-| Slack / Zoom        | アカウント別ログイン (`work` は業務アカウント)                               |
-| 業務メール反映      | `modules/home/profiles/work.nix` の `userEmail` を業務用に置換               |
+| 項目                | 備考                                                                       |
+| ------------------- | -------------------------------------------------------------------------- |
+| Apple ID サインイン | App Store / iCloud / Mail                                                  |
+| GitHub SSH 鍵       | `ssh-keygen -t ed25519 -C "kugetyan0211@gmail.com"` で生成し GitHub に登録 |
+| 1Password           | アカウントログイン後、CLI 連携を有効化                                     |
+| Slack / Zoom        | アカウント別ログイン (`work` は業務アカウント)                             |
+| 業務メール反映      | `modules/home/profiles/work.nix` の `userEmail` を業務用に置換             |
 
 ## Troubleshooting
 

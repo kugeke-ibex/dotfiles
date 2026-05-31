@@ -26,5 +26,8 @@
 
   programs.zsh.enable = true;
 
-  environment.shells = with pkgs; [ bash zsh ];
+  environment.shells = with pkgs; [
+    bash
+    zsh
+  ];
 }

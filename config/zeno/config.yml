@@ -1,6 +1,5 @@
 # zeno.zsh の設定 (https://github.com/yuki-yano/zeno.zsh)
 # このリポジトリ向けに整理した zeno 設定（環境固有の snippet は除外）。
-
 history:
   defaultScope: global
   fzfCommand: fzf
@@ -11,7 +10,6 @@ history:
     deleteSoft: ctrl-d
     deleteHard: alt-d
     toggleScope: ctrl-r
-
 snippets:
   # Pipes / redirects
   - name: "null"
@@ -19,101 +17,78 @@ snippets:
     snippet: ">/dev/null 2>&1"
     context:
       lbuffer: '.+\s'
-
   - keyword: G
     snippet: "| grep"
     context:
       lbuffer: '.+\s'
-
   - name: copy
     keyword: CC
     snippet: "| pbcopy"
     context:
       lbuffer: '.+\s'
-
   # cd
   - name: cd there
     keyword: CD
     snippet: "&& cd $_"
     context:
       lbuffer: '.+\s'
-
   - keyword: "-"
     snippet: cd -
-
   # ls
   - keyword: ll
     snippet: ls -l
-
   - keyword: la
     snippet: ls -a
-
   - keyword: lla
     snippet: ls -la
-
   # Date
   - name: today
     keyword: td
     snippet: date +%Y-%m-%d
     evaluate: true
-
   # Shell maintenance
   - keyword: r
     snippet: exec $SHELL -l
-
   - keyword: myip
     snippet: curl ifconfig.me
-
   # Terraform helpers (require `tf ` prefix)
   - keyword: tf
     snippet: terraform
-
   - keyword: ap
     snippet: apply
     context:
       lbuffer: '^terraform\s+'
-
   - keyword: pl
     snippet: plan
     context:
       lbuffer: '^terraform\s+'
-
   - keyword: in
     snippet: init
     context:
       lbuffer: '^terraform\s+'
-
   - keyword: st
     snippet: state
     context:
       lbuffer: '^terraform\s+'
-
   - keyword: stl
     snippet: state list
     context:
       lbuffer: '^terraform\s+'
-
   # Common tools
   - keyword: py
     snippet: python3
-
   - keyword: f
     snippet: open .
-
   - keyword: ld
     snippet: lazydocker
-
   # AI tools
   - keyword: c
     snippet: claude
-
   - keyword: cc
     snippet: claude -c
-
   # Benchmarking
   - keyword: speed
     snippet: hyperfine --warmup 5 --runs 10 'zsh -i -c exit'
-
 completions:
   - name: kill signal
     patterns:
@@ -121,7 +96,6 @@ completions:
     sourceCommand: "kill -l | tr ' ' '\\n'"
     options:
       --prompt: "'Kill Signal> '"
-
   - name: kill pid
     patterns:
       - "^kill( .*)? $"
@@ -132,7 +106,6 @@ completions:
       --multi: true
       --prompt: "'Kill Process> '"
     callback: "awk '{print $2}'"
-
   - name: chdir
     patterns:
       - "^;cd $"
@@ -143,7 +116,6 @@ completions:
       --preview: "cd {} && ls -a | sed '/^[.]*$/d'"
     callback: "cut -z -c 3-"
     callbackZero: true
-
   - name: Makefile
     patterns:
       - "^make( .*)? $"
@@ -151,7 +123,6 @@ completions:
     callback: "awk '{printf $2}'"
     options:
       --prompt: "'make> '"
-
   - name: just
     patterns:
       - "^just( .*)? $"
@@ -160,7 +131,6 @@ completions:
     options:
       --prompt: "'just> '"
       --preview: "just --show {1} 2>/dev/null"
-
   - name: suspend
     patterns:
       - "^fg $"

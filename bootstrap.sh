@@ -21,9 +21,9 @@ Bootstrap script for kugeke's dotfiles (macOS Apple Silicon).
 EOF
   local d name
   for d in "${DOTFILES_DIR}/hosts"/*/; do
-    [[ -d "$d" ]] || continue
+    [[ -d $d ]] || continue
     name="$(basename "$d")"
-    [[ "$name" == "fragments" ]] && continue
+    [[ $name == "fragments" ]] && continue
     [[ -f "${d}default.nix" ]] && printf '  - %s\n' "$name"
   done | sort
 }
@@ -31,10 +31,13 @@ EOF
 main() {
   local host="${1:-}"
   case "$host" in
-    -h|--help|"") usage; exit 1 ;;
+  -h | --help | "")
+    usage
+    exit 1
+    ;;
   esac
 
-  if [[ "$host" == "fragments" ]] || [[ ! -f "${DOTFILES_DIR}/hosts/${host}/default.nix" ]]; then
+  if [[ $host == "fragments" ]] || [[ ! -f "${DOTFILES_DIR}/hosts/${host}/default.nix" ]]; then
     err "unknown host: ${host:-empty} (hosts/${host:-?}/default.nix が無い、または fragments はホストにできません)"
     usage
     exit 1
@@ -51,7 +54,7 @@ main() {
   ts="$(date +%Y%m%d-%H%M%S)"
   local f
   for f in /etc/zshrc /etc/bashrc /etc/zshenv; do
-    if [[ -f "$f" && ! -L "$f" ]] && ! grep -q "nix-darwin" "$f"; then
+    if [[ -f $f && ! -L $f ]] && ! grep -q "nix-darwin" "$f"; then
       log "Backing up $f -> $f.before-nix-darwin.$ts"
       sudo mv "$f" "$f.before-nix-darwin.$ts"
     fi
@@ -67,7 +70,7 @@ main() {
   # 初回 LazyVim プラグインの prefetch (任意)
   # 初回の `nvim` 起動を速くするため、ここで LazyVim のプラグインを headless で
   # 一括ダウンロードしておく。スキップしたい場合は SKIP_LAZY_PREINSTALL=1 を付与。
-  if [[ "${SKIP_LAZY_PREINSTALL:-}" != "1" ]] && command -v nvim >/dev/null 2>&1; then
+  if [[ ${SKIP_LAZY_PREINSTALL:-} != "1" ]] && command -v nvim >/dev/null 2>&1; then
     log "Pre-installing LazyVim plugins (Ctrl-C で中断可、SKIP_LAZY_PREINSTALL=1 で次回スキップ)"
     nvim --headless "+Lazy! sync" +qa || true
   fi

@@ -10,6 +10,7 @@ description: Review Terraform code for best practices, module structure, securit
 ## 主な機能
 
 **レビュー対象領域:**
+
 - モジュール構造と設計パターン
 - AWS / GCP リソースのベストプラクティス
 - セキュリティとコンプライアンス
@@ -18,6 +19,7 @@ description: Review Terraform code for best practices, module structure, securit
 - 出力の定義
 
 **重点項目:**
+
 - 状態管理 (Cloud Storage / S3 backend)
 - シークレット管理 (Secret Manager / SSM Parameter Store / AWS Secrets Manager の data source 推奨)
 - IAM リソース (`google_*_iam_member` / `aws_iam_role_policy_attachment` を最小権限で)

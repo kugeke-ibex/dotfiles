@@ -27,14 +27,14 @@ allowed-tools: Read, Bash, Edit, Write, Grep, Glob
 
 ## 反映先の判定
 
-| 変更内容 | 反映先 |
-| --- | --- |
-| `permissions.allow` / `permissions.deny` の追加 | `config/claude/settings.json` |
-| `hooks` の登録 / 解除 | 同上 |
-| `model` / `theme` / `preferredNotifChannel` 等の項目 | 同上 |
-| `enabledPlugins` / `extraKnownMarketplaces` (公開可能なもの) | 同上 |
-| 機密情報 (業務 marketplace の token / private repo URL 等) | テンプレに入れず `~/.claude/settings.local.json` に手動配置 (このリポジトリは sops-nix 未採用) |
-| 一時的な調整 (temperature / maxTokens の試行錯誤) | 無視してよい |
+| 変更内容                                                     | 反映先                                                                                         |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `permissions.allow` / `permissions.deny` の追加              | `config/claude/settings.json`                                                                  |
+| `hooks` の登録 / 解除                                        | 同上                                                                                           |
+| `model` / `theme` / `preferredNotifChannel` 等の項目         | 同上                                                                                           |
+| `enabledPlugins` / `extraKnownMarketplaces` (公開可能なもの) | 同上                                                                                           |
+| 機密情報 (業務 marketplace の token / private repo URL 等)   | テンプレに入れず `~/.claude/settings.local.json` に手動配置 (このリポジトリは sops-nix 未採用) |
+| 一時的な調整 (temperature / maxTokens の試行錯誤)            | 無視してよい                                                                                   |
 
 ## 重要
 

@@ -16,16 +16,16 @@
 
 ## 変更をどこに書くか（迷ったら共通寄り）
 
-| 用途 | 置き場所 |
-| --- | --- |
-| 共通 brew / 多くの cask | [`modules/darwin/homebrew-common.nix`](modules/darwin/homebrew-common.nix) |
-| personal のみの brew/cask | [`modules/darwin/homebrew-personal.nix`](modules/darwin/homebrew-personal.nix) |
-| 個人マシンだけの差分 | [`hosts/personal/default.nix`](hosts/personal/default.nix) |
-| 社用マシンごとの差分 | [`hosts/<名前>/default.nix`](hosts/work/default.nix) |
-| Home Manager（シェル・git・nvim 等） | [`modules/home/`](modules/home/) |
-| WezTerm / Ghostty / Neovim の設定本文 | [`config/wezterm/`](config/wezterm/), [`config/ghostty/`](config/ghostty/), [`config/nvim/`](config/nvim/) |
-| Cursor の設定 | [`config/cursor/settings.json`](config/cursor/settings.json), [`config/cursor/keybindings.json`](config/cursor/keybindings.json) |
-| VS Code（厳密 JSON） | [`config/vscode/`](config/vscode/) + [`modules/home/vscode.nix`](modules/home/vscode.nix) |
+| 用途                                  | 置き場所                                                                                                                         |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 共通 brew / 多くの cask               | [`modules/darwin/homebrew-common.nix`](modules/darwin/homebrew-common.nix)                                                       |
+| personal のみの brew/cask             | [`modules/darwin/homebrew-personal.nix`](modules/darwin/homebrew-personal.nix)                                                   |
+| 個人マシンだけの差分                  | [`hosts/personal/default.nix`](hosts/personal/default.nix)                                                                       |
+| 社用マシンごとの差分                  | [`hosts/<名前>/default.nix`](hosts/work/default.nix)                                                                             |
+| Home Manager（シェル・git・nvim 等）  | [`modules/home/`](modules/home/)                                                                                                 |
+| WezTerm / Ghostty / Neovim の設定本文 | [`config/wezterm/`](config/wezterm/), [`config/ghostty/`](config/ghostty/), [`config/nvim/`](config/nvim/)                       |
+| Cursor の設定                         | [`config/cursor/settings.json`](config/cursor/settings.json), [`config/cursor/keybindings.json`](config/cursor/keybindings.json) |
+| VS Code（厳密 JSON）                  | [`config/vscode/`](config/vscode/) + [`modules/home/vscode.nix`](modules/home/vscode.nix)                                        |
 
 ---
 
@@ -69,6 +69,6 @@
 
 ## 調べる順序の提案
 
-1. 目的に近い節を **`CLAUDE.md` で検索**する。  
-2. ホスト追加・bootstrap・switch コマンドは **`README.md`**。  
+1. 目的に近い節を **`CLAUDE.md` で検索**する。
+2. ホスト追加・bootstrap・switch コマンドは **`README.md`**。
 3. 初回セットアップの人向け短文は **`docs/setup.md`**。
