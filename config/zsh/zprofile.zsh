@@ -8,10 +8,6 @@ if [[ "$(uname -s)" == Darwin ]]; then
   /bin/launchctl limit maxfiles 65536 200000 2>/dev/null || true
 fi
 
-# Kiro CLI pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] \
-  && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
-
 # nodebrew
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 export NODE_PATH="$HOME/.nodebrew/node/v16.13.1/lib/node_modules/"
@@ -27,7 +23,3 @@ fi
 
 # OrbStack: command-line tools and integration
 source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null || :
-
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] \
-  && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
