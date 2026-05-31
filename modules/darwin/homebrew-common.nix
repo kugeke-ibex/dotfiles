@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   # 共通: personal / work 両方で入れる CLI・開発向け cask。
   # 個人のみの追加ブラウザ・デザイン・翻訳・実験 CLI 等は homebrew-personal.nix。
@@ -7,9 +7,9 @@
 
     onActivation = {
       autoUpdate = false;
-      # work や実験用 brew を消したくないホストの既定。personal は hosts/personal で "uninstall" に上書き。
+      # work や実験用 brew を消したくないホストの既定。personal は hosts/personal で "uninstall" に上書きするので mkDefault。
       # ※ nix-darwin 26 以降 bool は不可、`"none" | "check" | "uninstall" | "zap"` の enum。
-      cleanup = "none";
+      cleanup = lib.mkDefault "none";
       upgrade = true;
     };
 
