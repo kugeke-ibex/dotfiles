@@ -153,23 +153,41 @@
 
       checks.${system}.formatting = treefmtEval.config.build.check self;
 
+      # 初回適用前は `darwin-rebuild` がまだ PATH に無いため、
+      # bootstrap.sh と同じく `nix run nix-darwin -- ...` で fallback する。
       apps.${system} = {
         switch = mkApp "darwin-switch" ''
           host="''${1:-personal}"
-          sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+          if command -v darwin-rebuild >/dev/null 2>&1; then
+            sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+          else
+            sudo nix run nix-darwin -- switch --flake "${flakeDir}#$host"
+          fi
         '';
         build = mkApp "darwin-build" ''
           host="''${1:-personal}"
-          darwin-rebuild build --flake "${flakeDir}#$host"
+          if command -v darwin-rebuild >/dev/null 2>&1; then
+            darwin-rebuild build --flake "${flakeDir}#$host"
+          else
+            nix run nix-darwin -- build --flake "${flakeDir}#$host"
+          fi
         '';
         check = mkApp "darwin-check" ''
           host="''${1:-personal}"
-          darwin-rebuild check --flake "${flakeDir}#$host"
+          if command -v darwin-rebuild >/dev/null 2>&1; then
+            darwin-rebuild check --flake "${flakeDir}#$host"
+          else
+            nix run nix-darwin -- check --flake "${flakeDir}#$host"
+          fi
         '';
         update = mkApp "darwin-update" ''
           host="''${1:-personal}"
           nix flake update --flake "${flakeDir}"
-          sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+          if command -v darwin-rebuild >/dev/null 2>&1; then
+            sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+          else
+            sudo nix run nix-darwin -- switch --flake "${flakeDir}#$host"
+          fi
         '';
       };
 
