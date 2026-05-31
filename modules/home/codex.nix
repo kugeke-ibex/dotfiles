@@ -1,4 +1,10 @@
-{ config, lib, pkgs, dotfilesRelative, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  dotfilesRelative,
+  ...
+}:
 let
   dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelative}";
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";

@@ -1,4 +1,9 @@
-{ pkgs, config, dotfilesRelative, ... }:
+{
+  pkgs,
+  config,
+  dotfilesRelative,
+  ...
+}:
 let
   dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelative}";
 in

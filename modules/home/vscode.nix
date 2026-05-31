@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 lib.mkMerge [
   {
     # personal 等では既定 ON。work は profiles/work.nix で false に上書き。

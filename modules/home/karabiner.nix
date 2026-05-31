@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   # karabiner.json は UI 経由で書き換えられる前提のため symlink せず、
   # 既存ファイルが無い場合のみテンプレートをコピー (差分は手動で merge)
