@@ -210,6 +210,10 @@ keys-vscode() {
   _keys_pager_file "$(_dotfiles_root)/config/vscode/keybindings.json"
 }
 
+keys-raycast() {
+  _keys_md "$(_dotfiles_root)/docs/keybindings/raycast.md"
+}
+
 alias kw='keys-wezterm'
 alias kg='keys-ghostty'
 alias kk='keys-karabiner'
@@ -219,3 +223,4 @@ alias kc='keys-cmux'
 alias ki='keys-iterm'
 alias kcur='keys-cursor'
 alias kvs='keys-vscode'
+alias kr='keys-raycast'
