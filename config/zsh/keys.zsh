@@ -115,6 +115,27 @@ keys-cmux() {
   _keys_md "$(_dotfiles_root)/docs/keybindings/cmux.md"
 }
 
+keys-iterm() {
+  local root="$(_dotfiles_root)"
+  local md="$root/docs/keybindings/iterm2.md"
+  local plist="$root/config/iterm2/com.googlecode.iterm2.plist"
+  if [[ ! -f "$md" ]]; then
+    print -u2 "keys: not found: $md"
+    return 1
+  fi
+  {
+    command cat "$md"
+    if [[ -f "$plist" ]]; then
+      print ""
+      print "=== iTerm2 plist (hotkey / font / default profile) ==="
+      print ""
+      command plutil -p "$plist" 2>/dev/null \
+        | command rg -i 'hotkey|Normal Font|Default Bookmark|GlobalKeyMap' \
+        || command plutil -p "$plist" 2>/dev/null | command head -40
+    fi
+  } | _keys_pager_stdin
+}
+
 keys-nvim() {
   local root="$(_dotfiles_root)"
   case "${1:-}" in
@@ -143,5 +164,6 @@ alias kg='keys-ghostty'
 alias kk='keys-karabiner'
 alias kn='keys-nvim'
 alias kc='keys-cmux'
+alias ki='keys-iterm'
 alias kcur='keys-cursor'
 alias kvs='keys-vscode'

@@ -129,6 +129,7 @@ in
     ];
 
     casks = [
+      "iterm2"
       "wezterm"
       "ghostty"
       "cmux"

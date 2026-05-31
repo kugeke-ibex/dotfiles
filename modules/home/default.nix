@@ -9,6 +9,7 @@
     ./git.nix
     ./editor.nix
     ./terminal.nix
+    ./iterm2.nix
     ./karabiner.nix
     ./vscode.nix
     ./cursor.nix

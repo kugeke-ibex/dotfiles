@@ -1,0 +1,49 @@
+# iTerm2 キーバインド・設定
+
+iTerm2 は **WezTerm / Ghostty の補助**として personal / work 共通で cask インストールし、設定は `config/iterm2/com.googlecode.iterm2.plist` を Nix で `~/Library/Preferences/` に symlink する。
+
+## 管理ファイル
+
+| 項目 | パス |
+|------|------|
+| 設定本体 | [config/iterm2/com.googlecode.iterm2.plist](../../config/iterm2/com.googlecode.iterm2.plist) |
+| Home Manager | [modules/home/iterm2.nix](../../modules/home/iterm2.nix) |
+| cask | `modules/darwin/homebrew-common.nix` の `iterm2` |
+
+## Hotkey Window（グローバル）
+
+plist 上で Hotkey Window が有効。プロファイルは **MesloLGS-NF 19**、デフォルト GUID `8D68D298-6D99-4642-8C3C-998962D33809`。
+
+| 項目 | 値（plist） |
+|------|-------------|
+| `Hotkey` | 有効 |
+| `HotkeyWindowFloatsAboveOtherWindows` | 有効 |
+| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示） |
+
+WezTerm / Ghostty 側の Hotkey 相当は Karabiner の `Ctrl+Opt+W` / `Ctrl+Opt+G`（[README](README.md) の Hotkey Window 節）。
+
+## 設定の取り込み・反映
+
+**日常**: iTerm2 の Preferences で変更 → 保存すると **symlink 先の `config/iterm2/` に直接書き込まれる**（rebuild 不要）。iTerm2 を再起動すれば反映。
+
+**別マシンから初回取り込み**（symlink 適用前に Library 側だけ編集している場合）:
+
+```bash
+plutil -convert xml1 -o config/iterm2/com.googlecode.iterm2.plist \
+  ~/Library/Preferences/com.googlecode.iterm2.plist
+git add config/iterm2/com.googlecode.iterm2.plist
+```
+
+**初回 symlink 適用**（`Library/Preferences` が実ファイルのままのとき）:
+
+```bash
+cd ~/Development/dotfiles
+darwin-rebuild build --flake '.#personal'
+sudo darwin-rebuild activate
+```
+
+## シェルで確認
+
+```bash
+keys-iterm   # または ki
+```

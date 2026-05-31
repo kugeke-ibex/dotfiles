@@ -8,6 +8,7 @@
 | WezTerm            | [wezterm.md](wezterm.md)     | [config/wezterm/wezterm.lua](../../config/wezterm/wezterm.lua)                   | `keys-wezterm` / `kw` |
 | Ghostty            | [ghostty.md](ghostty.md)     | [config/ghostty/config](../../config/ghostty/config)                             | `keys-ghostty` / `kg` |
 | cmux               | [cmux.md](cmux.md)           | [config/ghostty/config](../../config/ghostty/config) (libghostty 内蔵のため共有) | `keys-cmux` / `kc` |
+| iTerm2             | [iterm2.md](iterm2.md)       | [config/iterm2/com.googlecode.iterm2.plist](../../config/iterm2/com.googlecode.iterm2.plist) | `keys-iterm` / `ki` |
 | Karabiner-Elements | [karabiner.md](karabiner.md) | [karabiner/karabiner.json](../../karabiner/karabiner.json)                       | `keys-karabiner` / `kk` |
 | Neovim (LazyVim)   | [nvim.md](nvim.md)           | [config/nvim/lua/config/keymaps.lua](../../config/nvim/lua/config/keymaps.lua)   | `keys-nvim` / `kn`（`--live` で `:map`） |
 | Cursor             | —                            | [config/cursor/keybindings.json](../../config/cursor/keybindings.json)           | `keys-cursor` / `kcur` |

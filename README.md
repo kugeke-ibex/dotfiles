@@ -158,6 +158,7 @@ nix run '.#switch' -- work-office
 | **`*.nix`・`flake.nix`・`hosts/`・パッケージ一覧**                       | `darwin-rebuild build --flake '~/Development/dotfiles#<host>'` → `sudo darwin-rebuild activate`。または `nix run '.#switch' -- <host>`。 |
 | **WezTerm / Ghostty / Neovim（`config/wezterm/`・`config/nvim/` など）** | `modules/home` が **live symlink** で繋いでいるため、**ファイル保存で反映**（ターミナル／エディタのリロードや再起動はアプリ側）。**switch は不要**。                               |
 | **Cursor の `config/cursor/*.json`**                                     | 同上（symlink）。保存後に Cursor を再読込／再起動。                                                                                                                                |
+| **iTerm2 の `config/iterm2/com.googlecode.iterm2.plist`**                | 同上（symlink）。Preferences 保存で反映。初回は `activate` で symlink 化。                                                                                                         |
 | **VS Code の `config/vscode/*.json`・`config/starship.toml`**            | Nix がビルド時に読み込むため、変更後は **switch が必要**。                                                                                                                         |
 
 **補足:** `config/claude/settings.json` や Codex のテンプレは **初回のみホームへコピー**される運用のため、既に `~/.claude/` 等にファイルがあると **リポジトリを直しただけでは自動では上書きされない**（手でマージするか、方針どおり取り直し）。詳細は該当モジュールのコメントを参照。
