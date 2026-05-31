@@ -12,9 +12,10 @@
       upgrade = true;
     };
 
+    # Homebrew Bundle は 4.4.0 (Oct 2024) で lockfile support 廃止。
+    # nix-darwin 側の `homebrew.global.lockfiles` / `noLock` も effect 無しの deprecated。
     global = {
       brewfile = true;
-      lockfiles = false;
     };
 
     taps = [

@@ -2,10 +2,13 @@
 {
   programs.git = {
     enable = true;
-    userName = "Kenjiro Kuge";
-    # userEmail は modules/home/profiles/{personal,work}.nix で設定
 
-    extraConfig = {
+    # 最新 home-manager では programs.git.{userName, userEmail, aliases, extraConfig}
+    # は deprecated。すべて `programs.git.settings.*` に統合された。
+    # email はホスト profile (modules/home/profiles/{personal,work}.nix) で上書きする。
+    settings = {
+      user.name = "Kenjiro Kuge";
+
       init.defaultBranch = "main";
       pull.rebase = false;
       push.autoSetupRemote = true;
@@ -13,17 +16,17 @@
       color.ui = "auto";
       rebase.autosquash = true;
       rerere.enabled = true;
-    };
 
-    aliases = {
-      st = "status -sb";
-      co = "checkout";
-      sw = "switch";
-      br = "branch";
-      ci = "commit";
-      cm = "commit -m";
-      lg = "log --oneline --graph --decorate --all";
-      last = "log -1 HEAD --stat";
+      alias = {
+        st = "status -sb";
+        co = "checkout";
+        sw = "switch";
+        br = "branch";
+        ci = "commit";
+        cm = "commit -m";
+        lg = "log --oneline --graph --decorate --all";
+        last = "log -1 HEAD --stat";
+      };
     };
 
     ignores = [
