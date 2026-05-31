@@ -83,10 +83,14 @@ main() {
   ensure_homebrew_ownership
 
   log "Applying nix-darwin configuration for host: $host"
+  # flake はユーザー所有の git リポジトリから評価する（sudo switch だと libgit2 GIT_EOWNER）。
+  # build をユーザーで行い、activate だけ root（nix-darwin の要件）。
   if command -v darwin-rebuild >/dev/null 2>&1; then
-    sudo darwin-rebuild switch --flake "${DOTFILES_DIR}#${host}"
+    darwin-rebuild build --flake "${DOTFILES_DIR}#${host}"
+    sudo darwin-rebuild activate
   else
-    sudo nix run nix-darwin -- switch --flake "${DOTFILES_DIR}#${host}"
+    nix run nix-darwin -- build --flake "${DOTFILES_DIR}#${host}"
+    sudo nix run nix-darwin -- activate
   fi
 
   # 初回 LazyVim プラグインの prefetch (任意)

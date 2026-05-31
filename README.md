@@ -126,25 +126,27 @@ git pull   # 追加コミットを取り込む
 
 ```bash
 cd ~/Development/dotfiles
-darwin-rebuild switch --flake .#personal
-# 社用の例
-darwin-rebuild switch --flake .#work
-darwin-rebuild switch --flake .#work-office
+# sudo switch だと git 所有権エラー (libgit2 GIT_EOWNER) になるため build → activate に分ける
+darwin-rebuild build --flake '.#personal'
+sudo darwin-rebuild activate
+# 社用の例: '.#work' / '.#work-office' に読み替え
 ```
 
-次でも同じ意味になる。
+次でも同じ意味になる（**zsh では `.#` をクォート**しないと `no matches found` になる）。
 
 ```bash
 cd ~/Development/dotfiles
-nix run .#switch -- personal
-nix run .#switch -- work-office
+nix run '.#switch' -- personal
+nix run '.#switch' -- work-office
 ```
+
+新規ファイルを Nix が参照する場合は先に `git add` する（flake が git リポジトリとして評価されるため）。
 
 ## Daily Operations
 
 | Alias        | 内容                                                                                                                                                                                                                  |
 | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `nix-switch` | `darwin-rebuild switch --flake $HOME/<dotfilesRelative>`（ホスト名は付かない。**複数ホスト運用では** `darwin-rebuild switch --flake $HOME/<dotfilesRelative>#<host>` か、上記の `nix run .#switch -- <host>` を使う） |
+| `nix-switch` | `cd $HOME/<dotfilesRelative> && nix run '$HOME/<dotfilesRelative>#switch' -- personal`（zsh は `#` をクォート） |
 | `nfu`        | `nix flake update --flake $HOME/<dotfilesRelative>`                                                                                                                                                                   |
 | `ngc`        | `sudo nix-collect-garbage -d && nix-collect-garbage -d`                                                                                                                                                               |
 
@@ -152,7 +154,7 @@ nix run .#switch -- work-office
 
 | 変更したもの                                                             | 手順                                                                                                                                                                               |
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`*.nix`・`flake.nix`・`hosts/`・パッケージ一覧**                       | `darwin-rebuild switch --flake ~/Development/dotfiles#<host>` または `cd ~/Development/dotfiles && nix run .#switch -- <host>`。**適用だけ試す**なら `nix run .#build -- <host>`。 |
+| **`*.nix`・`flake.nix`・`hosts/`・パッケージ一覧**                       | `darwin-rebuild build --flake '~/Development/dotfiles#<host>'` → `sudo darwin-rebuild activate`。または `nix run '.#switch' -- <host>`。 |
 | **WezTerm / Ghostty / Neovim（`config/wezterm/`・`config/nvim/` など）** | `modules/home` が **live symlink** で繋いでいるため、**ファイル保存で反映**（ターミナル／エディタのリロードや再起動はアプリ側）。**switch は不要**。                               |
 | **Cursor の `config/cursor/*.json`**                                     | 同上（symlink）。保存後に Cursor を再読込／再起動。                                                                                                                                |
 | **VS Code の `config/vscode/*.json`・`config/starship.toml`**            | Nix がビルド時に読み込むため、変更後は **switch が必要**。                                                                                                                         |

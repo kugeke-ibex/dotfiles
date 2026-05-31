@@ -17,6 +17,59 @@
         },
         "rules": [
           {
+            "description": "Ctrl+Opt+W/G -> WezTerm/Ghostty hotkey window toggle (iTerm2 style)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": { "mandatory": ["control", "option"], "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "exec \"$HOME/.local/bin/karabiner-toggle-wezterm\""
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": { "mandatory": ["caps_lock", "option"], "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "exec \"$HOME/.local/bin/karabiner-toggle-wezterm\""
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "g",
+                  "modifiers": { "mandatory": ["control", "option"], "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "exec \"$HOME/.local/bin/karabiner-toggle-ghostty\""
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "g",
+                  "modifiers": { "mandatory": ["caps_lock", "option"], "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "shell_command": "exec \"$HOME/.local/bin/karabiner-toggle-ghostty\""
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Left Cmd (tap) -> 英数 / Right Cmd (tap) -> かな",
             "manipulators": [
               {
@@ -174,25 +227,6 @@
                   }
                 },
                 "to": [{ "key_code": "right_arrow" }]
-              }
-            ]
-          },
-          {
-            "description": "Ctrl+Opt+W -> toggle WezTerm hotkey window (iTerm2 Hotkey Window style)",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "w",
-                  "modifiers": {
-                    "mandatory": ["control", "option"]
-                  }
-                },
-                "to": [
-                  {
-                    "shell_command": "/bin/zsh -lc '~/.local/bin/toggle-wezterm-hotkey'"
-                  }
-                ]
               }
             ]
           }

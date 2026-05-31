@@ -37,7 +37,8 @@ in
       vi = "nvim";
       vim = "nvim";
 
-      nix-switch = "darwin-rebuild switch --flake ${dotfilesPath}";
+      # zsh では .# がグロブ/コメント扱いになるため flake 参照はクォートする
+      nix-switch = "cd ${dotfilesPath} && nix run '${dotfilesPath}#switch' -- personal";
       nfu = "nix flake update --flake ${dotfilesPath}";
       ngc = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
       nfmt = "nix fmt";

@@ -1,4 +1,4 @@
--- iTerm2 Hotkey Window 相当: workspace "hotkey" をドロップダウン表示し、外部からトグルする。
+-- iTerm2 Hotkey Window 相当: workspace `hotkey` 専用ウィンドウ（オーバーレイではない）
 -- トグル: ~/.local/bin/toggle-wezterm-hotkey (Karabiner Ctrl+Opt+W)
 
 local wezterm = require("wezterm")
@@ -7,28 +7,39 @@ local mux = wezterm.mux
 local HOTKEY_WORKSPACE = "hotkey"
 local HOTKEY_TITLE = "WezTerm Hotkey"
 
-local function configure_hotkey_window(gui)
-	local screen = wezterm.gui.screens().active
-	local height = math.floor(screen.height * 0.4)
-	gui:set_position(screen.x, screen.y)
-	gui:set_inner_size(screen.width, height)
-	pcall(function()
-		gui:set_window_level("FloatingWindow")
-	end)
+local function setup_hotkey_window(window)
+	local pane = window:active_pane()
+	pane:set_user_var("hotkey_window", "1")
+	window:set_title(HOTKEY_TITLE)
+	window:gui_window():maximize()
 end
 
 wezterm.on("gui-startup", function(cmd)
 	local tab, pane, window = mux.spawn_window(cmd or {})
-	local gui = window:gui_window()
 	local workspace = (cmd and cmd.workspace) or "default"
 
 	if workspace == HOTKEY_WORKSPACE then
-		window:set_name(HOTKEY_TITLE)
-		mux.set_active_workspace(HOTKEY_WORKSPACE)
-		configure_hotkey_window(gui)
+		setup_hotkey_window(window)
 	else
-		gui:maximize()
+		window:gui_window():maximize()
 	end
+end)
+
+wezterm.on("format-window-title", function(_tab, pane, _tabs, _panes, _config)
+	if pane.user_vars.hotkey_window == "1" then
+		return HOTKEY_TITLE
+	end
+end)
+
+-- Karabiner トグルから OSC 1337 で hotkey_toggle=hide を送り、補助アクセスなしで最小化
+wezterm.on("user-var-changed", function(window, pane, name, value)
+	if name ~= "hotkey_toggle" or value ~= "hide" then
+		return
+	end
+	if pane:get_user_vars().hotkey_window ~= "1" then
+		return
+	end
+	window:perform_action(wezterm.action.Hide, pane)
 end)
 
 return {

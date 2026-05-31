@@ -116,6 +116,8 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "before-nix-darwin";
+                # 再 activate 時に *.before-nix-darwin が既にあると checkLinkTargets が失敗するのを防ぐ
+                overwriteBackup = true;
                 extraSpecialArgs = {
                   inherit
                     inputs
@@ -165,9 +167,11 @@
         switch = mkApp "darwin-switch" ''
           host="''${1:-personal}"
           if command -v darwin-rebuild >/dev/null 2>&1; then
-            sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+            darwin-rebuild build --flake "${flakeDir}#$host"
+            sudo darwin-rebuild activate
           else
-            sudo nix run nix-darwin -- switch --flake "${flakeDir}#$host"
+            nix run nix-darwin -- build --flake "${flakeDir}#$host"
+            sudo nix run nix-darwin -- activate
           fi
         '';
         build = mkApp "darwin-build" ''
@@ -190,9 +194,11 @@
           host="''${1:-personal}"
           nix flake update --flake "${flakeDir}"
           if command -v darwin-rebuild >/dev/null 2>&1; then
-            sudo darwin-rebuild switch --flake "${flakeDir}#$host"
+            darwin-rebuild build --flake "${flakeDir}#$host"
+            sudo darwin-rebuild activate
           else
-            sudo nix run nix-darwin -- switch --flake "${flakeDir}#$host"
+            nix run nix-darwin -- build --flake "${flakeDir}#$host"
+            sudo nix run nix-darwin -- activate
           fi
         '';
       };

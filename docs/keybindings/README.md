@@ -34,8 +34,8 @@ cmux は libghostty を内蔵していて Ghostty の keybind がそのまま流
 
 | キー         | アプリ   | 仕組み |
 | ------------ | -------- | ------ |
-| `Ctrl+Opt+W` | WezTerm  | Karabiner → `toggle-wezterm-hotkey` |
-| `Ctrl+Opt+G` | Ghostty  | `toggle_quick_terminal`（Ghostty 設定内 `global:`） |
+| `Ctrl+Opt+W` | WezTerm  | Karabiner → hotkey ウィンドウ表示/非表示 |
+| `Ctrl+Opt+G` | Ghostty  | Karabiner → ウィンドウ表示/非表示 |
 
 詳細は [karabiner.md](karabiner.md)、[wezterm.md](wezterm.md)、[ghostty.md](ghostty.md)。
 
