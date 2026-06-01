@@ -231,4 +231,21 @@ in
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/go/bin"
   ];
+
+  # nix-homebrew が既存 Homebrew を auto-migrate すると、/opt/homebrew の
+  # zsh site-functions に旧インストール由来の dangling symlink (_brew など) が
+  # 残ることがある。fpath には site-functions が入っているため、compinit が
+  # これを踏んで `compinit: no such file or directory: .../_brew` を出す。
+  # switch 時に「ターゲットの無い symlink」だけを掃除する（実体ファイルは触らない）。
+  home.activation.pruneStaleBrewCompletions = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    dir="/opt/homebrew/share/zsh/site-functions"
+    if [ -d "$dir" ]; then
+      for link in "$dir"/_*; do
+        if [ -L "$link" ] && [ ! -e "$link" ]; then
+          $VERBOSE_ECHO "removing dangling brew zsh completion: $link"
+          $DRY_RUN_CMD rm -f "$link"
+        fi
+      done
+    fi
+  '';
 }
