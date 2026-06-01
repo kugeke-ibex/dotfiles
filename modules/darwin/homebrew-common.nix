@@ -153,9 +153,5 @@ in
       "google-chrome"
       "zoom"
     ];
-
-    masApps = {
-      "Slack" = 803453959;
-    };
   };
 }

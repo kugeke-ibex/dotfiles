@@ -4,4 +4,10 @@
 { ... }:
 {
   # 例: 社用共通の system.defaults、追加 taps、ホスト横断で揃えたい brew だけ など
+
+  # Slack: 個人 PC は Mac App Store 版 (homebrew-personal.nix の masApps)。
+  # 社用 Mac は Apple ID / Mac App Store を使えないことが多いので cask 版で入れる。
+  homebrew.casks = [
+    "slack"
+  ];
 }
