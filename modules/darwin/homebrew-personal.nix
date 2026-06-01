@@ -7,6 +7,7 @@
     ];
 
     casks = [
+      "bitwarden"
       "figma"
       "firefox"
       "microsoft-edge"

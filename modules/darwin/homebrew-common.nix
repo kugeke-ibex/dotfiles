@@ -134,7 +134,6 @@ in
       "ghostty"
       "cmux"
       "raycast"
-      "bitwarden"
       "karabiner-elements"
 
       "claude-code"
