@@ -151,12 +151,6 @@
                   "kayac/homebrew-tap" = inputs.homebrew-kayac;
                 };
                 mutableTaps = false;
-                # 既存の手動インストール済み Homebrew (/opt/homebrew) を nix-homebrew
-                # 管理下へ取り込む。これが無いと初回 switch 時に
-                # "An existing /opt/homebrew/Library/Homebrew is in the way" で停止する。
-                # 移行はインストール済みパッケージを保持したまま行われ、既に nix-homebrew
-                # 管理済みのホストでは何もしない（冪等）。
-                autoMigrate = true;
               };
             }
           ];
