@@ -4,7 +4,61 @@
 #
 # cursor CLI が PATH に無い場合: Cursor から "Install cursor command" を実行。
 #
-# settings.json で言及している例（未インストールなら追加）
-# golang.go
-# hashicorp.terraform
-# esbenp.prettier-vscode
+alefragnani.project-manager
+amazonwebservices.codewhisperer-for-command-line-companion
+anthropic.claude-code
+anysphere.cursorpyright
+anysphere.pyright
+bbenoist.nix
+bierner.markdown-mermaid
+bmewburn.vscode-intelephense-client
+bpruitt-goddard.mermaid-markdown-syntax-highlighting
+christian-kohler.path-intellisense
+davidanson.vscode-markdownlint
+devsense.composer-php-vscode
+devsense.intelli-php-vscode
+devsense.phptools-vscode
+devsense.profiler-php-vscode
+eamodio.gitlens
+esbenp.prettier-vscode
+formulahendry.auto-close-tag
+formulahendry.auto-rename-tag
+georgewfraser.vscode-javac
+github.vscode-github-actions
+golang.go
+hashicorp.terraform
+hediet.vscode-drawio
+hediet.vscode-drawio-insiders-build
+jebbs.plantuml
+jnoortheen.nix-ide
+mehedidracula.php-namespace-resolver
+mermaidchart.vscode-mermaid-chart
+ms-azuretools.vscode-docker
+ms-ceintl.vscode-language-pack-ja
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
+ms-vscode-remote.remote-containers
+ms-vscode.makefile-tools
+oderwat.indent-rainbow
+openai.chatgpt
+peterj.proto
+pkief.material-icon-theme
+redhat.java
+taichi.vscode-textlint
+tomoki1207.pdf
+visualstudioexptteam.intellicode-api-usage-examples
+visualstudioexptteam.vscodeintellicode
+vscjava.vscode-gradle
+vscjava.vscode-java-debug
+vscjava.vscode-java-dependency
+vscjava.vscode-java-pack
+vscjava.vscode-java-test
+vscjava.vscode-maven
+vscjava.vscode-spring-initializr
+vstirbu.vscode-mermaid-preview
+walkme.java-extension-pack
+xdebug.php-debug
+xdebug.php-pack
+zobo.php-intellisense
+zxh404.vscode-proto3
