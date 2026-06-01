@@ -30,10 +30,11 @@ in
     ".claude/rules".source = mkLink "config/claude/rules";
     ".claude/hooks".source = mkLink "config/claude/hooks";
 
-    ".claude/statusline.sh" = {
-      source = mkLink "config/claude/statusline.sh";
-      executable = true;
-    };
+    # mkOutOfStoreSymlink と executable=true を併用すると home-manager が
+    # 実行ビット付与のために store へコピーしようとし、その cp が dotfiles
+    # 実体 ($HOME/...) を読めず "Permission denied" で失敗する (work 機で発生)。
+    # statusline.sh は git 上で 100755 のため、素の symlink で実行ビットを引き継ぐ。
+    ".claude/statusline.sh".source = mkLink "config/claude/statusline.sh";
   };
 
   home.activation.installClaudeSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
