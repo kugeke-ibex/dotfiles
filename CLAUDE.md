@@ -41,7 +41,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 │       ├── git.nix                  # git + gh + lazygit
 │       ├── editor.nix               # neovim
 │       ├── terminal.nix             # WezTerm + Ghostty 設定の配置 (cmux も ghostty.config を流用)
-│       ├── iterm2.nix               # iTerm2 plist の symlink
+│       ├── iterm2.nix               # iTerm2 prefs を custom folder 方式で config/iterm2 から読込
 │       ├── karabiner.nix            # karabiner.json の初回コピー
 │       └── profiles/
 │           ├── personal.nix         # 個人プロファイル (git email 等)
@@ -93,22 +93,22 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 **設定ファイルとドキュメントは同じコミットで更新する**。
 
-| 設定ファイル                          | 対応するドキュメント            |
-| ------------------------------------- | ------------------------------- |
-| `config/wezterm/wezterm.lua`          | `docs/keybindings/wezterm.md`   |
-| `config/ghostty/config`               | `docs/keybindings/ghostty.md`   |
-| `config/ghostty/config` (cmux も共有) | `docs/keybindings/cmux.md`      |
+| 設定ファイル                                | 対応するドキュメント            |
+| ------------------------------------------- | ------------------------------- |
+| `config/wezterm/wezterm.lua`                | `docs/keybindings/wezterm.md`   |
+| `config/ghostty/config`                     | `docs/keybindings/ghostty.md`   |
+| `config/ghostty/config` (cmux も共有)       | `docs/keybindings/cmux.md`      |
 | `config/iterm2/com.googlecode.iterm2.plist` | `docs/keybindings/iterm2.md`    |
-| `karabiner/karabiner.json`            | `docs/keybindings/karabiner.md` |
+| `karabiner/karabiner.json`                  | `docs/keybindings/karabiner.md` |
 
 ### 4. エディタ・ランチャー管理
 
-| アプリ      | 本体                                  | 設定                                                                                                                                             | 拡張                                                                                                       |
-| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| **VSCode**  | `programs.vscode` (Nix `pkgs.vscode`) | `programs.vscode.profiles.default.{userSettings,keybindings}` を `builtins.fromJSON` で `config/vscode/{settings,keybindings}.json` から読み込み | `config/vscode/extensions.txt` (`code --list-extensions` の出力)、`mutableExtensionsDir = true` で手動許容 |
-| **Cursor**  | brew cask `cursor` (Nix package 無し) | `home.file` で `config/cursor/{settings,keybindings}.json` を symlink (JSONC 含むため Nix 解析しない)                                            | `config/cursor/extensions.txt` (cursor CLI で出力)                                                         |
-| **Raycast** | brew cask `raycast`                   | `config/raycast/raycast.rayconfig` を手動エクスポートしてコミット                                                                                | (Hotkey は SQLite DB のため `.rayconfig` で一括管理)                                                       |
-| **iTerm2**  | brew cask `iterm2` (共通)             | `home.file` で `config/iterm2/com.googlecode.iterm2.plist` を symlink（XML plist。UI 保存で dotfiles に直接書き込み）                            | —                                                                                                          |
+| アプリ      | 本体                                  | 設定                                                                                                                                                                                                                                             | 拡張                                                                                                       |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| **VSCode**  | `programs.vscode` (Nix `pkgs.vscode`) | `programs.vscode.profiles.default.{userSettings,keybindings}` を `builtins.fromJSON` で `config/vscode/{settings,keybindings}.json` から読み込み                                                                                                 | `config/vscode/extensions.txt` (`code --list-extensions` の出力)、`mutableExtensionsDir = true` で手動許容 |
+| **Cursor**  | brew cask `cursor` (Nix package 無し) | `home.file` で `config/cursor/{settings,keybindings}.json` を symlink (JSONC 含むため Nix 解析しない)                                                                                                                                            | `config/cursor/extensions.txt` (cursor CLI で出力)                                                         |
+| **Raycast** | brew cask `raycast`                   | `config/raycast/raycast.rayconfig` を手動エクスポートしてコミット                                                                                                                                                                                | (Hotkey は SQLite DB のため `.rayconfig` で一括管理)                                                       |
+| **iTerm2**  | brew cask `iterm2` (共通)             | iTerm2 の「Load preferences from a custom folder」で `config/iterm2/` を直接読み書き（activation が `PrefsCustomFolder`/`LoadPrefsFromCustomFolder` を設定。旧 symlink 方式は cfprefsd が無視するため廃止）。**反映は iTerm2 終了状態で switch** | —                                                                                                          |
 
 **重要**: VSCode の cask `visual-studio-code` は Nix で本体管理するため共通 cask から外してある (`modules/darwin/homebrew-common.nix` を参照)。誤って戻さないこと。
 

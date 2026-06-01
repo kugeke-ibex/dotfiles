@@ -1,17 +1,39 @@
 {
   config,
+  lib,
   dotfilesRelative,
   ...
 }:
 let
   dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelative}";
-  mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
+  prefsDir = "${dotfilesPath}/config/iterm2";
 in
 {
   # iTerm2 本体は brew cask "iterm2"（homebrew-common）。
-  # 設定は Cursor と同様、dotfiles 内 plist への symlink（UI で保存するとリポジトリに直接書き込まれる）。
-  home.file."Library/Preferences/com.googlecode.iterm2.plist" = {
-    force = true;
-    source = mkLink "config/iterm2/com.googlecode.iterm2.plist";
-  };
+  #
+  # 以前は ~/Library/Preferences/com.googlecode.iterm2.plist を dotfiles へ symlink して
+  # いたが、iTerm2 は設定を cfprefsd 経由で読むため、新しい Mac では
+  #   - cfprefsd がデフォルト設定をキャッシュして symlink を読まず、フォント・ウィンドウ
+  #     位置・Hotkey などが一切反映されない（既定の Monaco でグリフが豆腐になる）
+  #   - 終了時に binary plist を書き戻して git 管理の XML を壊す
+  # という問題があった。iTerm2 公式の「Load preferences from a custom folder」方式に切替える。
+  # 標準ドメイン (~/Library/Preferences) には「このフォルダから読め」というポインタだけを置き、
+  # 実体は dotfiles の config/iterm2/com.googlecode.iterm2.plist を直接読み書きさせる。
+  # ポインタはマシン固有の絶対パスだが標準ドメイン側にしか書かないため、git 管理の plist は汚れない。
+  #
+  # 反映には iTerm2 を終了した状態での switch が必要（起動中は defaults write がスキップされる）。
+  home.activation.iterm2UseCustomPrefsFolder = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    plist="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
+    # 旧来の dotfiles symlink が残っていると defaults write が committed plist を
+    # 書き換えてしまうため、cfprefsd 管理の実ファイルに置き換える。
+    if [ -L "$plist" ]; then
+      $DRY_RUN_CMD rm -f "$plist"
+    fi
+    if pgrep -xq iTerm2; then
+      $VERBOSE_ECHO "iTerm2 is running; skipping custom-prefs-folder setup (quit iTerm2 and re-run switch)."
+    else
+      $DRY_RUN_CMD defaults write com.googlecode.iterm2 PrefsCustomFolder -string "${prefsDir}"
+      $DRY_RUN_CMD defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+    fi
+  '';
 }
