@@ -101,7 +101,13 @@ main() {
   # 一括ダウンロードしておく。スキップしたい場合は SKIP_LAZY_PREINSTALL=1 を付与。
   if [[ ${SKIP_LAZY_PREINSTALL:-} != "1" ]] && command -v nvim >/dev/null 2>&1; then
     log "Pre-installing LazyVim plugins (Ctrl-C で中断可、SKIP_LAZY_PREINSTALL=1 で次回スキップ)"
-    nvim --headless "+Lazy! sync" +qa || true
+    # 個人 ~/.gitconfig の insteadOf (https://github.com/ -> SSH エイリアス) が効いていると、
+    # GitHub 用の SSH 鍵が未登録の社用 Mac では公開リポジトリの clone が
+    # "git@github.com: Permission denied (publickey)" で失敗する（lazy.nvim 本体・各プラグイン共に）。
+    # プラグイン取得は匿名 HTTPS で十分なので、global git config を無効化して URL 書き換えを
+    # 回避する（system / local config はそのまま、子プロセスの git も env を継承する）。
+    # stdin は /dev/null にして、万一 clone が失敗しても "Press any key" で固まらないようにする。
+    GIT_CONFIG_GLOBAL=/dev/null nvim --headless "+Lazy! sync" +qa </dev/null || true
   fi
 
   log "Done. Open a new shell to use the new environment."
