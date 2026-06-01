@@ -83,15 +83,18 @@ main() {
   ensure_homebrew_ownership
 
   log "Applying nix-darwin configuration for host: $host"
-  # flake はユーザー所有の git リポジトリから評価する（sudo switch だと libgit2 GIT_EOWNER）。
-  # build をユーザーで行い、activate だけ root（nix-darwin の要件）。
-  if command -v darwin-rebuild >/dev/null 2>&1; then
-    darwin-rebuild build --flake "${DOTFILES_DIR}#${host}"
-    sudo darwin-rebuild activate
-  else
-    nix run nix-darwin -- build --flake "${DOTFILES_DIR}#${host}"
-    sudo nix run nix-darwin -- activate
-  fi
+  # flake はユーザー所有の git リポジトリから評価する（sudo で評価すると libgit2 が
+  # GIT_EOWNER で落ちる）。そこで build はユーザー権限で行い、生成された system
+  # closure を root で activate する（activation は nix-darwin の要件で root が必要）。
+  #
+  # 注意: `darwin-rebuild activate` は引数を取らず、$0 のパス (.../sw/bin/darwin-rebuild)
+  # から対象システムを逆算する仕様。PATH 上の darwin-rebuild を sudo で叩くと
+  #   - 初回は store の bin/ を指してしまい `<bin>/activate: Not a directory` で落ち、
+  #   - 既存環境では *古い* current-system を activate してしまう。
+  # よって今ビルドした system path 内の darwin-rebuild を直接実行して新システムを反映する。
+  local system_path
+  system_path="$(nix build --no-link --print-out-paths "${DOTFILES_DIR}#darwinConfigurations.${host}.system")"
+  sudo -H "${system_path}/sw/bin/darwin-rebuild" activate
 
   # 初回 LazyVim プラグインの prefetch (任意)
   # 初回の `nvim` 起動を速くするため、ここで LazyVim のプラグインを headless で
