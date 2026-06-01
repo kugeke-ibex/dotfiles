@@ -58,5 +58,8 @@
   "security.workspace.trust.untrustedFiles": "open",
   "terminal.integrated.fontFamily": "MesloLGS NF",
   "cursor.composer.usageSummaryDisplay": "always",
-  "claudeCode.preferredLocation": "panel"
+  "claudeCode.preferredLocation": "panel",
+  "terminal.integrated.env.osx": {
+    "Q_NEW_SESSION": "1"
+  }
 }
