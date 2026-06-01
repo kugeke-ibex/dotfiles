@@ -30,7 +30,10 @@ in
       $DRY_RUN_CMD rm -f "$plist"
     fi
     if pgrep -xq iTerm2; then
-      $VERBOSE_ECHO "iTerm2 is running; skipping custom-prefs-folder setup (quit iTerm2 and re-run switch)."
+      # iTerm2 起動中に defaults を書いても、終了時に上書きされて無効になる。
+      # スキップしたことを必ず通知する（verbose でなくても見えるように echo）。
+      echo "[iterm2] iTerm2 が起動中のため custom-prefs-folder 設定をスキップしました。" >&2
+      echo "[iterm2] WezTerm など別端末で iTerm2 を完全終了してから switch し直してください。" >&2
     else
       $DRY_RUN_CMD defaults write com.googlecode.iterm2 PrefsCustomFolder -string "${prefsDir}"
       $DRY_RUN_CMD defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
