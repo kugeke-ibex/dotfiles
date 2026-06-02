@@ -79,6 +79,7 @@ in
       "coreutils"
       "expat"
       "ghq"
+      "sbt"
       "git-secrets"
       "go-parquet-tools"
       "gobject-introspection"
