@@ -17,21 +17,21 @@ libghostty を内蔵しており、[`~/.config/ghostty/config`](../../config/gho
 
 ghostty.config の keybind がそのまま動く。主な操作:
 
-| キー                          | 動作                           |
-| ----------------------------- | ------------------------------ |
-| `Cmd+D`                       | 右に split (`new_split:right`) |
-| `Cmd+Shift+D`                 | 下に split (`new_split:down`)  |
+| キー                          | 動作                              |
+| ----------------------------- | --------------------------------- |
+| `Cmd+D`                       | 右に split (`new_split:right`)    |
+| `Cmd+Shift+D`                 | 下に split (`new_split:down`)     |
 | `Cmd+[` / `Cmd+]`             | split 間フォーカス移動（前 / 次） |
-| `Ctrl+Shift+←/↓/↑/→`          | split リサイズ                 |
-| `Cmd+Z`                       | split zoom 切替                |
-| `Cmd+Enter`                   | フルスクリーン                 |
-| `Cmd+K`                       | クリア                         |
-| `Cmd+Shift+R`                 | 設定リロード                   |
-| `Cmd+T`                       | 新規タブ                       |
-| `Cmd+W`                       | タブ/split 閉じ                |
-| `Cmd+Shift+[` / `Cmd+Shift+]` | タブ切替                       |
-| `Cmd+1..9`                    | タブ番号でジャンプ             |
-| `Cmd++/-/0`                   | フォントサイズ                 |
+| `Ctrl+Shift+←/↓/↑/→`          | split リサイズ                    |
+| `Cmd+Z`                       | split zoom 切替                   |
+| `Cmd+Enter`                   | フルスクリーン                    |
+| `Cmd+K`                       | クリア                            |
+| `Cmd+Shift+R`                 | 設定リロード                      |
+| `Cmd+T`                       | 新規タブ                          |
+| `Cmd+W`                       | タブ/split 閉じ                   |
+| `Cmd+Shift+[` / `Cmd+Shift+]` | タブ切替                          |
+| `Cmd+1..9`                    | タブ番号でジャンプ                |
+| `Cmd++/-/0`                   | フォントサイズ                    |
 
 詳細は [ghostty.md](ghostty.md) を参照 (cmux と Ghostty は同じ keybind が動く)。
 

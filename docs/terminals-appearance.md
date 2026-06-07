@@ -2,21 +2,21 @@
 
 Hotkey 取り違え防止のため、**配色 + Starship プリセット** で判別する。透明度は各ターミナルの現状設定のまま。
 
-| ターミナル | 役割 | 配色 / プリセット | フォント | Starship |
-|-----------|------|-------------------|----------|----------|
-| **iTerm2** | Warm / Big / Hotkey | **Gruvbox Rainbow**（plist） | Meslo **19pt** | `starship preset gruvbox-rainbow` → [starship-iterm.toml](../config/starship-iterm.toml) |
-| **WezTerm** | Tokyo / Main / Glass | **Tokyo Night** | Meslo 14 | `starship preset tokyo-night` → [starship.toml](../config/starship.toml) |
-| **Ghostty** | Jetpack / Native | **Jetpack**（`config/ghostty/themes/Jetpack`） | Ricty 優先 14pt | `starship preset jetpack` → [starship-ghostty.toml](../config/starship-ghostty.toml) |
+| ターミナル  | 役割                 | 配色 / プリセット                              | フォント        | Starship                                                                                 |
+| ----------- | -------------------- | ---------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------- |
+| **iTerm2**  | Warm / Big / Hotkey  | **Gruvbox Rainbow**（plist）                   | Meslo **19pt**  | `starship preset gruvbox-rainbow` → [starship-iterm.toml](../config/starship-iterm.toml) |
+| **WezTerm** | Tokyo / Main / Glass | **Tokyo Night**                                | Meslo 14        | `starship preset tokyo-night` → [starship.toml](../config/starship.toml)                 |
+| **Ghostty** | Jetpack / Native     | **Jetpack**（`config/ghostty/themes/Jetpack`） | Ricty 優先 14pt | `starship preset jetpack` → [starship-ghostty.toml](../config/starship-ghostty.toml)     |
 
 ## 設定ファイル
 
-| 項目 | パス |
-|------|------|
-| iTerm2 plist | [config/iterm2/com.googlecode.iterm2.plist](../config/iterm2/com.googlecode.iterm2.plist) |
-| WezTerm | [config/wezterm/wezterm.lua](../config/wezterm/wezterm.lua) |
-| Ghostty | [config/ghostty/config](../config/ghostty/config) |
-| Ghostty テーマ Jetpack | [config/ghostty/themes/Jetpack](../config/ghostty/themes/Jetpack) |
-| Starship 切替 | [config/zsh/terminal-appearance.zsh](../config/zsh/terminal-appearance.zsh) |
+| 項目                   | パス                                                                                      |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| iTerm2 plist           | [config/iterm2/com.googlecode.iterm2.plist](../config/iterm2/com.googlecode.iterm2.plist) |
+| WezTerm                | [config/wezterm/wezterm.lua](../config/wezterm/wezterm.lua)                               |
+| Ghostty                | [config/ghostty/config](../config/ghostty/config)                                         |
+| Ghostty テーマ Jetpack | [config/ghostty/themes/Jetpack](../config/ghostty/themes/Jetpack)                         |
+| Starship 切替          | [config/zsh/terminal-appearance.zsh](../config/zsh/terminal-appearance.zsh)               |
 
 ## Starship プリセットの再生成
 
@@ -42,11 +42,11 @@ starship preset jetpack        -o config/starship-ghostty.toml
 echo "app=$(_dotfiles_terminal_app) STARSHIP=$STARSHIP_CONFIG"
 ```
 
-| ターミナル | 期待する `app` | 期待する `STARSHIP_CONFIG` |
-|-----------|----------------|------------------------------|
-| iTerm2 | `iterm2` | `.../config/starship-iterm.toml` |
-| WezTerm | `wezterm` | `.../config/starship.toml` |
-| Ghostty | `ghostty` | `.../config/starship-ghostty.toml` |
+| ターミナル | 期待する `app` | 期待する `STARSHIP_CONFIG`         |
+| ---------- | -------------- | ---------------------------------- |
+| iTerm2     | `iterm2`       | `.../config/starship-iterm.toml`   |
+| WezTerm    | `wezterm`      | `.../config/starship.toml`         |
+| Ghostty    | `ghostty`      | `.../config/starship-ghostty.toml` |
 
 `app=n/a` や `STARSHIP=~/.config/starship.toml` のときは、次を実行してから **新しいタブ**で再確認する。
 

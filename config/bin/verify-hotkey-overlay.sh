@@ -9,11 +9,14 @@ GHOSTTY_CFG="${HOME}/.config/ghostty/config"
 FAIL=0
 
 ok() { printf '  OK  %s\n' "$1"; }
-ng() { printf '  NG  %s\n' "$1"; FAIL=1; }
+ng() {
+  printf '  NG  %s\n' "$1"
+  FAIL=1
+}
 
 echo "=== WezTerm hotkey ==="
 
-if [[ ! -x "$WEZ" ]]; then
+if [[ ! -x $WEZ ]]; then
   ng "WezTerm.app not found"
 else
   if ! "$WEZ" cli list-clients &>/dev/null 2>&1; then
@@ -22,12 +25,12 @@ else
     ok "WezTerm GUI running"
     hotkey_json=$("$WEZ" cli list --format json | jq '[.[] | select(.workspace == "hotkey")]')
     count=$(echo "$hotkey_json" | jq 'length')
-    if [[ "$count" -eq 0 ]]; then
+    if [[ $count -eq 0 ]]; then
       ng "no pane in workspace hotkey"
     else
       ok "hotkey workspace pane exists (count=$count)"
       wt=$(echo "$hotkey_json" | jq -r '.[0].window_title // ""')
-      if [[ "$wt" == *"Hotkey"* ]]; then
+      if [[ $wt == *"Hotkey"* ]]; then
         ok "window_title=$wt"
       else
         ng "window_title missing Hotkey (got: ${wt:-empty}) — Cmd+Shift+R"
@@ -45,7 +48,7 @@ fi
 echo ""
 echo "=== Ghostty (no quick-terminal) ==="
 
-if [[ -f "$GHOSTTY_CFG" ]]; then
+if [[ -f $GHOSTTY_CFG ]]; then
   ok "config at $GHOSTTY_CFG"
   if grep -q 'toggle_quick_terminal' "$GHOSTTY_CFG" 2>/dev/null; then
     ng "remove quick-terminal keybinds from ghostty config"
@@ -86,7 +89,7 @@ fi
 echo "  (manual) Accessibility: Karabiner-Elements (Ctrl+Opt+W/G)"
 
 echo ""
-if [[ "$FAIL" -eq 0 ]]; then
+if [[ $FAIL -eq 0 ]]; then
   echo "All automated checks passed."
   echo "Manual: Ctrl+Opt+W / Ctrl+Opt+G — show/hide toggle (iTerm2 hotkey window style)."
 else
