@@ -122,6 +122,7 @@
                   inherit
                     inputs
                     username
+                    hostname
                     profile
                     dotfilesRelative
                     ;
