@@ -19,14 +19,17 @@ iTerm2 は **WezTerm / Ghostty の補助**として personal / work 共通で ca
 
 plist 上で Hotkey Window が有効。プロファイルは **MesloLGS-NF 19**、デフォルト GUID `8D68D298-6D99-4642-8C3C-998962D33809`。
 
-| 項目                                        | 値（plist）                           |
-| ------------------------------------------- | ------------------------------------- |
-| `Hotkey`                                    | 有効                                  |
-| `HotkeyWindowFloatsAboveOtherWindows`       | 有効                                  |
-| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示）         |
-| `hotKeyDoubleTapMaxDelay`                   | 0.4 秒（左 Control 2 連打の上限間隔） |
+| 項目                                        | 値（plist）                          |
+| ------------------------------------------- | ------------------------------------ |
+| `Hotkey`                                    | 有効                                 |
+| `HotkeyWindowFloatsAboveOtherWindows`       | 有効                                 |
+| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示）        |
+| `hotKeyDoubleTapMaxDelay`                   | 0.5 秒（連打と認める上限間隔）       |
+| `hotKeyDoubleTapMinDelay`                   | 0.0 秒（速すぎる連打を弾かない下限） |
 
-左 Control の 2 連打で Hotkey Window を出す設定。iTerm2 の既定（≈0.3 秒）では 2 回目の打鍵がわずかに遅れると連打判定を外し「たまに効かない」状態になるため、判定ウィンドウを **0.4 秒** に緩めて plist へ焼き込んでいる（隠し詳細設定 `hotKeyDoubleTapMaxDelay`）。なお打鍵タイミング以外に、他アプリのセキュア入力（ロック画面 / 1Password / 別端末の sudo パスワード欄など）が有効な間はグローバル監視が一時的に握りつぶされるため、その場合は欄からフォーカスを外すと復帰する。
+Control の 2 連打で Hotkey Window を出す設定。**この Mac では Karabiner が Caps Lock ↔ 左 Control をスワップ**しているため（[karabiner/karabiner.json](../../karabiner/karabiner.json) の `simple_modifications`）、実際に 2 連打するのは Control として振る舞う **物理 Caps Lock キー**。Control 系イベントは Karabiner の仮想キーボードを経由するぶん 2 連打の 2 つの `flagsChanged` 間にレイテンシ/ジッタが入り、iTerm2 既定（≈0.3 秒）の判定窓を**たまに超えて**取りこぼす。これが「たまに効かない」根本原因で、対処として隠し詳細設定で判定窓を **0.5 秒**（上限）／**0.0 秒**（下限）に広げ plist へ焼き込んでいる。
+
+打鍵タイミング以外の断続要因として、他アプリのセキュア入力（ロック画面 / 1Password / 別端末の sudo パスワード欄など）が有効な間はグローバル監視が一時的に握りつぶされる（欄からフォーカスを外すと復帰）。0.5 秒でも頻発する場合は、`hotKeyDoubleTapMaxDelay` をさらに広げるか、Karabiner 側で Control を経由させない構成（例: Hotkey を修飾キー 2 連打でなく明示キー組み合わせにして Karabiner から発火）に切り替える。
 
 WezTerm / Ghostty 側の Hotkey 相当は Karabiner の `Ctrl+Opt+W` / `Ctrl+Opt+G`（[README](README.md) の Hotkey Window 節）。
 
