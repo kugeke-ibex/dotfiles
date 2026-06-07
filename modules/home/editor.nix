@@ -34,6 +34,9 @@ in
   xdg.configFile = {
     "nvim/init.lua".source = mkLink "config/nvim/init.lua";
     "nvim/lua".source = mkLink "config/nvim/lua";
+    # lazy-lock.json も live symlink。:Lazy sync が dotfiles 内の lock を直接更新するので
+    # git diff で版を確認してコミットできる（複数 Mac でプラグイン版を固定するため）。
+    "nvim/lazy-lock.json".source = mkLink "config/nvim/lazy-lock.json";
     "nvim/ftdetect".source = mkLink "config/nvim/ftdetect";
     "nvim/spell".source = mkLink "config/nvim/spell";
     "nvim/.neoconf.json".source = mkLink "config/nvim/.neoconf.json";
