@@ -29,7 +29,8 @@ fi
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias home="cd ~/Documents"
+alias home="cd ~/"
+alias download="cd ~/Downloads"
 
 # 定義済みエイリアス一覧（alias -L を名前順）
 als() {
