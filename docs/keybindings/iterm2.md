@@ -19,18 +19,18 @@ iTerm2 は **WezTerm / Ghostty の補助**として personal / work 共通で ca
 
 plist 上で Hotkey Window が有効。プロファイルは **MesloLGS-NF 19**、デフォルト GUID `8D68D298-6D99-4642-8C3C-998962D33809`。
 
-| 項目                                        | 値（plist）                                 |
-| ------------------------------------------- | ------------------------------------------- |
-| `Hotkey`                                    | 有効                                        |
-| `HotkeyWindowFloatsAboveOtherWindows`       | 有効                                        |
-| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示）               |
-| プロファイル `HotKey Modifier Activation`   | `1` = **Shift** 2 連打（旧: `0` = Control） |
-| `hotKeyDoubleTapMaxDelay`                   | 0.5 秒（連打と認める上限間隔）              |
-| `hotKeyDoubleTapMinDelay`                   | 0.0 秒（速すぎる連打を弾かない下限）        |
+| 項目                                        | 値（plist）                                  |
+| ------------------------------------------- | -------------------------------------------- |
+| `Hotkey`                                    | 有効                                         |
+| `HotkeyWindowFloatsAboveOtherWindows`       | 有効                                         |
+| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示）                |
+| プロファイル `HotKey Modifier Activation`   | `2` = **Option** 2 連打（旧: `0` = Control） |
+| `hotKeyDoubleTapMaxDelay`                   | 0.5 秒（連打と認める上限間隔）               |
+| `hotKeyDoubleTapMinDelay`                   | 0.0 秒（速すぎる連打を弾かない下限）         |
 
-**Shift の 2 連打**で Hotkey Window を出す（デフォルトプロファイル `8D68D298`、`HotKey Modifier Activation = 1`）。以前は Control 2 連打だったが、**この Mac では Karabiner が Caps Lock ↔ 左 Control をスワップ**しており（[karabiner/karabiner.json](../../karabiner/karabiner.json) の `simple_modifications`）、Control 系イベントが Karabiner の仮想キーボードを経由して 2 連打の `flagsChanged` 間にレイテンシ/ジッタが入り「たまに効かない」原因になっていた。**Shift は Karabiner で remap していない**ため経路上のジッタを回避でき、取りこぼしが起きにくい。
+**Option の 2 連打**で Hotkey Window を出す（デフォルトプロファイル `8D68D298`、`HotKey Modifier Activation = 2`）。以前は Control 2 連打だったが、**この Mac では Karabiner が Caps Lock ↔ 左 Control をスワップ**しており（[karabiner/karabiner.json](../../karabiner/karabiner.json) の `simple_modifications`）、Control 系イベントが Karabiner の仮想キーボードを経由して 2 連打の `flagsChanged` 間にレイテンシ/ジッタが入り「たまに効かない」原因になっていた。**Option は Karabiner で remap していない**ため経路上のジッタを回避でき、取りこぼしが起きにくい。
 
-判定窓の隠し詳細設定（`hotKeyDoubleTapMaxDelay = 0.5` / `hotKeyDoubleTapMinDelay = 0.0`）は引き続き入れて余裕を持たせている。なお他アプリのセキュア入力（ロック画面 / 1Password / 別端末の sudo パスワード欄など）が有効な間はグローバル監視が一時的に握りつぶされる（欄からフォーカスを外すと復帰）点は修飾キーに依らず共通。`HotKey Modifier Activation` の値は実測で `0`=Control / `1`=Shift（`2`/`3` はおそらく Option / Command）。
+判定窓の隠し詳細設定（`hotKeyDoubleTapMaxDelay = 0.5` / `hotKeyDoubleTapMinDelay = 0.0`）は引き続き入れて余裕を持たせている。なお他アプリのセキュア入力（ロック画面 / 1Password / 別端末の sudo パスワード欄など）が有効な間はグローバル監視が一時的に握りつぶされる（欄からフォーカスを外すと復帰）点は修飾キーに依らず共通。`HotKey Modifier Activation` の値は実測で `0`=Control / `1`=Shift / `2`=Option（`3` はおそらく Command）。
 
 WezTerm / Ghostty 側の Hotkey 相当は Karabiner の `Ctrl+Opt+W` / `Ctrl+Opt+G`（[README](README.md) の Hotkey Window 節）。
 
