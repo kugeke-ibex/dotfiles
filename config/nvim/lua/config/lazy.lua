@@ -19,6 +19,10 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
     { import = "lazyvim.plugins.extras.ai.copilot" },
+    -- VSCode 風の左サイドバーツリー。既定の snacks.explorer を neo-tree に置換する
+    -- (<leader>e / <leader>fe で開く)。netrw のディレクトリ展開は oil.nvim に任せるため
+    -- neo-tree 側の hijack は plugins/explorer.lua で無効化している。
+    { import = "lazyvim.plugins.extras.editor.neo-tree" },
     { import = "plugins" },
   },
   defaults = {
