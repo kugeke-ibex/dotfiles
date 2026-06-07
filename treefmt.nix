@@ -51,6 +51,8 @@
         "karabiner/**/*.json"
         "flake.lock"
         "config/raycast/**/*"
+        # lazy.nvim が自動生成・書き戻すロック。prettier 整形すると :Lazy sync と競合する
+        "config/nvim/lazy-lock.json"
       ];
     };
   };
