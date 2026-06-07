@@ -185,6 +185,18 @@ if command -v rbenv >/dev/null 2>&1; then
 fi
 
 # ----------------------------------------------------
+# asdf (0.16+ Go 版) — shims を PATH に追加
+# 旧来の asdf.sh の source 方式は廃止され、shims ディレクトリを PATH に
+# 追加しないと java 等のコマンドが解決できない (macOS の /usr/bin/java
+# スタブに落ちて "Unable to locate a Java Runtime" になる)。
+# 入っていない環境では何もしない (shims ディレクトリ存在チェック)。
+# path は typeset -U で重複排除されるため毎回 prepend で安全。
+# ----------------------------------------------------
+if [[ -d "${ASDF_DATA_DIR:-$HOME/.asdf}/shims" ]]; then
+  export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+fi
+
+# ----------------------------------------------------
 # keys* コマンド (docs/keybindings)
 # shell.nix の initContent が未反映の .zshrc でも common 経由で必ず読み込む
 # ----------------------------------------------------
