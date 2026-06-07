@@ -19,11 +19,14 @@ iTerm2 は **WezTerm / Ghostty の補助**として personal / work 共通で ca
 
 plist 上で Hotkey Window が有効。プロファイルは **MesloLGS-NF 19**、デフォルト GUID `8D68D298-6D99-4642-8C3C-998962D33809`。
 
-| 項目                                        | 値（plist）                   |
-| ------------------------------------------- | ----------------------------- |
-| `Hotkey`                                    | 有効                          |
-| `HotkeyWindowFloatsAboveOtherWindows`       | 有効                          |
-| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示） |
+| 項目                                        | 値（plist）                           |
+| ------------------------------------------- | ------------------------------------- |
+| `Hotkey`                                    | 有効                                  |
+| `HotkeyWindowFloatsAboveOtherWindows`       | 有効                                  |
+| プロファイル `HotKey Activated By Modifier` | 有効（修飾キーで表示/非表示）         |
+| `hotKeyDoubleTapMaxDelay`                   | 0.4 秒（左 Control 2 連打の上限間隔） |
+
+左 Control の 2 連打で Hotkey Window を出す設定。iTerm2 の既定（≈0.3 秒）では 2 回目の打鍵がわずかに遅れると連打判定を外し「たまに効かない」状態になるため、判定ウィンドウを **0.4 秒** に緩めて plist へ焼き込んでいる（隠し詳細設定 `hotKeyDoubleTapMaxDelay`）。なお打鍵タイミング以外に、他アプリのセキュア入力（ロック画面 / 1Password / 別端末の sudo パスワード欄など）が有効な間はグローバル監視が一時的に握りつぶされるため、その場合は欄からフォーカスを外すと復帰する。
 
 WezTerm / Ghostty 側の Hotkey 相当は Karabiner の `Ctrl+Opt+W` / `Ctrl+Opt+G`（[README](README.md) の Hotkey Window 節）。
 

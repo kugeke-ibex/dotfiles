@@ -141,6 +141,8 @@ Make Text Bigger</string>
 	<integer>1048840</integer>
 	<key>HotkeyWindowFloatsAboveOtherWindows</key>
 	<true/>
+	<key>hotKeyDoubleTapMaxDelay</key>
+	<real>0.4</real>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
