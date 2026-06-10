@@ -48,6 +48,14 @@
       url = "github:kayac/homebrew-tap";
       flake = false;
     };
+    homebrew-ariga = {
+      # Ariga 公式 tap。homebrew-core の `atlas` は community 版 (Apache-2.0) で
+      # ent:// スキーマローダー非搭載のため、ent の versioned migration 生成
+      # (`atlas migrate diff --to ent://...`) が動かない。non-community 版を同梱する
+      # この tap の `ariga/tap/atlas` を使う。
+      url = "github:ariga/homebrew-tap";
+      flake = false;
+    };
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -150,6 +158,7 @@
                   # denied で落ちる (2026-05 に遭遇)。
                   "idoavrah/homebrew-homebrew" = inputs.homebrew-idoavrah;
                   "kayac/homebrew-tap" = inputs.homebrew-kayac;
+                  "ariga/homebrew-tap" = inputs.homebrew-ariga;
                 };
                 mutableTaps = false;
               };

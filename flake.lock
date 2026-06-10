@@ -58,6 +58,22 @@
         "type": "github"
       }
     },
+    "homebrew-ariga": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768233158,
+        "narHash": "sha256-uxciUWBtqzMmzKiY6Vw8b2/N8yFSMxee6/yt6J1WdCc=",
+        "owner": "ariga",
+        "repo": "homebrew-tap",
+        "rev": "b9434f0f13e4177ad7d0306da3cf368b174f40b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ariga",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "homebrew-bundle": {
       "flake": false,
       "locked": {
@@ -249,6 +265,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "homebrew-ariga": "homebrew-ariga",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",

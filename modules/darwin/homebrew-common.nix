@@ -69,6 +69,7 @@ in
       "hashicorp/tap"
       "idoavrah/homebrew"
       "kayac/tap"
+      "ariga/tap"
     ];
 
     brews = [
