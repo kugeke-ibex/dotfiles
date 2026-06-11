@@ -122,6 +122,22 @@
         "type": "github"
       }
     },
+    "homebrew-fujiwara": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779802118,
+        "narHash": "sha256-DDVolTzzt5Md+rcTYYY2VJBdDD402pXfLzbQtvIAfks=",
+        "owner": "fujiwara",
+        "repo": "homebrew-tap",
+        "rev": "29f581f8854cd27289e6f3a354c485e509e2b6e6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fujiwara",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "homebrew-hashicorp": {
       "flake": false,
       "locked": {
@@ -269,6 +285,7 @@
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-fujiwara": "homebrew-fujiwara",
         "homebrew-hashicorp": "homebrew-hashicorp",
         "homebrew-idoavrah": "homebrew-idoavrah",
         "homebrew-kayac": "homebrew-kayac",

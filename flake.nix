@@ -56,6 +56,11 @@
       url = "github:ariga/homebrew-tap";
       flake = false;
     };
+    homebrew-fujiwara = {
+      # fujiwara 公式 tap。lambroll (AWS Lambda デプロイツール) などを提供。
+      url = "github:fujiwara/homebrew-tap";
+      flake = false;
+    };
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -159,6 +164,7 @@
                   "idoavrah/homebrew-homebrew" = inputs.homebrew-idoavrah;
                   "kayac/homebrew-tap" = inputs.homebrew-kayac;
                   "ariga/homebrew-tap" = inputs.homebrew-ariga;
+                  "fujiwara/homebrew-tap" = inputs.homebrew-fujiwara;
                 };
                 mutableTaps = false;
               };
@@ -223,6 +229,7 @@
           profile = "work";
           # 例: 社用 PC でユーザー名や clone 先だけ違うとき
           # username = "corpuser";
+          username = "kenjiro.kuge";
           # dotfilesRelative = "Projects/dotfiles";
         };
         # 2 台目以降の社用 Mac。hosts/work-office を複製して増やし、ここに flake エントリを追加する。

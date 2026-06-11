@@ -70,6 +70,7 @@ in
       "idoavrah/homebrew"
       "kayac/tap"
       "ariga/tap"
+      "fujiwara/tap"
     ];
 
     brews = [
@@ -128,6 +129,7 @@ in
       # "hashicorp/tap/terraform"
       "idoavrah/homebrew/tftui"
       "kayac/tap/ecspresso"
+      "fujiwara/tap/lambroll"
     ];
 
     casks = [
