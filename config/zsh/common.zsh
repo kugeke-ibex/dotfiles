@@ -42,6 +42,9 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 
+# 画面クリア (Windows/DOS 由来の名前)
+alias cls='clear'
+
 # ----------------------------------------------------
 # Python: macOS の `python` を python3 に
 # ----------------------------------------------------
@@ -140,6 +143,27 @@ if command -v bat >/dev/null 2>&1; then
     command bat --paging=never "$@"
   }
 fi
+
+# ----------------------------------------------------
+# parquet-tools + jq
+# parquet ファイルの中身を JSON として整形表示。
+# 第 2 引数以降は jq のフィルタ/オプションとして渡せる (省略時は `.`)。
+#   pqcat data.parquet               → parquet-tools cat data.parquet | jq .
+#   pqcat data.parquet '.[0]'        → ... | jq '.[0]'
+# ----------------------------------------------------
+pqcat() {
+  if [ "$#" -lt 1 ]; then
+    echo "Usage: pqcat <parquet-file> [jq-filter...]"
+    return 1
+  fi
+  local file="$1"
+  shift
+  if [ "$#" -eq 0 ]; then
+    parquet-tools cat "$file" | jq .
+  else
+    parquet-tools cat "$file" | jq "$@"
+  fi
+}
 
 # ----------------------------------------------------
 # ripgrep (隠しファイル検索、 .git は除外)
