@@ -50,10 +50,11 @@
     trackpad = {
       # タップでクリック
       Clicking = true;
-      # ドラッグ（タップ＆ハーフ）。3 本指ドラッグを使うので有効化しておく
+      # ドラッグ（タップ＆ハーフ）。使わないので無効
       Dragging = false;
-      # 3 本指ドラッグ（ウィンドウ移動・テキスト選択を 3 本指で）
-      TrackpadThreeFingerDrag = true;
+      # 3 本指ドラッグは無効。macOS では 3 本指スワイプ（Mission Control 等）と
+      # 排他のため、スワイプ側を使う本設定では false にしておく。
+      TrackpadThreeFingerDrag = false;
       # 2 本指タップ＝副ボタン（右クリック）
       TrackpadRightClick = true;
       # クリック圧。0=弱(軽い) / 1=中 / 2=強
@@ -72,8 +73,9 @@
     # nix-darwin の標準オプションに無い defaults はここで追記
     CustomUserPreferences = {
       "NSGlobalDomain" = {
-        # トラックパッドのカーソル速度（0〜3 相当のスケール、大きいほど速い）
-        "com.apple.trackpad.scaling" = 8;
+        # トラックパッドのカーソル速度（有効範囲 0.0〜3.0、大きいほど速い）
+        # 3.0 を超える値はスライダー範囲外で、カーソルが飛ぶなど不安定になる
+        "com.apple.trackpad.scaling" = 2.0;
         # マウスのカーソル速度（-1 で加速無効、値が大きいほど速い）
         "com.apple.mouse.scaling" = 3.0;
         # マウスホイールのスクロール速度
@@ -88,10 +90,9 @@
         DisableAllAnimations = true;
       };
       # 内蔵トラックパッドのマルチタッチジェスチャ
+      # （Clicking / TrackpadRightClick はネイティブの trackpad ブロックが
+      #  書き込むため、二重書き込みを避けてここでは拡張ジェスチャのみ指定）
       "com.apple.AppleMultitouchTrackpad" = {
-        # タップでクリック / 2 本指で副ボタン
-        Clicking = true;
-        TrackpadRightClick = true;
         # ピンチでズーム / 2 本指で回転 / 2 本指ダブルタップでスマートズーム
         TrackpadPinch = true;
         TrackpadRotate = true;
@@ -108,9 +109,8 @@
         TrackpadFourFingerPinchGesture = 2;
       };
       # Bluetooth トラックパッド（Magic Trackpad）にも同じジェスチャを適用
+      # （Clicking / TrackpadRightClick はネイティブ trackpad ブロックが書き込む）
       "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
-        Clicking = true;
-        TrackpadRightClick = true;
         TrackpadPinch = true;
         TrackpadRotate = true;
         TrackpadTwoFingerDoubleTapGesture = true;

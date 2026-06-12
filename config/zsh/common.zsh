@@ -80,8 +80,8 @@ alias dpsa='docker ps -a'
 alias dimages='docker images'
 alias dexec='docker exec -it'
 alias dvolume='docker volume'
-alias dvolumels='docker volume ls'
-alias dvolumerm='docker volume rm'
+alias dvls='docker volume ls'
+alias dvrm='docker volume rm'
 alias dlogs='docker logs'
 alias dlogsf='docker logs -f'
 
@@ -98,6 +98,7 @@ dshell_invoke() {
 # Git
 # ----------------------------------------------------
 alias gpush='git push'
+alias gpushf='git push --force-with-lease'
 alias gpull='git pull'
 alias gfetch='git fetch --prune'
 alias gcm='git commit'
@@ -108,11 +109,11 @@ alias gb='git branch'
 alias gbl='git branch -l'
 alias gbla='git branch -la'
 alias glogo='git log --oneline'
-alias gmergetool='git mergetool'
+alias gmtool='git mergetool'
 alias gstash='git stash'
 alias gspop='git stash pop'
 alias gtag='git tag'
-alias gcherrypick='git cherry-pick'
+alias gcpick='git cherry-pick'
 
 # annotated tag (タグ名と同じメッセージ)
 gtag_commit() {
