@@ -12,12 +12,9 @@
       "firefox"
       "microsoft-edge"
       "deepl"
+      # Slack: 社用ホスト (hosts/fragments/work-common.nix) と同じ cask 版で統一。
+      # 以前は Mac App Store 版 (masApps 803453959) だったが、インストール手段を揃えた。
+      "slack"
     ];
-
-    # 個人 PC は Mac App Store 版 Slack。社用ホストは MAS が使えないことが多いため
-    # work-common.nix で cask 版 ("slack") を入れる（インストール手段を分けている）。
-    masApps = {
-      "Slack" = 803453959;
-    };
   };
 }
