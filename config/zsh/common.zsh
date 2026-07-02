@@ -240,3 +240,8 @@ fi
 if [[ -f "${DOTFILES_ROOT}/config/zsh/keys.zsh" ]]; then
   source "${DOTFILES_ROOT}/config/zsh/keys.zsh"
 fi
+
+# AI コーディングエージェント用ランチャ (claude/codex/gemini ラッパ + ai ディスパッチャ)
+if [[ -f "${DOTFILES_ROOT}/config/zsh/ai-agents.zsh" ]]; then
+  source "${DOTFILES_ROOT}/config/zsh/ai-agents.zsh"
+fi

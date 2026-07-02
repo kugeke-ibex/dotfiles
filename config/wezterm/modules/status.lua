@@ -68,19 +68,32 @@ local function register_format_tab_title()
 	wezterm.on("format-tab-title", function(tab, _tabs, _panes, _config, _hover, _max_width)
 		local tab_index = tab.tab_index + 1
 
-		if tab.is_active then
-			local ap = tab.active_pane
-			if ap then
-				if ap.title and string.match(ap.title, "Copy mode:") then
-					return string.format(" %d %s ", tab_index, "Copy mode…📄")
-				end
-				if ap.is_zoomed then
-					return string.format(" %d %s ", tab_index, "Zoom…🔍")
-				end
+		local ap = tab.active_pane
+
+		if tab.is_active and ap then
+			if ap.title and string.match(ap.title, "Copy mode:") then
+				return string.format(" %d %s ", tab_index, "Copy mode…📄")
+			end
+			if ap.is_zoomed then
+				return string.format(" %d %s ", tab_index, "Zoom…🔍")
 			end
 		end
 
-		return string.format(" %d ", tab_index)
+		-- config/zsh/ai-agents.zsh が SetUserVar で送る agent / git ブランチを表示
+		-- （cmux の「タブに状態表示」に相当）
+		local extra = ""
+		if ap and ap.user_vars then
+			local agent = ap.user_vars.agent
+			local branch = ap.user_vars.git_branch
+			if agent and agent ~= "" then
+				extra = extra .. " 🤖" .. agent
+			end
+			if branch and branch ~= "" then
+				extra = extra .. "  " .. branch
+			end
+		end
+
+		return string.format(" %d%s ", tab_index, extra)
 	end)
 end
 

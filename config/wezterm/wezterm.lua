@@ -119,5 +119,6 @@ table.insert(config.keys, {
 require("modules.status").apply_to_config(config)
 require("modules.opacity").apply_to_config(config)
 require("modules.hotkey").apply_to_config(config)
+require("modules.agents").apply_to_config(config)
 
 return config

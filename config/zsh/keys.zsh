@@ -162,6 +162,36 @@ keys-cmux() {
   _keys_md "$(_dotfiles_root)/docs/keybindings/cmux.md"
 }
 
+keys-agents() {
+  local root="$(_dotfiles_root)"
+  local md="$root/docs/keybindings/ai-agents.md"
+  local cfg="$root/config/ghostty/config"
+  if [[ ! -f "$md" ]]; then
+    print -u2 "keys: not found: $md"
+    return 1
+  fi
+  {
+    command cat "$md"
+    if [[ -f "$cfg" ]]; then
+      print ""
+      print "=== Ghostty agent keybind lines (config/ghostty/config) ==="
+      print ""
+      command grep '^keybind = cmd+shift+a' "$cfg" 2>/dev/null
+    fi
+    print ""
+    print "=== available launchers (this host) ==="
+    print ""
+    local a
+    for a in claude codex gemini; do
+      if command -v "$a" >/dev/null 2>&1; then
+        print "  $a  ->  $(command -v "$a")"
+      else
+        print "  $a  ->  (not installed)"
+      fi
+    done
+  } | _keys_pager_stdin md
+}
+
 keys-iterm() {
   local root="$(_dotfiles_root)"
   local md="$root/docs/keybindings/iterm2.md"
@@ -220,6 +250,7 @@ alias kk='keys-karabiner'
 alias kvi='keys-vim'
 alias kn='keys-nvim'
 alias kc='keys-cmux'
+alias ka='keys-agents'
 alias ki='keys-iterm'
 alias kcur='keys-cursor'
 alias kvs='keys-vscode'

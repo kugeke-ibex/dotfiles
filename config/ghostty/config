@@ -44,3 +44,14 @@ keybind = cmd+z=toggle_split_zoom
 keybind = cmd+enter=toggle_fullscreen
 keybind = cmd+k=clear_screen
 keybind = cmd+shift+r=reload_config
+
+# --- AI agent launcher (cmux 風) ---
+# Cmd+Shift+A を prefix にしたシーケンス。次の 1 キーで起動する。
+# 実体は config/zsh/ai-agents.zsh の claude/codex/gemini ラッパ（タイトルに
+# "🤖 <agent> · <branch>" を設定）を text で送信して踏む。
+keybind = cmd+shift+a>c=text:claude\n
+keybind = cmd+shift+a>x=text:codex\n
+keybind = cmd+shift+a>g=text:gemini\n
+# 並列作業用: 右 split / 新規タブ（開いた先で agent を起動する）
+keybind = cmd+shift+a>s=new_split:right
+keybind = cmd+shift+a>t=new_tab

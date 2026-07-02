@@ -35,6 +35,25 @@ ghostty.config の keybind がそのまま動く。主な操作:
 
 詳細は [ghostty.md](ghostty.md) を参照 (cmux と Ghostty は同じ keybind が動く)。
 
+## AI エージェントランチャ（共通ラッパ）
+
+cmux は AI エージェント専用ターミナルだが、起動そのものは WezTerm / Ghostty と同じく
+`config/zsh/ai-agents.zsh` の `claude` / `codex` / `gemini` ラッパ（および `ai <agent>`
+ディスパッチャ）を共有する。zsh を共有するため cmux でもそのまま効く。
+
+| コマンド     | 動作                                                       |
+| ------------ | ---------------------------------------------------------- |
+| `claude`     | Claude Code 起動。タイトルを `🤖 claude · <branch>` に設定 |
+| `codex`      | Codex 起動                                                 |
+| `gemini`     | Gemini 起動                                                |
+| `ai <agent>` | `ai claude` / `ai codex` / `ai gemini` のディスパッチャ    |
+
+- cmux では上記が OSC 0 タイトルとして垂直タブに反映される（cmux 標準の
+  ブランチ / PR / ポート表示と併用できる）。
+- WezTerm / Ghostty では `Cmd+Shift+A` prefix のキーバインドからも起動できる
+  （[wezterm.md](wezterm.md) / [ghostty.md](ghostty.md) 参照）。cmux 本体の
+  キーバインドは Settings GUI 管理のため、必要なら同等のシーケンスを GUI 側で割り当てる。
+
 ## tmux からの移行ポイント
 
 | tmux                           | cmux                                                         |

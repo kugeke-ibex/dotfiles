@@ -15,6 +15,7 @@
 | Cursor             | —                                    | [config/cursor/keybindings.json](../../config/cursor/keybindings.json)                       | `keys-cursor` / `kcur`                   |
 | VS Code            | —                                    | [config/vscode/keybindings.json](../../config/vscode/keybindings.json)                       | `keys-vscode` / `kvs`                    |
 | Raycast            | [raycast.md](raycast.md)             | Raycast SQLite DB（[config/raycast/](../../config/raycast/) の `.rayconfig` で一括同期）     | `keys-raycast` / `kr`                    |
+| AI エージェント    | [ai-agents.md](ai-agents.md)         | [config/zsh/ai-agents.zsh](../../config/zsh/ai-agents.zsh)（+ wezterm / ghostty keybind）    | `keys-agents` / `ka`                     |
 
 ## 共通設計
 
