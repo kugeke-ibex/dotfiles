@@ -12,7 +12,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 - **Nix flake** (`flake.nix`) — `darwinConfigurations.{personal,work,…}`（社用は台数分エントリを追加）
 - **nix-darwin** — システム設定 (Dock/Finder/Keyboard 等の defaults、Homebrew 統合)
-- **home-manager** — ユーザー環境 (zsh, git, neovim, terminals 等。 multiplexer は cmux 内蔵を使うため tmux モジュールは持たない)
+- **home-manager** — ユーザー環境 (zsh, git, neovim, terminals 等。 multiplexer は端末内で動く herdr (brew formula) を使うため tmux モジュールは持たない)
 - **nix-homebrew** — Homebrew を flake input で固定 (`mutableTaps = false`)
 - **Determinate Systems nix-installer** — Nix の導入
 
@@ -40,7 +40,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 │       ├── shell.nix                # zsh + starship + fzf + ...
 │       ├── git.nix                  # git + gh + lazygit
 │       ├── editor.nix               # neovim
-│       ├── terminal.nix             # WezTerm + Ghostty 設定の配置 (cmux も ghostty.config を流用)
+│       ├── terminal.nix             # WezTerm/Ghostty 設定 + herdr config.toml の配置 (herdr は両端末内で起動する multiplexer)
 │       ├── iterm2.nix               # iTerm2 prefs を custom folder 方式で config/iterm2 から読込
 │       ├── karabiner.nix            # karabiner.json の初回コピー
 │       └── profiles/
@@ -50,6 +50,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 ├── config/
 │   ├── wezterm/wezterm.lua
 │   ├── ghostty/config
+│   ├── herdr/config.toml            # herdr (端末内 multiplexer) の prefix/keybind (file 単体 symlink)
 │   ├── iterm2/com.googlecode.iterm2.plist
 │   └── starship.toml                # Tokyo Night preset (公式)
 └── docs/
@@ -58,7 +59,7 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
         ├── README.md
         ├── wezterm.md
         ├── ghostty.md
-        ├── cmux.md
+        ├── herdr.md
         ├── iterm2.md
         └── karabiner.md
 ```
@@ -93,13 +94,13 @@ macOS (Apple Silicon) 向けの個人 PC **1** と社用 PC **複数**を **Nix 
 
 **設定ファイルとドキュメントは同じコミットで更新する**。
 
-| 設定ファイル                                | 対応するドキュメント            |
-| ------------------------------------------- | ------------------------------- |
-| `config/wezterm/wezterm.lua`                | `docs/keybindings/wezterm.md`   |
-| `config/ghostty/config`                     | `docs/keybindings/ghostty.md`   |
-| `config/ghostty/config` (cmux も共有)       | `docs/keybindings/cmux.md`      |
-| `config/iterm2/com.googlecode.iterm2.plist` | `docs/keybindings/iterm2.md`    |
-| `karabiner/karabiner.json`                  | `docs/keybindings/karabiner.md` |
+| 設定ファイル                                                                                                     | 対応するドキュメント            |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `config/wezterm/wezterm.lua`                                                                                     | `docs/keybindings/wezterm.md`   |
+| `config/ghostty/config`                                                                                          | `docs/keybindings/ghostty.md`   |
+| `config/herdr/config.toml` + `config/ghostty/config` + `config/wezterm/modules/agents.lua` (herdr 本体/起動キー) | `docs/keybindings/herdr.md`     |
+| `config/iterm2/com.googlecode.iterm2.plist`                                                                      | `docs/keybindings/iterm2.md`    |
+| `karabiner/karabiner.json`                                                                                       | `docs/keybindings/karabiner.md` |
 
 ### 4. エディタ・ランチャー管理
 
@@ -282,7 +283,7 @@ darwin-rebuild switch --flake .#personal
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
 - **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — **work** は `pkgs.neovim`（安定）、**personal** は nightly overlay。ほかは LazyVim 構成どおり。`config/nvim/lazy-lock.json` はコミット対象（プラグインの版を固定。`:Lazy sync` 後に `git diff` で確認してから commit）。
-- **cmux** (Homebrew cask、設定は `~/.config/ghostty/config` と Settings GUI) — multiplexer 機能を内蔵、SSH 先での multiplexer が必要なときだけ tmux を手動導入する
+- **herdr** (Homebrew formula、設定は `config/herdr/config.toml`、[docs/keybindings/herdr.md](docs/keybindings/herdr.md)) — WezTerm/Ghostty の中で `herdr` を起動して使う端末内 AI エージェントマルチプレクサ（旧 cmux の後継）。prefix は `Ctrl+Space` に変更済み（既定 `Ctrl+B`）。`config.toml` は `~/.config/herdr/config.toml` へ**ファイル単体で** symlink（socket/sessions を巻き込まないため）。agent 状態検知・SSH 越し永続化を持つため tmux 層は不要。軽量なフォールバックが要るときだけ SSH 先で tmux を手動導入する
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions。**work プロファイルでは既定で無効**（`profiles/work.nix`）。
 - **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — symlink 先は **`$HOME/<dotfilesRelative>/config/cursor/`**（`flake.nix` の `mkDarwin` で `dotfilesRelative` / `username` をホストごとに上書き可）。

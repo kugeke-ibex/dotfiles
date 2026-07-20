@@ -6,3 +6,7 @@ result-*
 *~
 .vscode/
 .idea/
+
+# herdr が自動生成する Claude 連携フック（~/.claude/hooks は dotfiles を symlink するため
+# 実体がリポジトリ作業ツリーに出現する）。herdr が更新時に上書きする管理ファイルなので追跡しない。
+config/claude/hooks/herdr-agent-state.sh

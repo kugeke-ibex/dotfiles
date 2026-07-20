@@ -22,7 +22,7 @@ resize-overlay-duration = 150ms
 
 # Hotkey 表示/非表示は Karabiner Ctrl+Opt+G → toggle-ghostty-hotkey（Quick Terminal は使わない）
 
-# --- Keybindings (iTerm2 / cmux 風) ---
+# --- Keybindings (iTerm2 風) ---
 
 # Pane splits
 keybind = cmd+d=new_split:right
@@ -45,13 +45,16 @@ keybind = cmd+enter=toggle_fullscreen
 keybind = cmd+k=clear_screen
 keybind = cmd+shift+r=reload_config
 
-# --- AI agent launcher (cmux 風) ---
+# --- AI agent launcher ---
 # Cmd+Shift+A を prefix にしたシーケンス。次の 1 キーで起動する。
-# 実体は config/zsh/ai-agents.zsh の claude/codex/gemini ラッパ（タイトルに
-# "🤖 <agent> · <branch>" を設定）を text で送信して踏む。
+# 各エージェントの生コマンド（claude/codex/gemini）を text で送信するだけ。
+# 本格的な並列管理・状態表示は h の herdr に委ねる。
 keybind = cmd+shift+a>c=text:claude\n
 keybind = cmd+shift+a>x=text:codex\n
 keybind = cmd+shift+a>g=text:gemini\n
+# h: herdr（ターミナル内マルチプレクサ。旧 cmux の後継）を現ペインで起動。
+# 以後の複数エージェント管理・状態表示は herdr 側に委ねる。
+keybind = cmd+shift+a>h=text:herdr\n
 # 並列作業用: 右 split / 新規タブ（開いた先で agent を起動する）
 keybind = cmd+shift+a>s=new_split:right
 keybind = cmd+shift+a>t=new_tab

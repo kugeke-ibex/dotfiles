@@ -79,21 +79,7 @@ local function register_format_tab_title()
 			end
 		end
 
-		-- config/zsh/ai-agents.zsh が SetUserVar で送る agent / git ブランチを表示
-		-- （cmux の「タブに状態表示」に相当）
-		local extra = ""
-		if ap and ap.user_vars then
-			local agent = ap.user_vars.agent
-			local branch = ap.user_vars.git_branch
-			if agent and agent ~= "" then
-				extra = extra .. " 🤖" .. agent
-			end
-			if branch and branch ~= "" then
-				extra = extra .. "  " .. branch
-			end
-		end
-
-		return string.format(" %d%s ", tab_index, extra)
+		return string.format(" %d ", tab_index)
 	end)
 end
 

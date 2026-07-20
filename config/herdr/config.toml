@@ -1,0 +1,24 @@
+# herdr config — dotfiles で宣言管理（~/.config/herdr/config.toml への live symlink）。
+# 反映: `herdr server reload-config`（サーバ再起動不要）。既定値は `herdr --default-config`。
+# キーバインド全体・CLI・状態検知の詳細は docs/keybindings/herdr.md を参照。
+#
+# NOTE: ~/.config/herdr/ には socket (herdr.sock) や sessions/ など実行時状態も置かれるため、
+# ディレクトリ丸ごとではなく本ファイル単体だけを symlink している（modules/home/terminal.nix）。
+
+[keys]
+# 既定の ctrl+b から ctrl+space へ変更。
+# - shell/readline との衝突が少ない（prefix なので herdr が奪うが、覚えやすさ重視）
+# - Ghostty/WezTerm の Cmd 系キーと系統が分かれ、split 等の操作を混同しにくい
+prefix = "ctrl+space"
+
+# 好みでキーを足す例（prefix+<key> か、直接 ctrl+alt+<key>）:
+# next_tab = ["prefix+n", "ctrl+alt+]"]
+#
+# カスタムコマンドを popup 起動する例:
+# [[keys.command]]
+# key = "prefix+alt+g"
+# type = "popup"
+# command = "lazygit"
+# description = "run lazygit"
+# width = "80%"
+# height = "80%"

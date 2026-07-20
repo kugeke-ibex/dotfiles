@@ -1,15 +1,16 @@
--- AI コーディングエージェント用ランチャ（cmux 風）。
+-- AI コーディングエージェント用ランチャ（1 タブ = 1 エージェントの専用ターミナル体験）。
 --
 -- Cmd+Shift+A を prefix にした agent_mode（one_shot）を提供し、次の 1 キーで
 -- 各エージェントを起動する:
 --   c → 新規タブで Claude Code
 --   x → 新規タブで Codex
 --   g → 新規タブで Gemini
+--   h → 新規タブで herdr（ターミナル内マルチプレクサ。以後は herdr が複数 agent を管理）
 --   s → 右 split で Claude（並列作業用）
 --   Escape / その他キー → キャンセル（one_shot なので自動で抜ける）
 --
--- 実際の起動は config/zsh/ai-agents.zsh の関数ラッパ（claude/codex/gemini）を
--- 送信して踏む。タイトル/ブランチ表示は ai-agents.zsh と modules/status.lua が担当。
+-- 各エージェントの生コマンド（claude/codex/gemini）や herdr を新規タブ/split に
+-- 送信して起動するだけ。agent の状態表示・並列管理は herdr 側が担当する。
 
 local wezterm = require("wezterm")
 local act = wezterm.action
@@ -37,6 +38,7 @@ function M.apply_to_config(config)
 		{ key = "c", action = tab_launch("claude") },
 		{ key = "x", action = tab_launch("codex") },
 		{ key = "g", action = tab_launch("gemini") },
+		{ key = "h", action = tab_launch("herdr") },
 		{ key = "s", action = split_launch("claude") },
 		{ key = "Escape", action = "PopKeyTable" },
 	}

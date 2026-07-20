@@ -26,9 +26,14 @@ in
   # WezTerm / Ghostty 設定をディレクトリ全体で live symlink。
   # mkOutOfStoreSymlink を使うので dotfiles 編集が即時反映され、
   # config/wezterm/modules/* のような追加ファイルも自動で見える。
+  #
+  # herdr は config.toml *ファイル単体* だけを symlink する。~/.config/herdr/ 配下には
+  # socket (herdr.sock) や sessions/ など実行時状態も置かれるため、ディレクトリ全体を
+  # symlink するとリポジトリに実行時状態が混入してしまう（→ ファイル単位で symlink）。
   xdg.configFile = {
     "wezterm".source = mkLink "config/wezterm";
     "ghostty".source = mkLink "config/ghostty";
+    "herdr/config.toml".source = mkLink "config/herdr/config.toml";
   };
 
   # WezTerm / Ghostty hotkey ウィンドウトグル (Karabiner Ctrl+Opt+W / Ctrl+Opt+G)

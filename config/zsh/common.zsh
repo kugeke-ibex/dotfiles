@@ -241,7 +241,5 @@ if [[ -f "${DOTFILES_ROOT}/config/zsh/keys.zsh" ]]; then
   source "${DOTFILES_ROOT}/config/zsh/keys.zsh"
 fi
 
-# AI コーディングエージェント用ランチャ (claude/codex/gemini ラッパ + ai ディスパッチャ)
-if [[ -f "${DOTFILES_ROOT}/config/zsh/ai-agents.zsh" ]]; then
-  source "${DOTFILES_ROOT}/config/zsh/ai-agents.zsh"
-fi
+# AI エージェントの並列管理は端末内マルチプレクサ herdr に委ねる
+# （旧 config/zsh/ai-agents.zsh のラッパは廃止。docs/keybindings/herdr.md 参照）。

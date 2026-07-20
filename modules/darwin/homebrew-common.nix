@@ -90,6 +90,10 @@ in
       "graphviz"
       "grpcurl"
       "helm"
+      # herdr: ターミナル内で動く AI エージェント用マルチプレクサ (tmux 相当)。
+      # WezTerm/Ghostty の中で `herdr` を起動して使う。旧 cmux (cask) の後継として
+      # 主軸に採用（agent 状態検知・SSH 越し永続化が利点）。詳細は docs/keybindings/herdr.md。
+      "herdr"
       "istioctl"
       "k9s"
       "kubernetes-cli"
@@ -136,7 +140,8 @@ in
       "iterm2"
       "wezterm"
       "ghostty"
-      "cmux"
+      # cmux は herdr (brews) へ移行したため削除。個人 PC は cleanup=uninstall なので
+      # 次回 switch で cmux.app が自動アンインストールされる。
       "raycast"
       "karabiner-elements"
 

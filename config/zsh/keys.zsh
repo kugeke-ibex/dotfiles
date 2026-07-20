@@ -158,8 +158,8 @@ keys-karabiner() {
   } | _keys_pager_stdin md
 }
 
-keys-cmux() {
-  _keys_md "$(_dotfiles_root)/docs/keybindings/cmux.md"
+keys-herdr() {
+  _keys_md "$(_dotfiles_root)/docs/keybindings/herdr.md"
 }
 
 keys-agents() {
@@ -182,7 +182,7 @@ keys-agents() {
     print "=== available launchers (this host) ==="
     print ""
     local a
-    for a in claude codex gemini; do
+    for a in claude codex gemini herdr; do
       if command -v "$a" >/dev/null 2>&1; then
         print "  $a  ->  $(command -v "$a")"
       else
@@ -249,7 +249,7 @@ alias kg='keys-ghostty'
 alias kk='keys-karabiner'
 alias kvi='keys-vim'
 alias kn='keys-nvim'
-alias kc='keys-cmux'
+alias kh='keys-herdr'
 alias ka='keys-agents'
 alias ki='keys-iterm'
 alias kcur='keys-cursor'
