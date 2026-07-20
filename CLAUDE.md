@@ -283,7 +283,7 @@ darwin-rebuild switch --flake .#personal
 - **Ghostty** (`config/ghostty/config`) — 同上
 - **Starship** (`config/starship.toml`) — プロンプトテーマ
 - **Neovim** (`modules/home/editor.nix`, `config/nvim/`) — **work** は `pkgs.neovim`（安定）、**personal** は nightly overlay。ほかは LazyVim 構成どおり。`config/nvim/lazy-lock.json` はコミット対象（プラグインの版を固定。`:Lazy sync` 後に `git diff` で確認してから commit）。
-- **herdr** (Homebrew formula、設定は `config/herdr/config.toml`、[docs/keybindings/herdr.md](docs/keybindings/herdr.md)) — WezTerm/Ghostty の中で `herdr` を起動して使う端末内 AI エージェントマルチプレクサ（旧 cmux の後継）。prefix は `Ctrl+Space` に変更済み（既定 `Ctrl+B`）。`config.toml` は `~/.config/herdr/config.toml` へ**ファイル単体で** symlink（socket/sessions を巻き込まないため）。agent 状態検知・SSH 越し永続化を持つため tmux 層は不要。軽量なフォールバックが要るときだけ SSH 先で tmux を手動導入する
+- **herdr** (Homebrew formula、設定は `config/herdr/config.toml`、[docs/keybindings/herdr.md](docs/keybindings/herdr.md)) — WezTerm/Ghostty の中で `herdr` を起動して使う端末内 AI エージェントマルチプレクサ（旧 cmux の後継）。prefix は既定の `Ctrl+B`（`Ctrl+Space` は macOS の入力ソース切替 `AppleSymbolicHotKeys` 60 と衝突するため不可）。`config.toml` は `~/.config/herdr/config.toml` へ**ファイル単体で** symlink（socket/sessions を巻き込まないため）。agent 状態検知・SSH 越し永続化を持つため tmux 層は不要。軽量なフォールバックが要るときだけ SSH 先で tmux を手動導入する
 - **Karabiner** (`karabiner/karabiner.json`) — 業務効率化のキーマップ追加
 - **VSCode** (`config/vscode/`, `modules/home/vscode.nix`) — settings/keybindings/extensions。**work プロファイルでは既定で無効**（`profiles/work.nix`）。
 - **Cursor** (`config/cursor/`, `modules/home/cursor.nix`) — symlink 先は **`$HOME/<dotfilesRelative>/config/cursor/`**（`flake.nix` の `mkDarwin` で `dotfilesRelative` / `username` をホストごとに上書き可）。
